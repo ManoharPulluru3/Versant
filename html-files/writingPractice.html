@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>ElytEdu — Writing Practice</title>
+
+  <!-- Nunito Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['"Nunito Sans"', 'sans-serif'],
+          },
+          colors: {
+            cream: '#F2F5E8',
+            surface: '#FCFBF8',
+            green: '#1F6B4F',
+            lightgreen: '#DCEBDD',
+            orange: '#E58A45',
+            dark: '#17221D',
+            muted: '#7A837D',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    /* ================= BACKGROUND ================= */
+
+    .app-background {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bg-green-orb {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 999px;
+      background: rgba(31, 107, 79, 0.11);
+      filter: blur(55px);
+      top: -100px;
+      right: -120px;
+    }
+
+    .bg-orange-orb {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: rgba(229, 138, 69, 0.10);
+      filter: blur(50px);
+      top: 280px;
+      left: -120px;
+    }
+
+    .bg-green-bottom {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: rgba(31, 107, 79, 0.08);
+      filter: blur(60px);
+      bottom: -120px;
+      right: -100px;
+    }
+
+    .bg-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.25;
+      background-image:
+        radial-gradient(
+          rgba(31, 107, 79, 0.14) 0.8px,
+          transparent 0.8px
+        );
+      background-size: 24px 24px;
+      mask-image: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.7),
+        transparent 75%
+      );
+    }
+  </style>
+</head>
+
+
+<body class="bg-cream font-nunito text-dark antialiased">
+
+  <!-- ================= OUTER BACKGROUND ================= -->
+
+  <div class="fixed inset-0 bg-cream overflow-hidden">
+
+    <div class="app-background">
+
+      <div class="bg-green-orb"></div>
+      <div class="bg-orange-orb"></div>
+      <div class="bg-green-bottom"></div>
+      <div class="bg-pattern"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= APP WRAPPER ================= -->
+
+  <div class="relative min-h-screen flex justify-center lg:py-8">
+
+    <!-- ================= APP ================= -->
+
+    <main
+      class="relative w-full max-w-[430px] min-h-screen lg:min-h-[900px]
+             bg-surface lg:rounded-[40px]
+             lg:shadow-[0_25px_80px_rgba(31,107,79,0.16)]
+             overflow-hidden"
+    >
+
+      <!-- ================= INTERNAL BACKGROUND ================= -->
+
+      <div class="absolute inset-0 pointer-events-none overflow-hidden">
+
+        <div
+          class="absolute w-40 h-40 rounded-full
+                 bg-[#DCEBDD]/30 blur-3xl
+                 -top-16 -right-16"
+        ></div>
+
+        <div
+          class="absolute w-32 h-32 rounded-full
+                 bg-[#FCE5D2]/25 blur-3xl
+                 top-[45%] -left-20"
+        ></div>
+
+      </div>
+
+
+      <!-- ================= HEADER ================= -->
+
+      <header class="relative z-10 px-6 pt-7 pb-5">
+
+        <div class="flex items-center justify-between">
+
+          <!-- BACK -->
+
+          <button
+            class="w-10 h-10 rounded-full bg-[#F1F3EC]
+                   flex items-center justify-center
+                   text-dark active:scale-95 transition"
+          >
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+
+          </button>
+
+
+          <!-- TITLE -->
+
+          <div class="text-center">
+
+            <p
+              class="text-[11px] font-700
+                     tracking-[0.16em]
+                     uppercase text-muted"
+            >
+              Practice
+            </p>
+
+            <h1 class="text-[20px] font-800 leading-tight mt-0.5">
+              Writing
+            </h1>
+
+          </div>
+
+
+          <!-- HISTORY -->
+
+          <button
+            class="w-10 h-10 rounded-full bg-[#F1F3EC]
+                   flex items-center justify-center
+                   text-dark active:scale-95 transition"
+          >
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 12a9 9 0 1 0 3-6.7"/>
+              <path d="M3 4v5h5"/>
+              <path d="M12 7v5l3 2"/>
+            </svg>
+
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- ================= CONTENT ================= -->
+
+      <div class="relative z-10 px-6 pb-32">
+
+
+        <!-- ================= HERO ================= -->
+
+        <section
+          class="relative overflow-hidden
+                 rounded-[28px]
+                 bg-lightgreen
+                 p-6 mb-7"
+        >
+
+          <!-- Decorative shapes -->
+
+          <div
+            class="absolute -right-10 -top-10
+                   w-36 h-36 rounded-full
+                   bg-white/35"
+          ></div>
+
+          <div
+            class="absolute -right-12 bottom-[-55px]
+                   w-32 h-32 rounded-full
+                   bg-white/25"
+          ></div>
+
+          <div
+            class="absolute left-[-45px] bottom-[-70px]
+                   w-28 h-28 rounded-full
+                   bg-green/10"
+          ></div>
+
+
+          <!-- ICON -->
+
+          <div
+            class="relative w-14 h-14
+                   rounded-2xl
+                   bg-green text-white
+                   flex items-center
+                   justify-center mb-5"
+          >
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="27"
+              height="27"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/>
+              <path d="m15 5 3 3"/>
+            </svg>
+
+          </div>
+
+
+          <div class="relative">
+
+            <h2
+              class="text-[25px]
+                     leading-[1.15]
+                     font-800
+                     tracking-[-0.02em]"
+            >
+              Write clearly.<br />
+              Communicate effectively.
+            </h2>
+
+
+            <p
+              class="text-[14px]
+                     leading-5
+                     text-[#526057]
+                     mt-3
+                     max-w-[300px]"
+            >
+              Build stronger grammar, vocabulary and
+              written communication skills.
+            </p>
+
+
+            <!-- PROGRESS -->
+
+            <div class="mt-6">
+
+              <div
+                class="flex items-center
+                       justify-between mb-2"
+              >
+
+                <span
+                  class="text-[12px]
+                         font-700
+                         text-[#526057]"
+                >
+                  Today's practice
+                </span>
+
+                <span
+                  class="text-[12px]
+                         font-800
+                         text-green"
+                >
+                  9 / 15 min
+                </span>
+
+              </div>
+
+
+              <div
+                class="h-2 rounded-full
+                       bg-white/70
+                       overflow-hidden"
+              >
+
+                <div
+                  class="h-full w-[60%]
+                         rounded-full
+                         bg-green"
+                ></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ================= QUICK PRACTICE ================= -->
+
+        <section class="mb-8">
+
+          <div
+            class="flex items-center
+                   justify-between mb-3"
+          >
+
+            <h2 class="text-[17px] font-800">
+              Quick Practice
+            </h2>
+
+            <span
+              class="text-[11px]
+                     font-700
+                     text-muted"
+            >
+              3 min
+            </span>
+
+          </div>
+
+
+          <button
+            class="w-full text-left
+                   rounded-[22px]
+                   border border-[#E7E9E1]
+                   bg-white/95
+                   backdrop-blur-sm
+                   p-4
+                   flex items-center gap-4
+                   hover:border-[#D5DAD0]
+                   active:scale-[0.99]
+                   transition"
+          >
+
+            <!-- ICON -->
+
+            <div
+              class="w-12 h-12
+                     rounded-[16px]
+                     bg-[#F1F4EB]
+                     flex items-center
+                     justify-center
+                     text-green
+                     shrink-0"
+            >
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M4 4h16v16H4z"/>
+                <path d="M8 8h8"/>
+                <path d="M8 12h6"/>
+                <path d="M8 16h5"/>
+              </svg>
+
+            </div>
+
+
+            <div class="flex-1 min-w-0">
+
+              <h3 class="text-[15px] font-800">
+                Write a Short Message
+              </h3>
+
+              <p
+                class="text-[12px]
+                       text-muted
+                       mt-0.5"
+              >
+                Write a short message about an everyday topic
+              </p>
+
+
+              <div
+                class="flex items-center
+                       gap-2 mt-2"
+              >
+
+                <span
+                  class="px-2 py-0.5
+                         rounded-full
+                         bg-[#F1F4EB]
+                         text-[10px]
+                         font-700
+                         text-green"
+                >
+                  Beginner
+                </span>
+
+                <span
+                  class="text-[10px]
+                         text-muted"
+                >
+                  3 min
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- ARROW -->
+
+            <div
+              class="w-9 h-9
+                     rounded-full
+                     bg-green
+                     text-white
+                     flex items-center
+                     justify-center
+                     shrink-0"
+            >
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+
+            </div>
+
+          </button>
+
+        </section>
+
+
+        <!-- ================= ACTIVITIES ================= -->
+
+        <section>
+
+          <div
+            class="flex items-center
+                   justify-between mb-3"
+          >
+
+            <h2 class="text-[17px] font-800">
+              Writing Activities
+            </h2>
+
+            <button
+              class="text-[12px]
+                     font-700
+                     text-green"
+            >
+              See all
+            </button>
+
+          </div>
+
+
+          <div class="space-y-3">
+
+
+            <!-- ================= TYPING ================= -->
+
+            <button
+              class="w-full text-left
+                     bg-white/95
+                     backdrop-blur-sm
+                     border border-[#E7E9E1]
+                     rounded-[22px]
+                     p-4
+                     flex items-center gap-4
+                     hover:border-[#D5DAD0]
+                     active:scale-[0.99]
+                     transition"
+            >
+
+              <div
+                class="w-11 h-11
+                       rounded-[15px]
+                       bg-[#F1F4EB]
+                       flex items-center
+                       justify-center
+                       text-green
+                       shrink-0"
+              >
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="21"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect
+                    x="3"
+                    y="5"
+                    width="18"
+                    height="14"
+                    rx="2"
+                  />
+                  <path d="M7 9h.01"/>
+                  <path d="M10 9h.01"/>
+                  <path d="M13 9h.01"/>
+                  <path d="M16 9h.01"/>
+                  <path d="M7 13h.01"/>
+                  <path d="M10 13h.01"/>
+                  <path d="M13 13h4"/>
+                  <path d="M7 16h10"/>
+                </svg>
+
+              </div>
+
+
+              <div class="flex-1">
+
+                <h3 class="text-[14px] font-800">
+                  Typing Practice
+                </h3>
+
+                <p
+                  class="text-[11px]
+                         text-muted
+                         mt-0.5"
+                >
+                  Improve typing speed and accuracy
+                </p>
+
+
+                <div
+                  class="flex items-center
+                         gap-2 mt-2"
+                >
+
+                  <span
+                    class="text-[10px]
+                           font-700
+                           text-muted"
+                  >
+                    5 min
+                  </span>
+
+                  <span
+                    class="w-1 h-1
+                           rounded-full
+                           bg-[#C5CBC5]"
+                  ></span>
+
+                  <span
+                    class="text-[10px]
+                           text-green
+                           font-700"
+                  >
+                    Speed + Accuracy
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#7A837D"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+
+            </button>
+
+
+            <!-- ================= DICTATION ================= -->
+
+            <button
+              class="w-full text-left
+                     bg-white/95
+                     backdrop-blur-sm
+                     border border-[#E7E9E1]
+                     rounded-[22px]
+                     p-4
+                     flex items-center gap-4
+                     hover:border-[#D5DAD0]
+                     active:scale-[0.99]
+                     transition"
+            >
+
+              <div
+                class="w-11 h-11
+                       rounded-[15px]
+                       bg-[#F1F4EB]
+                       flex items-center
+                       justify-center
+                       text-green
+                       shrink-0"
+              >
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="21"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 2v10"/>
+                  <path
+                    d="M17 8v4a5 5
+                       0 0 1-10 0V8"
+                  />
+                  <path d="M5 12a7 7 0 0 0 14 0"/>
+                  <path d="M12 19v3"/>
+                  <path d="M8 22h8"/>
+                </svg>
+
+              </div>
+
+
+              <div class="flex-1">
+
+                <h3 class="text-[14px] font-800">
+                  Dictation
+                </h3>
+
+                <p
+                  class="text-[11px]
+                         text-muted
+                         mt-0.5"
+                >
+                  Listen and type exactly what you hear
+                </p>
+
+
+                <div
+                  class="flex items-center
+                         gap-2 mt-2"
+                >
+
+                  <span
+                    class="text-[10px]
+                           font-700
+                           text-muted"
+                  >
+                    6 min
+                  </span>
+
+                  <span
+                    class="w-1 h-1
+                           rounded-full
+                           bg-[#C5CBC5]"
+                  ></span>
+
+                  <span
+                    class="text-[10px]
+                           text-green
+                           font-700"
+                  >
+                    Listening + Writing
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#7A837D"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+
+            </button>
+
+
+            <!-- ================= PASSAGE RECONSTRUCTION ================= -->
+
+            <button
+              class="w-full text-left
+                     bg-white/95
+                     backdrop-blur-sm
+                     border border-[#E7E9E1]
+                     rounded-[22px]
+                     p-4
+                     flex items-center gap-4
+                     hover:border-[#D5DAD0]
+                     active:scale-[0.99]
+                     transition"
+            >
+
+              <div
+                class="w-11 h-11
+                       rounded-[15px]
+                       bg-[#F1F4EB]
+                       flex items-center
+                       justify-center
+                       text-green
+                       shrink-0"
+              >
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="21"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M4 5h16"/>
+                  <path d="M4 9h12"/>
+                  <path d="M4 13h16"/>
+                  <path d="M4 17h9"/>
+                  <path d="M18 15v5"/>
+                  <path d="m16 18 2 2 2-2"/>
+                </svg>
+
+              </div>
+
+
+              <div class="flex-1">
+
+                <h3 class="text-[14px] font-800">
+                  Passage Reconstruction
+                </h3>
+
+                <p
+                  class="text-[11px]
+                         text-muted
+                         mt-0.5"
+                >
+                  Reconstruct a passage using your own words
+                </p>
+
+
+                <div
+                  class="flex items-center
+                         gap-2 mt-2"
+                >
+
+                  <span
+                    class="text-[10px]
+                           font-700
+                           text-muted"
+                  >
+                    8 min
+                  </span>
+
+                  <span
+                    class="w-1 h-1
+                           rounded-full
+                           bg-[#C5CBC5]"
+                  ></span>
+
+                  <span
+                    class="text-[10px]
+                           text-green
+                           font-700"
+                  >
+                    Intermediate
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#7A837D"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+
+            </button>
+
+
+            <!-- ================= EMAIL WRITING ================= -->
+
+            <button
+              class="w-full text-left
+                     bg-white/95
+                     backdrop-blur-sm
+                     border border-[#E7E9E1]
+                     rounded-[22px]
+                     p-4
+                     flex items-center gap-4
+                     hover:border-[#D5DAD0]
+                     active:scale-[0.99]
+                     transition"
+            >
+
+              <div
+                class="w-11 h-11
+                       rounded-[15px]
+                       bg-[#F1F4EB]
+                       flex items-center
+                       justify-center
+                       text-green
+                       shrink-0"
+              >
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="21"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect
+                    x="3"
+                    y="5"
+                    width="18"
+                    height="14"
+                    rx="2"
+                  />
+                  <path d="m3 7 9 6 9-6"/>
+                </svg>
+
+              </div>
+
+
+              <div class="flex-1">
+
+                <h3 class="text-[14px] font-800">
+                  Email Writing
+                </h3>
+
+                <p
+                  class="text-[11px]
+                         text-muted
+                         mt-0.5"
+                >
+                  Write clear and professional emails
+                </p>
+
+
+                <div
+                  class="flex items-center
+                         gap-2 mt-2"
+                >
+
+                  <span
+                    class="text-[10px]
+                           font-700
+                           text-muted"
+                  >
+                    7 min
+                  </span>
+
+                  <span
+                    class="w-1 h-1
+                           rounded-full
+                           bg-[#C5CBC5]"
+                  ></span>
+
+                  <span
+                    class="text-[10px]
+                           text-green
+                           font-700"
+                  >
+                    Upper Intermediate
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#7A837D"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <!-- ================= TIP ================= -->
+
+        <section class="mt-7">
+
+          <div
+            class="rounded-[22px]
+                   bg-[#FFF4E9]/95
+                   border border-[#F4DEC9]
+                   p-4
+                   flex gap-3"
+          >
+
+            <!-- ICON -->
+
+            <div
+              class="w-9 h-9
+                     rounded-full
+                     bg-[#FCE2CC]
+                     flex items-center
+                     justify-center
+                     text-orange
+                     shrink-0"
+            >
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 18h6"/>
+                <path d="M10 22h4"/>
+                <path
+                  d="M12 2a7 7
+                     0 0 0-4
+                     12.74V17h8v-2.26
+                     A7 7 0 0 0 12 2Z"
+                />
+              </svg>
+
+            </div>
+
+
+            <div>
+
+              <p class="text-[12px] font-800 text-dark">
+                Writing Tip
+              </p>
+
+              <p
+                class="text-[11px]
+                       leading-4
+                       text-[#756B63]
+                       mt-1"
+              >
+                Focus on clarity first. Use simple,
+                accurate sentences and organize your
+                ideas before adding more detail.
+              </p>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+
+      <!-- ================= BOTTOM NAV ================= -->
+
+      <nav
+        class="absolute z-20
+               bottom-0 left-0 right-0
+               bg-surface/95
+               backdrop-blur-xl
+               border-t border-[#ECEDE7]
+               px-5 pt-3 pb-5"
+      >
+
+        <div
+          class="flex items-center
+                 justify-between"
+        >
+
+          <!-- HOME -->
+
+          <button
+            class="flex flex-col
+                   items-center gap-1
+                   text-muted w-14"
+          >
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m3 10 9-7 9 7"/>
+              <path d="M5 9v11h14V9"/>
+              <path d="M9 20v-6h6v6"/>
+            </svg>
+
+            <span class="text-[10px] font-700">
+              Home
+            </span>
+
+          </button>
+
+
+          <!-- PRACTICE ACTIVE -->
+
+          <button
+            class="flex flex-col
+                   items-center gap-1
+                   text-green w-14"
+          >
+
+            <div
+              class="w-9 h-7
+                     rounded-full
+                     bg-lightgreen
+                     flex items-center
+                     justify-center"
+            >
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M4 19.5A2.5
+                     2.5 0 0 1
+                     6.5 17H20"
+                />
+
+                <path
+                  d="M6.5 2H20v20H6.5
+                     A2.5 2.5 0 0 1
+                     4 19.5v-15
+                     A2.5 2.5 0 0 1
+                     6.5 2Z"
+                />
+
+              </svg>
+
+            </div>
+
+            <span class="text-[10px] font-800">
+              Practice
+            </span>
+
+          </button>
+
+
+          <!-- TESTS -->
+
+          <button
+            class="flex flex-col
+                   items-center gap-1
+                   text-muted w-14"
+          >
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 11h6"/>
+              <path d="M9 15h4"/>
+              <path
+                d="M7 3h10a2 2
+                   0 0 1 2 2v16H5V5
+                   a2 2 0 0 1 2-2Z"
+              />
+              <path d="M9 3V1h6v2"/>
+            </svg>
+
+            <span class="text-[10px] font-700">
+              Tests
+            </span>
+
+          </button>
+
+
+          <!-- PROGRESS -->
+
+          <button
+            class="flex flex-col
+                   items-center gap-1
+                   text-muted w-14"
+          >
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 19V5"/>
+              <path d="M4 19h16"/>
+              <path d="m7 15 4-4 3 2 5-6"/>
+            </svg>
+
+            <span class="text-[10px] font-700">
+              Progress
+            </span>
+
+          </button>
+
+
+          <!-- PROFILE -->
+
+          <button
+            class="flex flex-col
+                   items-center gap-1
+                   text-muted w-14"
+          >
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="8" r="3.5"/>
+              <path d="M5 21a7 7 0 0 1 14 0"/>
+            </svg>
+
+            <span class="text-[10px] font-700">
+              Profile
+            </span>
+
+          </button>
+
+        </div>
+
+      </nav>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

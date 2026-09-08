@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writing — Typing | ElytEdu</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      font-family: "Nunito Sans", sans-serif;
+    }
+
+    body {
+      background: #f2f5e8;
+      color: #17221d;
+    }
+
+    .soft-shadow {
+      box-shadow: 0 20px 60px rgba(31, 107, 79, 0.08);
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 9999px;
+      filter: blur(70px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb-green {
+      width: 280px;
+      height: 280px;
+      background: rgba(31, 107, 79, 0.09);
+      top: -100px;
+      left: -100px;
+    }
+
+    .orb-orange {
+      width: 240px;
+      height: 240px;
+      background: rgba(229, 138, 69, 0.08);
+      right: -80px;
+      bottom: -70px;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(31, 107, 79, 0.10);
+    }
+
+    .typing-cursor {
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 45% {
+        opacity: 1;
+      }
+      46%, 100% {
+        opacity: 0;
+      }
+    }
+
+    .progress-fill {
+      transition: width 0.2s ease;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- Decorative background -->
+  <div class="orb orb-green"></div>
+  <div class="orb orb-orange"></div>
+
+  <!-- Main App -->
+  <main class="relative z-10 min-h-screen flex items-center justify-center p-0 sm:p-6">
+
+    <div
+      class="w-full max-w-[1180px] min-h-screen sm:min-h-[calc(100vh-48px)]
+             bg-[#FCFBF8] sm:rounded-[40px] soft-shadow overflow-hidden
+             flex flex-col"
+    >
+
+      <!-- ================= HEADER ================= -->
+      <header class="px-5 sm:px-8 pt-5 sm:pt-7">
+
+        <div class="flex items-center justify-between">
+
+          <!-- Section -->
+          <div class="flex items-center gap-3">
+
+            <div
+              class="w-10 h-10 rounded-xl bg-[#DCEBDD]
+                     flex items-center justify-center"
+            >
+              <!-- Pen icon -->
+              <svg
+                class="w-5 h-5 text-[#1F6B4F]"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 20h9"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M16.5 3.5a2.121 2.121 0 013 3L8 18l-4 1 1-4L16.5 3.5z"
+                />
+              </svg>
+            </div>
+
+            <div>
+              <p class="text-xs font-bold uppercase tracking-[0.12em] text-[#7A837D]">
+                Writing
+              </p>
+
+              <p class="text-sm font-bold text-[#17221D]">
+                Typing
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Question -->
+          <div class="text-right">
+            <p class="text-xs text-[#7A837D] font-semibold">
+              Question
+            </p>
+
+            <p class="text-sm font-extrabold text-[#17221D]">
+              9 of 10
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Progress -->
+        <div class="mt-5 h-1.5 bg-[#E8ECE4] rounded-full overflow-hidden">
+          <div
+            id="progressBar"
+            class="h-full bg-[#1F6B4F] rounded-full progress-fill"
+            style="width: 90%"
+          ></div>
+        </div>
+
+      </header>
+
+
+      <!-- ================= CONTENT ================= -->
+      <section
+        class="flex-1 px-5 sm:px-8 pt-7 pb-36 overflow-y-auto"
+      >
+
+        <!-- Timer -->
+        <div class="flex justify-end mb-5">
+
+          <div
+            class="inline-flex items-center gap-2 px-3.5 py-2
+                   rounded-full bg-[#F5F2EC] border border-[#E9E5DD]"
+          >
+
+            <span class="w-2 h-2 rounded-full bg-[#E58A45]"></span>
+
+            <span
+              id="timer"
+              class="text-sm font-bold text-[#17221D] tabular-nums"
+            >
+              01:30
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- Intro -->
+        <div class="max-w-3xl mx-auto text-center">
+
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5
+                   rounded-full bg-[#DCEBDD] text-[#1F6B4F]
+                   text-xs font-bold"
+          >
+            Writing · Typing
+          </div>
+
+          <h1
+            class="mt-4 text-2xl sm:text-3xl font-extrabold
+                   tracking-tight text-[#17221D]"
+          >
+            Type your response
+          </h1>
+
+          <p
+            class="mt-2 text-sm sm:text-base text-[#7A837D]
+                   leading-relaxed"
+          >
+            Read the prompt carefully and type a clear, complete response.
+            Focus on grammar, vocabulary and sentence structure.
+          </p>
+
+        </div>
+
+
+        <!-- Question Card -->
+        <div class="max-w-4xl mx-auto mt-7">
+
+          <div
+            class="rounded-[28px] border border-[#E6EAE2]
+                   bg-white p-5 sm:p-7"
+          >
+
+            <!-- Card top -->
+            <div class="flex items-center justify-between gap-4">
+
+              <div class="flex items-center gap-2">
+
+                <div
+                  class="w-9 h-9 rounded-xl bg-[#F2F5E8]
+                         flex items-center justify-center"
+                >
+                  <svg
+                    class="w-4.5 h-4.5 text-[#1F6B4F]"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 6h16M4 12h16M4 18h10"
+                    />
+                  </svg>
+                </div>
+
+                <span class="text-sm font-extrabold text-[#17221D]">
+                  Writing Prompt
+                </span>
+
+              </div>
+
+              <span
+                class="text-xs font-bold px-2.5 py-1 rounded-full
+                       bg-[#F5F2EC] text-[#7A837D]"
+              >
+                Everyday Life
+              </span>
+
+            </div>
+
+
+            <!-- Prompt -->
+            <div class="mt-6">
+
+              <p class="text-xs uppercase tracking-[0.12em]
+                        font-bold text-[#7A837D]">
+                Prompt
+              </p>
+
+              <p
+                class="mt-3 text-lg sm:text-xl font-bold
+                       leading-relaxed text-[#17221D]"
+              >
+                Describe how you usually spend your weekends and explain
+                what you enjoy most about them.
+              </p>
+
+            </div>
+
+
+            <!-- Helper -->
+            <div
+              class="mt-5 p-4 rounded-2xl bg-[#F8F9F5]
+                     border border-[#E8ECE4]"
+            >
+
+              <div class="flex items-start gap-3">
+
+                <svg
+                  class="w-5 h-5 text-[#1F6B4F] mt-0.5 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path
+                    stroke-linecap="round"
+                    d="M12 10v6"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    d="M12 7h.01"
+                  />
+                </svg>
+
+                <p class="text-sm leading-relaxed text-[#66706A]">
+                  Write in complete sentences. Organize your ideas clearly
+                  and use your own words.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- ================= RESPONSE ================= -->
+
+          <div class="mt-5">
+
+            <div class="flex items-center justify-between mb-2.5">
+
+              <div class="flex items-center gap-2">
+
+                <span
+                  class="w-2 h-2 rounded-full bg-[#1F6B4F]"
+                ></span>
+
+                <span class="text-sm font-extrabold text-[#17221D]">
+                  Your response
+                </span>
+
+              </div>
+
+              <span
+                id="wordCount"
+                class="text-xs font-bold text-[#7A837D]"
+              >
+                0 words
+              </span>
+
+            </div>
+
+
+            <!-- Text Area -->
+            <div
+              class="relative rounded-[26px] border border-[#DDE4DB]
+                     bg-white overflow-hidden"
+            >
+
+              <textarea
+                id="response"
+                rows="9"
+                maxlength="600"
+                placeholder="Start typing your response here..."
+                class="w-full px-5 py-5 sm:px-6 sm:py-6
+                       text-[15px] sm:text-base leading-7
+                       text-[#17221D] placeholder:text-[#A2AAA4]
+                       bg-transparent"
+              ></textarea>
+
+
+              <!-- Bottom toolbar -->
+              <div
+                class="px-4 sm:px-5 py-3.5
+                       border-t border-[#EDF0EA]
+                       bg-[#FCFBF8]
+                       flex items-center justify-between"
+              >
+
+                <div class="flex items-center gap-2">
+
+                  <svg
+                    class="w-4 h-4 text-[#7A837D]"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 20h9"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16.5 3.5a2.121 2.121 0 013 3L8 18l-4 1 1-4L16.5 3.5z"
+                    />
+                  </svg>
+
+                  <span class="text-xs text-[#7A837D]">
+                    Type naturally
+                  </span>
+
+                </div>
+
+                <span
+                  id="charCount"
+                  class="text-xs font-semibold text-[#7A837D]"
+                >
+                  0 / 600
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- Writing quality indicators -->
+            <div class="grid grid-cols-3 gap-2.5 mt-3">
+
+              <div
+                class="px-3 py-3 rounded-2xl
+                       bg-[#F8F9F5] border border-[#E8ECE4]"
+              >
+                <p class="text-[10px] uppercase tracking-wide
+                          font-bold text-[#9AA29C]">
+                  Words
+                </p>
+
+                <p
+                  id="wordsStat"
+                  class="mt-1 text-sm font-extrabold text-[#17221D]"
+                >
+                  0
+                </p>
+              </div>
+
+              <div
+                class="px-3 py-3 rounded-2xl
+                       bg-[#F8F9F5] border border-[#E8ECE4]"
+              >
+                <p class="text-[10px] uppercase tracking-wide
+                          font-bold text-[#9AA29C]">
+                  Characters
+                </p>
+
+                <p
+                  id="charactersStat"
+                  class="mt-1 text-sm font-extrabold text-[#17221D]"
+                >
+                  0
+                </p>
+              </div>
+
+              <div
+                class="px-3 py-3 rounded-2xl
+                       bg-[#F8F9F5] border border-[#E8ECE4]"
+              >
+                <p class="text-[10px] uppercase tracking-wide
+                          font-bold text-[#9AA29C]"
+                >
+                  Status
+                </p>
+
+                <p
+                  id="statusStat"
+                  class="mt-1 text-sm font-extrabold text-[#E58A45]"
+                >
+                  Not started
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Tip -->
+          <div
+            class="mt-5 rounded-[24px] bg-[#F2F5E8]
+                   border border-[#DCEBDD] p-4 sm:p-5"
+          >
+
+            <div class="flex items-start gap-3">
+
+              <div
+                class="w-9 h-9 rounded-xl bg-white
+                       flex items-center justify-center shrink-0"
+              >
+                <svg
+                  class="w-4.5 h-4.5 text-[#1F6B4F]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9.5 18h5M10 21h4"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M8.5 14.5C7.55 13.7 7 12.45 7 11a5 5 0 1110 0c0 1.45-.55 2.7-1.5 3.5-.7.6-1 1.05-1 1.5h-5c0-.45-.3-.9-1-1.5z"
+                  />
+                </svg>
+              </div>
+
+              <div>
+                <p class="text-sm font-extrabold text-[#17221D]">
+                  Writing tip
+                </p>
+
+                <p class="mt-1 text-sm leading-relaxed text-[#66706A]">
+                  Focus on clear communication. Use a simple structure:
+                  introduce your idea, add supporting details, and finish
+                  with a clear point.
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= BOTTOM BAR ================= -->
+      <div
+        class="fixed sm:absolute bottom-0 left-0 right-0
+               bg-[#FCFBF8]/95 backdrop-blur-md
+               border-t border-[#E8ECE4]"
+      >
+
+        <div
+          class="max-w-[1180px] mx-auto px-5 sm:px-8
+                 py-4 sm:py-5"
+        >
+
+          <div class="flex items-center justify-between gap-5">
+
+            <div class="hidden sm:block">
+
+              <p
+                id="bottomStatus"
+                class="text-xs font-semibold text-[#7A837D]"
+              >
+                Write your response to continue
+              </p>
+
+            </div>
+
+            <button
+              id="continueBtn"
+              disabled
+              onclick="continueToNext()"
+              class="w-full sm:w-auto min-w-[180px]
+                     px-7 py-3.5 rounded-2xl
+                     bg-[#E3E7E1] text-[#9AA29C]
+                     text-sm font-extrabold
+                     cursor-not-allowed transition"
+            >
+              Continue
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+
+    const response = document.getElementById("response");
+    const wordCount = document.getElementById("wordCount");
+    const charCount = document.getElementById("charCount");
+    const wordsStat = document.getElementById("wordsStat");
+    const charactersStat = document.getElementById("charactersStat");
+    const statusStat = document.getElementById("statusStat");
+    const continueBtn = document.getElementById("continueBtn");
+    const bottomStatus = document.getElementById("bottomStatus");
+    const timerElement = document.getElementById("timer");
+
+    let timeLeft = 90;
+    let completed = false;
+
+
+    /* ================= TIMER ================= */
+
+    function formatTime(seconds) {
+
+      const minutes = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+
+      return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    }
+
+
+    timerElement.textContent = formatTime(timeLeft);
+
+
+    const timer = setInterval(() => {
+
+      if (completed) return;
+
+      timeLeft--;
+
+      if (timeLeft <= 0) {
+
+        timeLeft = 0;
+
+        clearInterval(timer);
+
+        timerElement.textContent = "00:00";
+
+        completeResponse();
+
+        return;
+      }
+
+      timerElement.textContent = formatTime(timeLeft);
+
+      /* Last 20 seconds */
+      if (timeLeft <= 20) {
+        timerElement.parentElement.classList.remove(
+          "bg-[#F5F2EC]"
+        );
+
+        timerElement.parentElement.classList.add(
+          "bg-[#FFF1E8]"
+        );
+
+        timerElement.classList.add("text-[#C76A2A]");
+      }
+
+    }, 1000);
+
+
+    /* ================= TEXT INPUT ================= */
+
+    response.addEventListener("input", updateStats);
+
+
+    function updateStats() {
+
+      const text = response.value.trim();
+
+      const characters = response.value.length;
+
+      const words = text
+        ? text.split(/\s+/).filter(Boolean).length
+        : 0;
+
+
+      wordCount.textContent =
+        `${words} ${words === 1 ? "word" : "words"}`;
+
+      charCount.textContent =
+        `${characters} / 600`;
+
+      wordsStat.textContent = words;
+
+      charactersStat.textContent = characters;
+
+
+      if (characters === 0) {
+
+        statusStat.textContent = "Not started";
+        statusStat.className =
+          "mt-1 text-sm font-extrabold text-[#E58A45]";
+
+        bottomStatus.textContent =
+          "Write your response to continue";
+
+        disableButton();
+
+      } else if (words < 5) {
+
+        statusStat.textContent = "In progress";
+        statusStat.className =
+          "mt-1 text-sm font-extrabold text-[#E58A45]";
+
+        bottomStatus.textContent =
+          "Continue writing your response";
+
+        disableButton();
+
+      } else {
+
+        statusStat.textContent = "Ready";
+        statusStat.className =
+          "mt-1 text-sm font-extrabold text-[#1F6B4F]";
+
+        bottomStatus.textContent =
+          "Your response is ready";
+
+        enableButton();
+
+      }
+
+    }
+
+
+    /* ================= BUTTON STATES ================= */
+
+    function enableButton() {
+
+      continueBtn.disabled = false;
+
+      continueBtn.className =
+        "w-full sm:w-auto min-w-[180px] " +
+        "px-7 py-3.5 rounded-2xl " +
+        "bg-[#1F6B4F] text-white " +
+        "text-sm font-extrabold " +
+        "cursor-pointer transition " +
+        "hover:bg-[#18583F] active:scale-[0.98]";
+
+    }
+
+
+    function disableButton() {
+
+      continueBtn.disabled = true;
+
+      continueBtn.className =
+        "w-full sm:w-auto min-w-[180px] " +
+        "px-7 py-3.5 rounded-2xl " +
+        "bg-[#E3E7E1] text-[#9AA29C] " +
+        "text-sm font-extrabold " +
+        "cursor-not-allowed transition";
+
+    }
+
+
+    /* ================= COMPLETE ================= */
+
+    function completeResponse() {
+
+      if (completed) return;
+
+      completed = true;
+
+      response.disabled = true;
+
+      response.classList.add("bg-[#F8F9F5]");
+
+      enableButton();
+
+      statusStat.textContent = "Completed";
+
+      statusStat.className =
+        "mt-1 text-sm font-extrabold text-[#1F6B4F]";
+
+      bottomStatus.textContent =
+        "Response saved. You can continue.";
+
+      timerElement.textContent = "00:00";
+
+    }
+
+
+    /* ================= CONTINUE ================= */
+
+    function continueToNext() {
+
+      if (!response.value.trim()) {
+        return;
+      }
+
+      completed = true;
+
+      /*
+        In the real application:
+
+        1. Save response
+        2. Send attemptId + questionId
+        3. Store typed response
+        4. Calculate typing metrics
+        5. Move to next question
+
+        Example:
+
+        POST /api/assessment/attempt/answer
+
+        {
+          attemptId,
+          questionId,
+          response: response.value,
+          type: "writing_typing"
+        }
+      */
+
+      alert(
+        "Response saved.\n\nNext: Writing — Dictation"
+      );
+
+      // Example route:
+      // window.location.href = "/assessment/writing/dictation";
+
+    }
+
+
+    /* ================= BACK ================= */
+
+    function goBack() {
+
+      if (response.value.trim()) {
+
+        const confirmBack = confirm(
+          "Your response may be lost. Are you sure you want to go back?"
+        );
+
+        if (!confirmBack) return;
+
+      }
+
+      alert(
+        "Back to Reading — Comprehension"
+      );
+
+      // Example:
+      // window.location.href = "/assessment/reading/comprehension";
+
+    }
+
+  </script>
+
+</body>
+</html>

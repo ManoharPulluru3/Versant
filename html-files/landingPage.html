@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>ElytEdu English Assessment</title>
+
+  <!-- Nunito Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['Nunito Sans', 'sans-serif'],
+          },
+          colors: {
+            cream: '#F2F5E8',
+            surface: '#FCFBF8',
+            green: '#1F6B4F',
+            greenLight: '#DCEBDD',
+            orange: '#E58A45',
+            dark: '#17221D',
+            muted: '#7A837D',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: #e8ece2;
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .soft-shadow {
+      box-shadow: 0 8px 30px rgba(35, 52, 43, 0.06);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- APP FRAME -->
+  <main
+    class="mx-auto min-h-screen max-w-[430px] overflow-hidden bg-[#FCFBF8] lg:my-6 lg:min-h-[900px] lg:rounded-[40px] soft-shadow"
+  >
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <header class="px-5 pt-7">
+
+      <div class="flex items-center justify-between">
+
+        <!-- Profile -->
+        <div class="flex items-center gap-3">
+
+          <div
+            class="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-[#E5EBD9] text-2xl"
+          >
+            👩🏻
+          </div>
+
+          <div>
+            <p class="text-[12px] font-semibold text-[#8A918B]">
+              Good morning
+            </p>
+
+            <h1 class="mt-0.5 text-[17px] font-extrabold tracking-[-0.3px] text-[#17221D]">
+              Emma Wilson
+            </h1>
+          </div>
+
+        </div>
+
+        <!-- Notification -->
+        <button
+          class="relative flex h-11 w-11 items-center justify-center rounded-full bg-[#F2F5E8]"
+        >
+
+          <svg
+            class="h-5 w-5 text-[#26342D]"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 17h5l-1.4-1.5A2 2 0 0 1 18 14.1V11a6 6 0 1 0-12 0v3.1c0 .5-.2 1-.6 1.4L4 17h5m6 0v1a3 3 0 1 1-6 0v-1m6 0H9"
+            />
+          </svg>
+
+          <span
+            class="absolute right-2 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#E58A45] px-1 text-[9px] font-extrabold text-white"
+          >
+            2
+          </span>
+
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- ===================================================== -->
+    <!-- MAIN CONTENT -->
+    <!-- ===================================================== -->
+
+    <div class="px-5 pb-28 pt-6">
+
+      <!-- ================================================= -->
+      <!-- UPCOMING ASSESSMENT -->
+      <!-- ================================================= -->
+
+      <section
+        class="relative overflow-hidden rounded-[28px] bg-[#1F6B4F] p-5 text-white"
+      >
+
+        <!-- Decorative circle -->
+        <div
+          class="absolute -right-12 -top-12 h-36 w-36 rounded-full border-[22px] border-white/10"
+        ></div>
+
+        <div
+          class="absolute -bottom-16 -right-4 h-32 w-32 rounded-full border-[18px] border-white/5"
+        ></div>
+
+
+        <div class="relative">
+
+          <div class="flex items-start justify-between">
+
+            <div>
+
+              <div
+                class="mb-3 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5"
+              >
+
+                <span class="h-1.5 w-1.5 rounded-full bg-[#F7B267]"></span>
+
+                <span class="text-[10px] font-bold uppercase tracking-[1px]">
+                  Upcoming Assessment
+                </span>
+
+              </div>
+
+              <h2 class="max-w-[250px] text-[23px] font-extrabold leading-[1.15] tracking-[-0.5px]">
+                English Communication Test
+              </h2>
+
+              <p class="mt-2 max-w-[250px] text-[12px] font-medium leading-5 text-white/70">
+                Your college has assigned a new English assessment.
+              </p>
+
+            </div>
+
+            <!-- Icon -->
+            <div
+              class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10"
+            >
+              <svg
+                class="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                viewBox="0 0 24 24"
+              >
+                <rect x="4" y="4" width="16" height="16" rx="3"></rect>
+                <path stroke-linecap="round" d="M8 9h8M8 13h5M8 17h3"></path>
+              </svg>
+            </div>
+
+          </div>
+
+
+          <!-- Assessment meta -->
+
+          <div class="mt-5 flex items-center gap-4">
+
+            <div class="flex items-center gap-1.5">
+
+              <svg
+                class="h-4 w-4 text-white/70"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="12" cy="12" r="8"></circle>
+                <path stroke-linecap="round" d="M12 8v4l2.5 2"></path>
+              </svg>
+
+              <span class="text-[11px] font-semibold text-white/75">
+                30 min
+              </span>
+
+            </div>
+
+
+            <div class="h-1 w-1 rounded-full bg-white/30"></div>
+
+
+            <div class="flex items-center gap-1.5">
+
+              <svg
+                class="h-4 w-4 text-white/70"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8 3v3M16 3v3M4 9h16M6 5h12a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"
+                />
+              </svg>
+
+              <span class="text-[11px] font-semibold text-white/75">
+                Due Sep 14
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- Button -->
+
+          <button
+            class="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-white py-3.5 text-[13px] font-extrabold text-[#1F6B4F] transition active:scale-[0.98]"
+          >
+
+            Start Assessment
+
+            <svg
+              class="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================================================= -->
+      <!-- YOUR ENGLISH LEVEL -->
+      <!-- ================================================= -->
+
+      <section class="mt-7">
+
+        <div class="flex items-center justify-between">
+
+          <div>
+
+            <p class="text-[11px] font-bold uppercase tracking-[1px] text-[#9AA19B]">
+              Your English
+            </p>
+
+            <h2 class="mt-1 text-[18px] font-extrabold text-[#17221D]">
+              Communication Level
+            </h2>
+
+          </div>
+
+
+          <button class="text-[12px] font-bold text-[#1F6B4F]">
+            View report
+          </button>
+
+        </div>
+
+
+        <!-- Score -->
+
+        <div
+          class="mt-4 flex items-center gap-5 rounded-[24px] bg-[#F2F5E8] p-4"
+        >
+
+          <!-- Circular score -->
+
+          <div class="relative h-[82px] w-[82px] shrink-0">
+
+            <svg
+              class="h-full w-full -rotate-90"
+              viewBox="0 0 100 100"
+            >
+
+              <circle
+                cx="50"
+                cy="50"
+                r="42"
+                fill="none"
+                stroke="#DDE3D5"
+                stroke-width="8"
+              />
+
+              <circle
+                cx="50"
+                cy="50"
+                r="42"
+                fill="none"
+                stroke="#1F6B4F"
+                stroke-width="8"
+                stroke-linecap="round"
+                stroke-dasharray="264"
+                stroke-dashoffset="52"
+              />
+
+            </svg>
+
+
+            <div
+              class="absolute inset-0 flex flex-col items-center justify-center"
+            >
+
+              <span class="text-[20px] font-black text-[#17221D]">
+                80
+              </span>
+
+              <span class="text-[8px] font-bold text-[#7A837D]">
+                SCORE
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- Level -->
+
+          <div class="min-w-0">
+
+            <div class="flex items-center gap-2">
+
+              <h3 class="text-[17px] font-extrabold text-[#17221D]">
+                B2 — Upper Intermediate
+              </h3>
+
+            </div>
+
+            <p class="mt-1 text-[11px] font-medium leading-4 text-[#7A837D]">
+              You communicate confidently in everyday and academic situations.
+            </p>
+
+            <div class="mt-3 flex items-center gap-2">
+
+              <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-[#D8DED2]">
+                <div
+                  class="h-full w-[80%] rounded-full bg-[#1F6B4F]"
+                ></div>
+              </div>
+
+              <span class="text-[10px] font-extrabold text-[#1F6B4F]">
+                80%
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================================================= -->
+      <!-- SKILLS -->
+      <!-- ================================================= -->
+
+      <section class="mt-7">
+
+        <div class="flex items-center justify-between">
+
+          <h2 class="text-[18px] font-extrabold text-[#17221D]">
+            Your Skills
+          </h2>
+
+          <button class="text-[12px] font-bold text-[#7A837D]">
+            Details
+          </button>
+
+        </div>
+
+
+        <div class="mt-4 grid grid-cols-2 gap-3">
+
+          <!-- Speaking -->
+
+          <div class="rounded-[22px] border border-[#EEF0E9] bg-white p-4">
+
+            <div class="flex items-center justify-between">
+
+              <div
+                class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#DCEBDD]"
+              >
+
+                <svg
+                  class="h-4.5 w-4.5 text-[#1F6B4F]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    d="M12 14a4 4 0 0 0 4-4V7a4 4 0 0 0-8 0v3a4 4 0 0 0 4 4Z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    d="M19 10a7 7 0 0 1-14 0M12 17v4M9 21h6"
+                  />
+                </svg>
+
+              </div>
+
+              <span class="text-[15px] font-black text-[#1F6B4F]">
+                84
+              </span>
+
+            </div>
+
+            <p class="mt-3 text-[13px] font-extrabold text-[#17221D]">
+              Speaking
+            </p>
+
+            <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-[#E9ECE6]">
+
+              <div
+                class="h-full w-[84%] rounded-full bg-[#1F6B4F]"
+              ></div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Listening -->
+
+          <div class="rounded-[22px] border border-[#EEF0E9] bg-white p-4">
+
+            <div class="flex items-center justify-between">
+
+              <div
+                class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFF0DF]"
+              >
+
+                <svg
+                  class="h-4 w-4 text-[#E58A45]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    d="M4 14a8 8 0 0 1 16 0"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    d="M4 14v3a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 2ZM20 14v3a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2Z"
+                  />
+
+                </svg>
+
+              </div>
+
+              <span class="text-[15px] font-black text-[#E58A45]">
+                78
+              </span>
+
+            </div>
+
+            <p class="mt-3 text-[13px] font-extrabold text-[#17221D]">
+              Listening
+            </p>
+
+            <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-[#E9ECE6]">
+
+              <div
+                class="h-full w-[78%] rounded-full bg-[#E58A45]"
+              ></div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Reading -->
+
+          <div class="rounded-[22px] border border-[#EEF0E9] bg-white p-4">
+
+            <div class="flex items-center justify-between">
+
+              <div
+                class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E8EAF7]"
+              >
+
+                <svg
+                  class="h-4 w-4 text-[#5C63A8]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M5 5.5A2.5 2.5 0 0 1 7.5 3H20v17H7.5A2.5 2.5 0 0 0 5 22V5.5Z"
+                  />
+                  <path stroke-linecap="round" d="M5 19.5A2.5 2.5 0 0 1 7.5 17H20"/>
+                </svg>
+
+              </div>
+
+              <span class="text-[15px] font-black text-[#5C63A8]">
+                81
+              </span>
+
+            </div>
+
+            <p class="mt-3 text-[13px] font-extrabold text-[#17221D]">
+              Reading
+            </p>
+
+            <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-[#E9ECE6]">
+
+              <div
+                class="h-full w-[81%] rounded-full bg-[#5C63A8]"
+              ></div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Writing -->
+
+          <div class="rounded-[22px] border border-[#EEF0E9] bg-white p-4">
+
+            <div class="flex items-center justify-between">
+
+              <div
+                class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F2E5F1]"
+              >
+
+                <svg
+                  class="h-4 w-4 text-[#9A5792]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m4 20 4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10L4 20Z"
+                  />
+
+                </svg>
+
+              </div>
+
+              <span class="text-[15px] font-black text-[#9A5792]">
+                76
+              </span>
+
+            </div>
+
+            <p class="mt-3 text-[13px] font-extrabold text-[#17221D]">
+              Writing
+            </p>
+
+            <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-[#E9ECE6]">
+
+              <div
+                class="h-full w-[76%] rounded-full bg-[#9A5792]"
+              ></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================================================= -->
+      <!-- QUICK PRACTICE -->
+      <!-- ================================================= -->
+
+      <section class="mt-7">
+
+        <div class="flex items-center justify-between">
+
+          <div>
+
+            <p class="text-[11px] font-bold uppercase tracking-[1px] text-[#9AA19B]">
+              Improve your skills
+            </p>
+
+            <h2 class="mt-1 text-[18px] font-extrabold text-[#17221D]">
+              Quick Practice
+            </h2>
+
+          </div>
+
+          <button class="text-[12px] font-bold text-[#1F6B4F]">
+            See all
+          </button>
+
+        </div>
+
+
+        <!-- Horizontal cards -->
+
+        <div class="hide-scrollbar -mx-5 mt-4 flex gap-3 overflow-x-auto px-5 pb-1">
+
+          <!-- Speaking Practice -->
+
+          <div
+            class="min-w-[190px] rounded-[23px] bg-[#F2F5E8] p-4"
+          >
+
+            <div class="flex items-center justify-between">
+
+              <div
+                class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#DCEBDD]"
+              >
+
+                <svg
+                  class="h-5 w-5 text-[#1F6B4F]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    d="M12 14a4 4 0 0 0 4-4V7a4 4 0 0 0-8 0v3a4 4 0 0 0 4 4Z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    d="M19 10a7 7 0 0 1-14 0M12 17v4M9 21h6"
+                  />
+                </svg>
+
+              </div>
+
+              <span class="rounded-full bg-white px-2 py-1 text-[9px] font-bold text-[#7A837D]">
+                5 min
+              </span>
+
+            </div>
+
+            <h3 class="mt-4 text-[14px] font-extrabold text-[#17221D]">
+              Speaking Practice
+            </h3>
+
+            <p class="mt-1 text-[10px] font-medium leading-4 text-[#7A837D]">
+              Practice pronunciation and fluency.
+            </p>
+
+            <button
+              class="mt-4 flex items-center gap-1 text-[11px] font-extrabold text-[#1F6B4F]"
+            >
+              Practice now
+
+              <svg
+                class="h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" d="M5 12h13M13 6l6 6-6 6"/>
+              </svg>
+
+            </button>
+
+          </div>
+
+
+          <!-- Listening Practice -->
+
+          <div
+            class="min-w-[190px] rounded-[23px] bg-[#FFF2E4] p-4"
+          >
+
+            <div class="flex items-center justify-between">
+
+              <div
+                class="flex h-10 w-10 items-center justify-center rounded-xl bg-white"
+              >
+
+                <svg
+                  class="h-5 w-5 text-[#E58A45]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    d="M4 14a8 8 0 0 1 16 0"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    d="M4 14v3a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 2ZM20 14v3a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2Z"
+                  />
+                </svg>
+
+              </div>
+
+              <span class="rounded-full bg-white px-2 py-1 text-[9px] font-bold text-[#7A837D]">
+                7 min
+              </span>
+
+            </div>
+
+            <h3 class="mt-4 text-[14px] font-extrabold text-[#17221D]">
+              Listening Practice
+            </h3>
+
+            <p class="mt-1 text-[10px] font-medium leading-4 text-[#7A837D]">
+              Improve your understanding of spoken English.
+            </p>
+
+            <button
+              class="mt-4 flex items-center gap-1 text-[11px] font-extrabold text-[#E58A45]"
+            >
+              Practice now
+
+              <svg
+                class="h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" d="M5 12h13M13 6l6 6-6 6"/>
+              </svg>
+
+            </button>
+
+          </div>
+
+
+          <!-- Reading Practice -->
+
+          <div
+            class="min-w-[190px] rounded-[23px] bg-[#EEEFFA] p-4"
+          >
+
+            <div class="flex items-center justify-between">
+
+              <div
+                class="flex h-10 w-10 items-center justify-center rounded-xl bg-white"
+              >
+
+                <svg
+                  class="h-5 w-5 text-[#5C63A8]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M5 5.5A2.5 2.5 0 0 1 7.5 3H20v17H7.5A2.5 2.5 0 0 0 5 22V5.5Z"
+                  />
+                  <path stroke-linecap="round" d="M5 19.5A2.5 2.5 0 0 1 7.5 17H20"/>
+                </svg>
+
+              </div>
+
+              <span class="rounded-full bg-white px-2 py-1 text-[9px] font-bold text-[#7A837D]">
+                6 min
+              </span>
+
+            </div>
+
+            <h3 class="mt-4 text-[14px] font-extrabold text-[#17221D]">
+              Reading Practice
+            </h3>
+
+            <p class="mt-1 text-[10px] font-medium leading-4 text-[#7A837D]">
+              Build comprehension and reading speed.
+            </p>
+
+            <button
+              class="mt-4 flex items-center gap-1 text-[11px] font-extrabold text-[#5C63A8]"
+            >
+              Practice now
+
+              <svg
+                class="h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" d="M5 12h13M13 6l6 6-6 6"/>
+              </svg>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================================================= -->
+      <!-- RECENT ACTIVITY -->
+      <!-- ================================================= -->
+
+      <section class="mt-7">
+
+        <div class="flex items-center justify-between">
+
+          <h2 class="text-[18px] font-extrabold text-[#17221D]">
+            Recent Activity
+          </h2>
+
+          <button class="text-[12px] font-bold text-[#7A837D]">
+            View all
+          </button>
+
+        </div>
+
+
+        <div class="mt-3 divide-y divide-[#EEF0E9]">
+
+          <!-- Activity 1 -->
+
+          <div class="flex items-center gap-3 py-4">
+
+            <div
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#DCEBDD]"
+            >
+
+              <svg
+                class="h-4 w-4 text-[#1F6B4F]"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" d="M5 12l4 4L19 6"/>
+              </svg>
+
+            </div>
+
+            <div class="min-w-0 flex-1">
+
+              <p class="truncate text-[13px] font-extrabold text-[#17221D]">
+                Speaking Practice
+              </p>
+
+              <p class="mt-0.5 text-[10px] font-medium text-[#8A918B]">
+                Story Retelling · 8 minutes ago
+              </p>
+
+            </div>
+
+            <span class="text-[12px] font-black text-[#1F6B4F]">
+              86
+            </span>
+
+          </div>
+
+
+          <!-- Activity 2 -->
+
+          <div class="flex items-center gap-3 py-4">
+
+            <div
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF0DF]"
+            >
+
+              <svg
+                class="h-4 w-4 text-[#E58A45]"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  d="M4 14a8 8 0 0 1 16 0"
+                />
+                <path
+                  stroke-linecap="round"
+                  d="M4 14v3a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 2ZM20 14v3a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2Z"
+                />
+              </svg>
+
+            </div>
+
+            <div class="min-w-0 flex-1">
+
+              <p class="truncate text-[13px] font-extrabold text-[#17221D]">
+                Listening Practice
+              </p>
+
+              <p class="mt-0.5 text-[10px] font-medium text-[#8A918B]">
+                Conversations · Yesterday
+              </p>
+
+            </div>
+
+            <span class="text-[12px] font-black text-[#E58A45]">
+              78
+            </span>
+
+          </div>
+
+
+          <!-- Activity 3 -->
+
+          <div class="flex items-center gap-3 py-4">
+
+            <div
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EEEFFA]"
+            >
+
+              <svg
+                class="h-4 w-4 text-[#5C63A8]"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 5.5A2.5 2.5 0 0 1 7.5 3H20v17H7.5A2.5 2.5 0 0 0 5 22V5.5Z"
+                />
+              </svg>
+
+            </div>
+
+            <div class="min-w-0 flex-1">
+
+              <p class="truncate text-[13px] font-extrabold text-[#17221D]">
+                Reading Practice
+              </p>
+
+              <p class="mt-0.5 text-[10px] font-medium text-[#8A918B]">
+                Passage Comprehension · 2 days ago
+              </p>
+
+            </div>
+
+            <span class="text-[12px] font-black text-[#5C63A8]">
+              81
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================================================= -->
+      <!-- DAILY GOAL -->
+      <!-- ================================================= -->
+
+      <section
+        class="mt-5 rounded-[24px] border border-[#EEF0E9] bg-white p-4"
+      >
+
+        <div class="flex items-center justify-between">
+
+          <div class="flex items-center gap-3">
+
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FFF0DF]"
+            >
+
+              <span class="text-lg">
+                🎯
+              </span>
+
+            </div>
+
+            <div>
+
+              <p class="text-[13px] font-extrabold text-[#17221D]">
+                Daily Practice Goal
+              </p>
+
+              <p class="mt-0.5 text-[10px] font-medium text-[#8A918B]">
+                Keep your English improving
+              </p>
+
+            </div>
+
+          </div>
+
+          <span class="text-[12px] font-black text-[#E58A45]">
+            12 / 15 min
+          </span>
+
+        </div>
+
+
+        <div class="mt-4 h-2 overflow-hidden rounded-full bg-[#EEF0E9]">
+
+          <div
+            class="h-full w-[80%] rounded-full bg-[#E58A45]"
+          ></div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- BOTTOM NAVIGATION -->
+    <!-- ===================================================== -->
+
+    <nav
+      class="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 border-t border-[#EEF0E9] bg-[#FCFBF8]/95 px-4 pb-5 pt-3 backdrop-blur-lg lg:absolute"
+    >
+
+      <div class="grid grid-cols-5 items-end">
+
+        <!-- HOME -->
+
+        <button class="flex flex-col items-center gap-1">
+
+          <div
+            class="flex h-8 w-12 items-center justify-center rounded-full bg-[#DCEBDD]"
+          >
+
+            <svg
+              class="h-[18px] w-[18px] text-[#1F6B4F]"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V10Z"
+              />
+            </svg>
+
+          </div>
+
+          <span class="text-[9px] font-extrabold text-[#1F6B4F]">
+            Home
+          </span>
+
+        </button>
+
+
+        <!-- PRACTICE -->
+
+        <button class="flex flex-col items-center gap-1">
+
+          <div class="flex h-8 w-12 items-center justify-center">
+
+            <svg
+              class="h-[19px] w-[19px] text-[#8A918B]"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 3v18M5 7h14M5 17h14"
+              />
+              <circle cx="8" cy="7" r="2"/>
+              <circle cx="16" cy="17" r="2"/>
+            </svg>
+
+          </div>
+
+          <span class="text-[9px] font-bold text-[#8A918B]">
+            Practice
+          </span>
+
+        </button>
+
+
+        <!-- ASSESSMENTS -->
+
+        <button class="flex flex-col items-center gap-1">
+
+          <div class="flex h-8 w-12 items-center justify-center">
+
+            <svg
+              class="h-[19px] w-[19px] text-[#8A918B]"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              viewBox="0 0 24 24"
+            >
+              <rect x="4" y="3" width="16" height="18" rx="3"/>
+              <path stroke-linecap="round" d="M8 8h8M8 12h8M8 16h4"/>
+            </svg>
+
+          </div>
+
+          <span class="text-[9px] font-bold text-[#8A918B]">
+            Tests
+          </span>
+
+        </button>
+
+
+        <!-- PROGRESS -->
+
+        <button class="flex flex-col items-center gap-1">
+
+          <div class="flex h-8 w-12 items-center justify-center">
+
+            <svg
+              class="h-[19px] w-[19px] text-[#8A918B]"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 19V9M10 19V5M16 19v-7M22 19V3"
+              />
+            </svg>
+
+          </div>
+
+          <span class="text-[9px] font-bold text-[#8A918B]">
+            Progress
+          </span>
+
+        </button>
+
+
+        <!-- PROFILE -->
+
+        <button class="flex flex-col items-center gap-1">
+
+          <div class="flex h-8 w-12 items-center justify-center">
+
+            <svg
+              class="h-[19px] w-[19px] text-[#8A918B]"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="8" r="3"/>
+              <path
+                stroke-linecap="round"
+                d="M5 21a7 7 0 0 1 14 0"
+              />
+            </svg>
+
+          </div>
+
+          <span class="text-[9px] font-bold text-[#8A918B]">
+            Profile
+          </span>
+
+        </button>
+
+      </div>
+
+    </nav>
+
+  </main>
+
+</body>
+</html>

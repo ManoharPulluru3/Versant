@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElytEdu — Assessment Details</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Nunito Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ["Nunito Sans", "sans-serif"],
+          },
+          colors: {
+            cream: "#F2F5E8",
+            surface: "#FCFBF8",
+            green: "#1F6B4F",
+            "green-light": "#DCEBDD",
+            orange: "#E58A45",
+            dark: "#17221D",
+            muted: "#7A837D",
+          },
+          boxShadow: {
+            app: "0 20px 60px rgba(31, 107, 79, 0.10)",
+            soft: "0 8px 24px rgba(23, 34, 29, 0.06)",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: "Nunito Sans", sans-serif;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .orb {
+      filter: blur(70px);
+    }
+
+    .pattern {
+      background-image: radial-gradient(
+        rgba(31, 107, 79, 0.08) 1px,
+        transparent 1px
+      );
+      background-size: 22px 22px;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-cream text-dark antialiased">
+
+  <!-- =========================================================
+       OUTER BACKGROUND
+  ========================================================== -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+
+    <div
+      class="orb absolute -top-24 -left-24 h-72 w-72 rounded-full bg-green-light opacity-70"
+    ></div>
+
+    <div
+      class="orb absolute top-1/3 -right-32 h-80 w-80 rounded-full bg-orange opacity-10"
+    ></div>
+
+    <div
+      class="orb absolute -bottom-32 left-1/4 h-80 w-80 rounded-full bg-green-light opacity-60"
+    ></div>
+
+    <div class="pattern absolute inset-0 opacity-40"></div>
+
+  </div>
+
+  <!-- =========================================================
+       APP
+  ========================================================== -->
+  <main
+    class="
+      relative
+      mx-auto
+      min-h-screen
+      w-full
+      max-w-[430px]
+      overflow-hidden
+      bg-surface
+      shadow-app
+
+      lg:my-8
+      lg:min-h-[calc(100vh-64px)]
+      lg:rounded-[40px]
+    "
+  >
+
+    <!-- =======================================================
+         HEADER
+    ======================================================== -->
+    <header class="flex items-center justify-between px-5 pt-6 pb-4">
+
+      <!-- Back -->
+      <button
+        onclick="goBack()"
+        class="
+          flex h-10 w-10 items-center justify-center
+          rounded-full
+          border border-black/[0.06]
+          bg-white
+          text-dark
+          shadow-sm
+          transition
+          active:scale-95
+        "
+        aria-label="Go back"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+
+      <!-- Center title -->
+      <div class="text-center">
+        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-muted">
+          Assessment
+        </p>
+
+        <h1 class="mt-0.5 text-[16px] font-800 text-dark">
+          Test Details
+        </h1>
+      </div>
+
+      <!-- Empty space for alignment -->
+      <div class="h-10 w-10"></div>
+
+    </header>
+
+    <!-- =======================================================
+         CONTENT
+    ======================================================== -->
+    <section class="px-5 pb-32">
+
+      <!-- =====================================================
+           ASSESSMENT HERO
+      ====================================================== -->
+      <div
+        class="
+          relative
+          overflow-hidden
+          rounded-[28px]
+          bg-green
+          p-6
+          text-white
+        "
+      >
+
+        <!-- Decorative circles -->
+        <div
+          class="
+            absolute
+            -right-12
+            -top-12
+            h-32
+            w-32
+            rounded-full
+            border-[22px]
+            border-white/10
+          "
+        ></div>
+
+        <div
+          class="
+            absolute
+            -bottom-16
+            -left-12
+            h-36
+            w-36
+            rounded-full
+            bg-white/[0.05]
+          "
+        ></div>
+
+        <!-- Icon -->
+        <div
+          class="
+            relative
+            flex
+            h-12
+            w-12
+            items-center
+            justify-center
+            rounded-2xl
+            bg-white/15
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.7"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 12h6m-6 4h4m-6 5h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+            />
+          </svg>
+        </div>
+
+        <div class="relative mt-5">
+
+          <div class="flex items-center gap-2">
+            <span
+              class="
+                rounded-full
+                bg-orange
+                px-2.5
+                py-1
+                text-[9px]
+                font-800
+                uppercase
+                tracking-[0.12em]
+                text-white
+              "
+            >
+              College Assessment
+            </span>
+
+            <span class="text-xs text-white/60">
+              •
+            </span>
+
+            <span class="text-xs font-semibold text-white/70">
+              English
+            </span>
+          </div>
+
+          <h2
+            class="
+              mt-3
+              max-w-[290px]
+              text-[25px]
+              font-800
+              leading-[1.15]
+              tracking-[-0.02em]
+            "
+          >
+            English Communication Test
+          </h2>
+
+          <p
+            class="
+              mt-3
+              max-w-[320px]
+              text-[13px]
+              leading-5
+              text-white/75
+            "
+          >
+            Evaluate your English communication skills across speaking,
+            listening, reading and writing.
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================================
+           QUICK STATS
+      ====================================================== -->
+      <div class="mt-5 grid grid-cols-3 gap-3">
+
+        <!-- Duration -->
+        <div
+          class="
+            rounded-[20px]
+            border
+            border-black/[0.05]
+            bg-white
+            p-4
+          "
+        >
+          <div
+            class="
+              flex
+              h-9
+              w-9
+              items-center
+              justify-center
+              rounded-xl
+              bg-green-light
+              text-green
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-[18px] w-[18px]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="12" r="8.5"></circle>
+              <path
+                stroke-linecap="round"
+                d="M12 7v5l3 2"
+              ></path>
+            </svg>
+          </div>
+
+          <p class="mt-3 text-[11px] font-semibold text-muted">
+            Duration
+          </p>
+
+          <p class="mt-0.5 text-[15px] font-800 text-dark">
+            30 min
+          </p>
+        </div>
+
+        <!-- Questions -->
+        <div
+          class="
+            rounded-[20px]
+            border
+            border-black/[0.05]
+            bg-white
+            p-4
+          "
+        >
+          <div
+            class="
+              flex
+              h-9
+              w-9
+              items-center
+              justify-center
+              rounded-xl
+              bg-green-light
+              text-green
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-[18px] w-[18px]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8 6h12M8 12h12M8 18h12"
+              />
+              <circle cx="4" cy="6" r="1"></circle>
+              <circle cx="4" cy="12" r="1"></circle>
+              <circle cx="4" cy="18" r="1"></circle>
+            </svg>
+          </div>
+
+          <p class="mt-3 text-[11px] font-semibold text-muted">
+            Questions
+          </p>
+
+          <p class="mt-0.5 text-[15px] font-800 text-dark">
+            40
+          </p>
+        </div>
+
+        <!-- Attempts -->
+        <div
+          class="
+            rounded-[20px]
+            border
+            border-black/[0.05]
+            bg-white
+            p-4
+          "
+        >
+          <div
+            class="
+              flex
+              h-9
+              w-9
+              items-center
+              justify-center
+              rounded-xl
+              bg-green-light
+              text-green
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-[18px] w-[18px]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M20 11a8.1 8.1 0 01-1.4 4.6A8 8 0 116.3 4.3"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M20 4v7h-7"
+              />
+            </svg>
+          </div>
+
+          <p class="mt-3 text-[11px] font-semibold text-muted">
+            Attempts
+          </p>
+
+          <p class="mt-0.5 text-[15px] font-800 text-dark">
+            1 left
+          </p>
+        </div>
+
+      </div>
+
+      <!-- =====================================================
+           SKILLS
+      ====================================================== -->
+      <div class="mt-7">
+
+        <div class="flex items-center justify-between">
+          <h3 class="text-[16px] font-800 text-dark">
+            Skills assessed
+          </h3>
+
+          <span class="text-[11px] font-bold text-muted">
+            4 skills
+          </span>
+        </div>
+
+        <div class="mt-3 space-y-2.5">
+
+          <!-- Speaking -->
+          <div
+            class="
+              flex
+              items-center
+              gap-3
+              rounded-[18px]
+              border
+              border-black/[0.05]
+              bg-white
+              p-3.5
+            "
+          >
+            <div
+              class="
+                flex
+                h-10
+                w-10
+                shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                bg-green-light
+                text-green
+              "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-[19px] w-[19px]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.7"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 15a3 3 0 003-3V7a3 3 0 10-6 0v5a3 3 0 003 3z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 11a7 7 0 01-14 0M12 18v3M8 21h8"
+                />
+              </svg>
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <p class="text-[14px] font-800 text-dark">
+                Speaking
+              </p>
+              <p class="mt-0.5 text-[11px] text-muted">
+                Pronunciation & fluency
+              </p>
+            </div>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 text-green"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14"
+              />
+            </svg>
+          </div>
+
+          <!-- Listening -->
+          <div
+            class="
+              flex
+              items-center
+              gap-3
+              rounded-[18px]
+              border
+              border-black/[0.05]
+              bg-white
+              p-3.5
+            "
+          >
+            <div
+              class="
+                flex
+                h-10
+                w-10
+                shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                bg-green-light
+                text-green
+              "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-[19px] w-[19px]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.7"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 10v4M8 7v10M12 5v14M16 8v8M20 10v4"
+                />
+              </svg>
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <p class="text-[14px] font-800 text-dark">
+                Listening
+              </p>
+              <p class="mt-0.5 text-[11px] text-muted">
+                Understanding spoken English
+              </p>
+            </div>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 text-green"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14"
+              />
+            </svg>
+          </div>
+
+          <!-- Reading -->
+          <div
+            class="
+              flex
+              items-center
+              gap-3
+              rounded-[18px]
+              border
+              border-black/[0.05]
+              bg-white
+              p-3.5
+            "
+          >
+            <div
+              class="
+                flex
+                h-10
+                w-10
+                shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                bg-green-light
+                text-green
+              "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-[19px] w-[19px]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.7"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 5.5A2.5 2.5 0 016.5 3H20v16H6.5A2.5 2.5 0 014 16.5v-11z"
+                />
+                <path
+                  stroke-linecap="round"
+                  d="M8 7h8M8 11h8M8 15h5"
+                />
+              </svg>
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <p class="text-[14px] font-800 text-dark">
+                Reading
+              </p>
+              <p class="mt-0.5 text-[11px] text-muted">
+                Comprehension & vocabulary
+              </p>
+            </div>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 text-green"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14"
+              />
+            </svg>
+          </div>
+
+          <!-- Writing -->
+          <div
+            class="
+              flex
+              items-center
+              gap-3
+              rounded-[18px]
+              border
+              border-black/[0.05]
+              bg-white
+              p-3.5
+            "
+          >
+            <div
+              class="
+                flex
+                h-10
+                w-10
+                shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                bg-green-light
+                text-green
+              "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-[19px] w-[19px]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.7"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 20h4L19 9a2.1 2.1 0 00-3-3L5 17v3z"
+                />
+                <path
+                  stroke-linecap="round"
+                  d="M14 7l3 3"
+                />
+              </svg>
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <p class="text-[14px] font-800 text-dark">
+                Writing
+              </p>
+              <p class="mt-0.5 text-[11px] text-muted">
+                Grammar & written communication
+              </p>
+            </div>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 text-green"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14"
+              />
+            </svg>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================================
+           ASSESSMENT INFORMATION
+      ====================================================== -->
+      <div class="mt-7">
+
+        <h3 class="text-[16px] font-800 text-dark">
+          Assessment information
+        </h3>
+
+        <div
+          class="
+            mt-3
+            overflow-hidden
+            rounded-[22px]
+            border
+            border-black/[0.05]
+            bg-white
+          "
+        >
+
+          <!-- Due date -->
+          <div
+            class="
+              flex
+              items-center
+              justify-between
+              border-b
+              border-black/[0.05]
+              px-4
+              py-4
+            "
+          >
+            <div class="flex items-center gap-3">
+
+              <div
+                class="
+                  flex
+                  h-9
+                  w-9
+                  items-center
+                  justify-center
+                  rounded-xl
+                  bg-orange/10
+                  text-orange
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-[18px] w-[18px]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                >
+                  <rect
+                    x="4"
+                    y="5"
+                    width="16"
+                    height="15"
+                    rx="2"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    d="M8 3v4M16 3v4M4 10h16"
+                  />
+                </svg>
+              </div>
+
+              <div>
+                <p class="text-[11px] font-semibold text-muted">
+                  Due date
+                </p>
+                <p class="mt-0.5 text-[13px] font-800 text-dark">
+                  September 14, 2026
+                </p>
+              </div>
+
+            </div>
+
+            <span
+              class="
+                rounded-full
+                bg-orange/10
+                px-2.5
+                py-1
+                text-[10px]
+                font-800
+                text-orange
+              "
+            >
+              7 days left
+            </span>
+          </div>
+
+          <!-- Attempts -->
+          <div
+            class="
+              flex
+              items-center
+              justify-between
+              border-b
+              border-black/[0.05]
+              px-4
+              py-4
+            "
+          >
+
+            <div class="flex items-center gap-3">
+
+              <div
+                class="
+                  flex
+                  h-9
+                  w-9
+                  items-center
+                  justify-center
+                  rounded-xl
+                  bg-green-light
+                  text-green
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-[18px] w-[18px]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M20 11a8 8 0 11-2.34-5.66"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M20 4v7h-7"
+                  />
+                </svg>
+              </div>
+
+              <div>
+                <p class="text-[11px] font-semibold text-muted">
+                  Attempts allowed
+                </p>
+
+                <p class="mt-0.5 text-[13px] font-800 text-dark">
+                  1 attempt
+                </p>
+              </div>
+
+            </div>
+
+            <span class="text-[11px] font-bold text-green">
+              1 remaining
+            </span>
+
+          </div>
+
+          <!-- Level -->
+          <div
+            class="
+              flex
+              items-center
+              justify-between
+              px-4
+              py-4
+            "
+          >
+
+            <div class="flex items-center gap-3">
+
+              <div
+                class="
+                  flex
+                  h-9
+                  w-9
+                  items-center
+                  justify-center
+                  rounded-xl
+                  bg-green-light
+                  text-green
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-[18px] w-[18px]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 3l2.5 5.1L20 9l-4 4 1 5.6-5-2.6-5 2.6 1-5.6-4-4 5.5-.9L12 3z"
+                  />
+                </svg>
+              </div>
+
+              <div>
+                <p class="text-[11px] font-semibold text-muted">
+                  Recommended level
+                </p>
+
+                <p class="mt-0.5 text-[13px] font-800 text-dark">
+                  Intermediate
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================================
+           IMPORTANT NOTE
+      ====================================================== -->
+      <div
+        class="
+          mt-5
+          flex
+          gap-3
+          rounded-[20px]
+          border
+          border-green/10
+          bg-green-light/60
+          p-4
+        "
+      >
+
+        <div
+          class="
+            flex
+            h-8
+            w-8
+            shrink-0
+            items-center
+            justify-center
+            rounded-full
+            bg-green
+            text-white
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 8v4m0 4h.01M10.3 3.8l-7 12.1A2 2 0 005 19h14a2 2 0 001.7-3.1l-7-12.1a2 2 0 00-3.4 0z"
+            />
+          </svg>
+        </div>
+
+        <div>
+          <p class="text-[12px] font-800 text-dark">
+            Before you begin
+          </p>
+
+          <p class="mt-1 text-[11px] leading-5 text-muted">
+            Make sure you are in a quiet place with a stable internet
+            connection. You will need microphone access for this assessment.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =======================================================
+         FIXED START BAR
+    ======================================================== -->
+    <div
+      class="
+        absolute
+        bottom-0
+        left-0
+        right-0
+        border-t
+        border-black/[0.05]
+        bg-surface/95
+        px-5
+        py-4
+        backdrop-blur-xl
+      "
+    >
+
+      <div class="flex items-center gap-3">
+
+        <!-- Time -->
+        <div class="min-w-[72px]">
+          <p class="text-[10px] font-semibold uppercase tracking-wider text-muted">
+            Duration
+          </p>
+
+          <p class="mt-0.5 text-[14px] font-800 text-dark">
+            30 minutes
+          </p>
+        </div>
+
+        <!-- Start -->
+        <button
+          onclick="startAssessment()"
+          class="
+            flex
+            h-[52px]
+            flex-1
+            items-center
+            justify-center
+            gap-2
+            rounded-[18px]
+            bg-green
+            text-[14px]
+            font-800
+            text-white
+            shadow-[0_8px_20px_rgba(31,107,79,0.20)]
+            transition
+            hover:bg-[#18583F]
+            active:scale-[0.98]
+          "
+        >
+          Start Assessment
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-[18px] w-[18px]"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M5 12h14M13 6l6 6-6 6"
+            />
+          </svg>
+        </button>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+  <script>
+
+    function goBack() {
+      console.log("Go back to Tests");
+      // window.history.back();
+    }
+
+    function startAssessment() {
+      console.log("Start Assessment → Device & Microphone Check");
+
+      // Next screen:
+      // window.location.href = "device-check.html";
+    }
+
+  </script>
+
+</body>
+</html>

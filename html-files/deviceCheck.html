@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElytEdu — Device Check</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ["Nunito Sans", "sans-serif"],
+          },
+          colors: {
+            cream: "#F2F5E8",
+            surface: "#FCFBF8",
+            green: "#1F6B4F",
+            "green-light": "#DCEBDD",
+            orange: "#E58A45",
+            dark: "#17221D",
+            muted: "#7A837D",
+          },
+          boxShadow: {
+            app: "0 20px 60px rgba(31, 107, 79, 0.10)",
+            soft: "0 8px 24px rgba(23, 34, 29, 0.06)",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: "Nunito Sans", sans-serif;
+    }
+
+    .pattern {
+      background-image: radial-gradient(
+        rgba(31, 107, 79, 0.08) 1px,
+        transparent 1px
+      );
+      background-size: 22px 22px;
+    }
+
+    .orb {
+      filter: blur(70px);
+    }
+
+    .pulse-ring {
+      animation: pulseRing 2s infinite;
+    }
+
+    @keyframes pulseRing {
+      0% {
+        transform: scale(0.95);
+        opacity: 0.5;
+      }
+      70% {
+        transform: scale(1.08);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1.08);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-cream text-dark antialiased">
+
+  <!-- =========================================================
+       OUTER BACKGROUND
+  ========================================================== -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+
+    <div
+      class="orb absolute -left-24 -top-24 h-72 w-72 rounded-full bg-green-light opacity-70"
+    ></div>
+
+    <div
+      class="orb absolute -right-32 top-1/3 h-80 w-80 rounded-full bg-orange opacity-10"
+    ></div>
+
+    <div
+      class="orb absolute -bottom-32 left-1/4 h-80 w-80 rounded-full bg-green-light opacity-60"
+    ></div>
+
+    <div class="pattern absolute inset-0 opacity-40"></div>
+
+  </div>
+
+  <!-- =========================================================
+       APP
+  ========================================================== -->
+  <main
+    class="
+      relative
+      mx-auto
+      min-h-screen
+      w-full
+      max-w-[430px]
+      overflow-hidden
+      bg-surface
+      shadow-app
+
+      lg:my-8
+      lg:min-h-[calc(100vh-64px)]
+      lg:rounded-[40px]
+    "
+  >
+
+    <!-- =======================================================
+         HEADER
+    ======================================================== -->
+    <header class="flex items-center justify-between px-5 pt-6 pb-5">
+
+      <!-- Back -->
+      <button
+        onclick="goBack()"
+        class="
+          flex h-10 w-10 items-center justify-center
+          rounded-full
+          border border-black/[0.06]
+          bg-white
+          text-dark
+          shadow-sm
+          transition
+          active:scale-95
+        "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+
+        <div
+          class="
+            flex
+            h-8
+            w-8
+            items-center
+            justify-center
+            rounded-[10px]
+            bg-green
+            text-white
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-[17px] w-[17px]"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18l-1.5 3L9 19h7a4 4 0 004-4V7a4 4 0 00-4-4H8a4 4 0 00-4 4v7a4 4 0 002 4z"
+            />
+          </svg>
+        </div>
+
+        <span class="text-[15px] font-800 tracking-[-0.02em]">
+          ElytEdu
+        </span>
+
+      </div>
+
+      <!-- Step -->
+      <div class="text-right">
+        <p class="text-[9px] font-bold uppercase tracking-[0.14em] text-muted">
+          Step
+        </p>
+
+        <p class="text-[13px] font-800 text-dark">
+          1 of 4
+        </p>
+      </div>
+
+    </header>
+
+    <!-- =======================================================
+         PROGRESS
+    ======================================================== -->
+    <div class="px-5">
+
+      <div class="h-1.5 overflow-hidden rounded-full bg-black/[0.05]">
+
+        <div
+          class="h-full w-1/4 rounded-full bg-green transition-all"
+        ></div>
+
+      </div>
+
+    </div>
+
+    <!-- =======================================================
+         CONTENT
+    ======================================================== -->
+    <section class="px-5 pb-32 pt-7">
+
+      <!-- Heading -->
+      <div class="text-center">
+
+        <div
+          class="
+            relative
+            mx-auto
+            flex
+            h-20
+            w-20
+            items-center
+            justify-center
+            rounded-[26px]
+            bg-green-light
+            text-green
+          "
+        >
+
+          <!-- Pulse -->
+          <div
+            class="
+              pulse-ring
+              absolute
+              inset-0
+              rounded-[26px]
+              border-2
+              border-green/20
+            "
+          ></div>
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="relative h-9 w-9"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <rect
+              x="7"
+              y="3"
+              width="10"
+              height="14"
+              rx="5"
+            />
+
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 11a7.5 7.5 0 0015 0M12 18.5V22M8.5 22h7"
+            />
+          </svg>
+
+        </div>
+
+        <h1
+          class="
+            mt-5
+            text-[25px]
+            font-800
+            tracking-[-0.025em]
+            text-dark
+          "
+        >
+          Check your device
+        </h1>
+
+        <p
+          class="
+            mx-auto
+            mt-2
+            max-w-[320px]
+            text-[13px]
+            leading-5
+            text-muted
+          "
+        >
+          Let's make sure your microphone, speakers and connection are ready
+          before you begin.
+        </p>
+
+      </div>
+
+      <!-- =====================================================
+           DEVICE CHECK CARD
+      ====================================================== -->
+      <div
+        class="
+          mt-7
+          overflow-hidden
+          rounded-[24px]
+          border
+          border-black/[0.05]
+          bg-white
+          shadow-soft
+        "
+      >
+
+        <!-- Microphone -->
+        <div
+          id="micRow"
+          class="
+            flex
+            items-center
+            gap-3.5
+            border-b
+            border-black/[0.05]
+            px-4
+            py-4
+          "
+        >
+
+          <div
+            class="
+              flex
+              h-11
+              w-11
+              shrink-0
+              items-center
+              justify-center
+              rounded-[14px]
+              bg-green-light
+              text-green
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 15a3 3 0 003-3V7a3 3 0 10-6 0v5a3 3 0 003 3z"
+              />
+
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19 11a7 7 0 01-14 0M12 18v3M8.5 21h7"
+              />
+            </svg>
+          </div>
+
+          <div class="min-w-0 flex-1">
+
+            <p class="text-[14px] font-800 text-dark">
+              Microphone
+            </p>
+
+            <p
+              id="micStatus"
+              class="mt-0.5 text-[11px] text-muted"
+            >
+              Checking microphone access...
+            </p>
+
+          </div>
+
+          <div
+            id="micIcon"
+            class="
+              flex
+              h-8
+              w-8
+              items-center
+              justify-center
+              rounded-full
+              bg-black/[0.04]
+              text-muted
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 animate-spin"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                d="M12 3a9 9 0 109 9"
+              />
+            </svg>
+          </div>
+
+        </div>
+
+        <!-- Speaker -->
+        <div
+          id="speakerRow"
+          class="
+            flex
+            items-center
+            gap-3.5
+            border-b
+            border-black/[0.05]
+            px-4
+            py-4
+          "
+        >
+
+          <div
+            class="
+              flex
+              h-11
+              w-11
+              shrink-0
+              items-center
+              justify-center
+              rounded-[14px]
+              bg-green-light
+              text-green
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 10v4h3l4 3V7l-4 3H5z"
+              />
+
+              <path
+                stroke-linecap="round"
+                d="M16 9a4 4 0 010 6M18.5 6.5a7.5 7.5 0 010 11"
+              />
+            </svg>
+          </div>
+
+          <div class="min-w-0 flex-1">
+
+            <p class="text-[14px] font-800 text-dark">
+              Speaker
+            </p>
+
+            <p
+              id="speakerStatus"
+              class="mt-0.5 text-[11px] text-muted"
+            >
+              Ready to test
+            </p>
+
+          </div>
+
+          <div
+            id="speakerIcon"
+            class="
+              flex
+              h-8
+              w-8
+              items-center
+              justify-center
+              rounded-full
+              bg-black/[0.04]
+              text-muted
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14"
+              />
+            </svg>
+          </div>
+
+        </div>
+
+        <!-- Internet -->
+        <div
+          id="internetRow"
+          class="
+            flex
+            items-center
+            gap-3.5
+            px-4
+            py-4
+          "
+        >
+
+          <div
+            class="
+              flex
+              h-11
+              w-11
+              shrink-0
+              items-center
+              justify-center
+              rounded-[14px]
+              bg-green-light
+              text-green
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.7"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 9.5a11 11 0 0114 0M8 13a6.5 6.5 0 018 0M11 16.5a2 2 0 012 0M12 20h.01"
+              />
+            </svg>
+          </div>
+
+          <div class="min-w-0 flex-1">
+
+            <p class="text-[14px] font-800 text-dark">
+              Internet connection
+            </p>
+
+            <p
+              id="internetStatus"
+              class="mt-0.5 text-[11px] text-muted"
+            >
+              Checking connection...
+            </p>
+
+          </div>
+
+          <div
+            id="internetIcon"
+            class="
+              flex
+              h-8
+              w-8
+              items-center
+              justify-center
+              rounded-full
+              bg-black/[0.04]
+              text-muted
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 animate-spin"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                d="M12 3a9 9 0 109 9"
+              />
+            </svg>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================================
+           MICROPHONE TEST
+      ====================================================== -->
+      <div
+        id="micTestCard"
+        class="
+          mt-5
+          rounded-[22px]
+          border
+          border-green/10
+          bg-green-light/50
+          p-4
+        "
+      >
+
+        <div class="flex items-start gap-3">
+
+          <div
+            class="
+              flex
+              h-9
+              w-9
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-green
+              text-white
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-[18px] w-[18px]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 15a3 3 0 003-3V7a3 3 0 10-6 0v5a3 3 0 003 3z"
+              />
+
+              <path
+                stroke-linecap="round"
+                d="M19 11a7 7 0 01-14 0"
+              />
+            </svg>
+          </div>
+
+          <div class="flex-1">
+
+            <p class="text-[13px] font-800 text-dark">
+              Test your microphone
+            </p>
+
+            <p class="mt-1 text-[11px] leading-5 text-muted">
+              Say a few words when prompted. We'll check that your voice is
+              being detected clearly.
+            </p>
+
+            <!-- Mic level -->
+            <div class="mt-3 flex items-center gap-1.5">
+
+              <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-white">
+                <div
+                  id="level1"
+                  class="h-full w-[20%] rounded-full bg-green transition-all"
+                ></div>
+              </div>
+
+              <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-white">
+                <div
+                  id="level2"
+                  class="h-full w-[35%] rounded-full bg-green transition-all"
+                ></div>
+              </div>
+
+              <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-white">
+                <div
+                  id="level3"
+                  class="h-full w-[15%] rounded-full bg-green transition-all"
+                ></div>
+              </div>
+
+              <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-white">
+                <div
+                  id="level4"
+                  class="h-full w-[10%] rounded-full bg-green transition-all"
+                ></div>
+              </div>
+
+              <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-white">
+                <div
+                  id="level5"
+                  class="h-full w-[5%] rounded-full bg-green transition-all"
+                ></div>
+              </div>
+
+            </div>
+
+            <button
+              id="testMicBtn"
+              onclick="testMicrophone()"
+              class="
+                mt-3
+                inline-flex
+                items-center
+                gap-2
+                rounded-xl
+                bg-white
+                px-3.5
+                py-2.5
+                text-[11px]
+                font-800
+                text-green
+                shadow-sm
+                transition
+                active:scale-95
+              "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 15a3 3 0 003-3V7a3 3 0 10-6 0v5a3 3 0 003 3z"
+                />
+                <path
+                  stroke-linecap="round"
+                  d="M19 11a7 7 0 01-14 0"
+                />
+              </svg>
+
+              Test microphone
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================================
+           IMPORTANT
+      ====================================================== -->
+      <div class="mt-5 flex items-start gap-3 px-1">
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="mt-0.5 h-4 w-4 shrink-0 text-orange"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <circle cx="12" cy="12" r="9"></circle>
+          <path
+            stroke-linecap="round"
+            d="M12 8v4M12 16h.01"
+          />
+        </svg>
+
+        <p class="text-[10px] leading-4 text-muted">
+          Please use headphones or a quiet environment if possible. Do not
+          close this window or switch tabs during the assessment.
+        </p>
+
+      </div>
+
+    </section>
+
+    <!-- =======================================================
+         BOTTOM ACTION
+    ======================================================== -->
+    <div
+      class="
+        absolute
+        bottom-0
+        left-0
+        right-0
+        border-t
+        border-black/[0.05]
+        bg-surface/95
+        px-5
+        py-4
+        backdrop-blur-xl
+      "
+    >
+
+      <button
+        id="continueBtn"
+        onclick="continueToInstructions()"
+        disabled
+        class="
+          flex
+          h-[52px]
+          w-full
+          items-center
+          justify-center
+          gap-2
+          rounded-[18px]
+          bg-black/10
+          text-[14px]
+          font-800
+          text-muted
+          transition
+          disabled:cursor-not-allowed
+        "
+      >
+
+        Continue
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-[18px] w-[18px]"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 12h14M13 6l6 6-6 6"
+          />
+        </svg>
+
+      </button>
+
+      <p
+        id="readyText"
+        class="mt-2 text-center text-[9px] font-semibold text-muted"
+      >
+        Complete the device check to continue
+      </p>
+
+    </div>
+
+  </main>
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+  <script>
+
+    let microphoneReady = false;
+    let internetReady = false;
+
+    /* ---------------------------------------------------------
+       CHECK INTERNET
+    --------------------------------------------------------- */
+
+    function checkInternet() {
+
+      const status = document.getElementById("internetStatus");
+      const icon = document.getElementById("internetIcon");
+
+      if (navigator.onLine) {
+
+        internetReady = true;
+
+        status.textContent = "Connection looks good";
+        status.className = "mt-0.5 text-[11px] text-green font-semibold";
+
+        icon.className =
+          "flex h-8 w-8 items-center justify-center rounded-full bg-green-light text-green";
+
+        icon.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2.2">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M5 12l4 4L19 6"
+            />
+          </svg>
+        `;
+
+      } else {
+
+        status.textContent = "No internet connection";
+        status.className = "mt-0.5 text-[11px] text-red-500 font-semibold";
+
+      }
+
+      updateContinueButton();
+    }
+
+    /* ---------------------------------------------------------
+       CHECK MICROPHONE
+    --------------------------------------------------------- */
+
+    async function checkMicrophone() {
+
+      const status = document.getElementById("micStatus");
+      const icon = document.getElementById("micIcon");
+
+      try {
+
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true
+        });
+
+        microphoneReady = true;
+
+        status.textContent = "Microphone detected";
+        status.className =
+          "mt-0.5 text-[11px] text-green font-semibold";
+
+        icon.className =
+          "flex h-8 w-8 items-center justify-center rounded-full bg-green-light text-green";
+
+        icon.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2.2">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M5 12l4 4L19 6"
+            />
+          </svg>
+        `;
+
+        /*
+          Keep the stream alive only while needed.
+          For a production implementation you may keep
+          the stream for the actual assessment.
+        */
+
+        stream.getTracks().forEach(track => track.stop());
+
+      } catch (error) {
+
+        microphoneReady = false;
+
+        status.textContent =
+          "Microphone permission is required";
+
+        status.className =
+          "mt-0.5 text-[11px] text-red-500 font-semibold";
+
+        icon.className =
+          "flex h-8 w-8 items-center justify-center rounded-full bg-red-50 text-red-500";
+
+        icon.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 6l12 12M18 6L6 18"
+            />
+          </svg>
+        `;
+
+      }
+
+      updateContinueButton();
+    }
+
+    /* ---------------------------------------------------------
+       MICROPHONE LEVEL DEMO
+    --------------------------------------------------------- */
+
+    function testMicrophone() {
+
+      if (!microphoneReady) {
+
+        checkMicrophone();
+        return;
+
+      }
+
+      const button = document.getElementById("testMicBtn");
+
+      button.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 animate-pulse"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.8">
+          <path
+            stroke-linecap="round"
+            d="M12 15a3 3 0 003-3V7a3 3 0 10-6 0v5a3 3 0 003 3z"
+          />
+        </svg>
+        Listening...
+      `;
+
+      animateMicLevels();
+
+      setTimeout(() => {
+
+        button.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M5 12l4 4L19 6"
+            />
+          </svg>
+          Microphone works
+        `;
+
+        button.classList.remove("text-green");
+        button.classList.add("text-green");
+
+      }, 2500);
+    }
+
+    function animateMicLevels() {
+
+      const levels = [
+        document.getElementById("level1"),
+        document.getElementById("level2"),
+        document.getElementById("level3"),
+        document.getElementById("level4"),
+        document.getElementById("level5")
+      ];
+
+      let count = 0;
+
+      const interval = setInterval(() => {
+
+        levels.forEach((level) => {
+
+          const value =
+            Math.floor(Math.random() * 90) + 10;
+
+          level.style.width = value + "%";
+
+        });
+
+        count++;
+
+        if (count > 20) {
+
+          clearInterval(interval);
+
+          levels.forEach((level) => {
+            level.style.width = "65%";
+          });
+
+        }
+
+      }, 120);
+
+    }
+
+    /* ---------------------------------------------------------
+       UPDATE CONTINUE
+    --------------------------------------------------------- */
+
+    function updateContinueButton() {
+
+      const button = document.getElementById("continueBtn");
+      const readyText = document.getElementById("readyText");
+
+      if (microphoneReady && internetReady) {
+
+        button.disabled = false;
+
+        button.className = `
+          flex
+          h-[52px]
+          w-full
+          items-center
+          justify-center
+          gap-2
+          rounded-[18px]
+          bg-green
+          text-[14px]
+          font-800
+          text-white
+          shadow-[0_8px_20px_rgba(31,107,79,0.20)]
+          transition
+          hover:bg-[#18583F]
+          active:scale-[0.98]
+        `;
+
+        readyText.textContent =
+          "Your device is ready";
+
+        readyText.className =
+          "mt-2 text-center text-[9px] font-semibold text-green";
+
+      }
+
+    }
+
+    /* ---------------------------------------------------------
+       CONTINUE
+    --------------------------------------------------------- */
+
+    function continueToInstructions() {
+
+      if (!microphoneReady || !internetReady) {
+        return;
+      }
+
+      console.log(
+        "Device check complete → Test Instructions"
+      );
+
+      // Next screen:
+      // window.location.href = "test-instructions.html";
+
+    }
+
+    /* ---------------------------------------------------------
+       BACK
+    --------------------------------------------------------- */
+
+    function goBack() {
+
+      console.log("Back to Assessment Details");
+
+      // window.history.back();
+
+    }
+
+    /* ---------------------------------------------------------
+       INITIALIZE
+    --------------------------------------------------------- */
+
+    window.addEventListener("online", checkInternet);
+    window.addEventListener("offline", checkInternet);
+
+    checkInternet();
+    checkMicrophone();
+
+  </script>
+
+</body>
+</html>

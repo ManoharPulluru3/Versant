@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      font-family: "Nunito Sans", sans-serif;
+    }
+
+    body {
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body class="bg-[#F2F5E8] text-[#17221D]">
+
+  <div class="min-h-screen flex justify-center">
+
+    <main
+      class="w-full max-w-[430px] min-h-screen bg-[#FCFBF8] relative shadow-xl overflow-hidden"
+    >
+
+      <!-- ================= HEADER ================= -->
+      <header class="px-6 pt-7 pb-3">
+
+        <div class="flex items-center justify-between">
+
+          <!-- Back -->
+          <button
+            class="w-10 h-10 rounded-full bg-[#F2F5E8] flex items-center justify-center"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 18l-6-6 6-6"
+              />
+            </svg>
+          </button>
+
+          <!-- Title -->
+          <div class="text-center">
+
+            <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-[#7A837D]">
+              Practice
+            </p>
+
+            <h1 class="text-lg font-extrabold mt-0.5">
+              Speaking
+            </h1>
+
+          </div>
+
+          <!-- History -->
+          <button
+            class="w-10 h-10 rounded-full bg-[#F2F5E8] flex items-center justify-center"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 12a9 9 0 1 0 3-6.7"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 4v5h5"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 7v5l3 2"
+              />
+            </svg>
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- ================= HERO ================= -->
+      <section class="px-6 mt-5">
+
+        <div
+          class="rounded-[28px] bg-[#DCEBDD] p-6 relative overflow-hidden"
+        >
+
+          <!-- Decorative circle -->
+          <div
+            class="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-white/40"
+          ></div>
+
+          <div
+            class="absolute right-8 bottom-[-35px] w-24 h-24 rounded-full bg-[#E58A45]/10"
+          ></div>
+
+
+          <!-- Icon -->
+          <div
+            class="w-14 h-14 rounded-2xl bg-[#1F6B4F] text-white flex items-center justify-center relative z-10"
+          >
+
+            <svg
+              class="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 14a4 4 0 0 0 4-4V6a4 4 0 0 0-8 0v4a4 4 0 0 0 4 4Z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19 10a7 7 0 0 1-14 0"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 17v4"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8 21h8"
+              />
+            </svg>
+
+          </div>
+
+
+          <h2 class="text-[24px] font-extrabold tracking-tight mt-5 relative z-10">
+            Speak with confidence.
+          </h2>
+
+          <p class="text-sm text-[#617067] leading-5 mt-2 max-w-[310px] relative z-10">
+            Practice speaking naturally and improve your pronunciation,
+            fluency and communication.
+          </p>
+
+
+          <!-- Progress -->
+          <div class="mt-5 relative z-10">
+
+            <div class="flex items-center justify-between mb-2">
+
+              <span class="text-xs font-bold text-[#617067]">
+                Today's practice
+              </span>
+
+              <span class="text-xs font-extrabold text-[#1F6B4F]">
+                8 / 15 min
+              </span>
+
+            </div>
+
+            <div class="w-full h-2 rounded-full bg-white/70 overflow-hidden">
+
+              <div
+                class="h-full w-[53%] rounded-full bg-[#1F6B4F]"
+              ></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= QUICK START ================= -->
+      <section class="px-6 mt-7">
+
+        <div class="flex items-center justify-between">
+
+          <div>
+            <h2 class="text-lg font-extrabold">
+              Quick practice
+            </h2>
+
+            <p class="text-xs text-[#7A837D] mt-1">
+              Start with a short speaking activity
+            </p>
+          </div>
+
+          <span
+            class="text-[11px] font-bold text-[#E58A45]"
+          >
+            5–10 min
+          </span>
+
+        </div>
+
+
+        <!-- Quick Practice Card -->
+        <button
+          class="w-full mt-4 rounded-[24px] border border-[#E5E8E2] bg-white p-4 text-left"
+        >
+
+          <div class="flex items-center gap-4">
+
+            <div
+              class="w-12 h-12 shrink-0 rounded-2xl bg-[#FFF0E2] flex items-center justify-center"
+            >
+              <svg
+                class="w-6 h-6 text-[#E58A45]"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 14a4 4 0 0 0 4-4V6a4 4 0 0 0-8 0v4a4 4 0 0 0 4 4Z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 10a7 7 0 0 1-14 0"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 17v4"
+                />
+              </svg>
+            </div>
+
+
+            <div class="flex-1 min-w-0">
+
+              <h3 class="font-extrabold text-[15px]">
+                Speak about yourself
+              </h3>
+
+              <p class="text-xs text-[#7A837D] mt-1">
+                Answer a simple question
+              </p>
+
+              <div class="flex items-center gap-3 mt-2">
+
+                <span class="text-[11px] text-[#7A837D]">
+                  Beginner
+                </span>
+
+                <span class="text-[#D8DDD7]">•</span>
+
+                <span class="text-[11px] text-[#7A837D]">
+                  3 min
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="w-9 h-9 rounded-full bg-[#1F6B4F] text-white flex items-center justify-center shrink-0"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 18l6-6-6-6"
+                />
+              </svg>
+            </div>
+
+          </div>
+
+        </button>
+
+      </section>
+
+
+      <!-- ================= ACTIVITIES ================= -->
+      <section class="px-6 mt-7 pb-28">
+
+        <div class="flex items-end justify-between">
+
+          <div>
+
+            <h2 class="text-lg font-extrabold">
+              Speaking activities
+            </h2>
+
+            <p class="text-xs text-[#7A837D] mt-1">
+              Choose what you want to practice
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="mt-4 space-y-3">
+
+
+          <!-- Read Aloud -->
+          <button
+            class="w-full p-4 rounded-[22px] border border-[#E5E8E2] bg-white text-left"
+          >
+
+            <div class="flex items-center gap-4">
+
+              <div
+                class="w-11 h-11 rounded-xl bg-[#DCEBDD] flex items-center justify-center shrink-0"
+              >
+
+                <svg
+                  class="w-5 h-5 text-[#1F6B4F]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M5 4h10a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2V4Z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 8h5M9 12h5"
+                  />
+                </svg>
+
+              </div>
+
+
+              <div class="flex-1">
+
+                <h3 class="font-extrabold text-[15px]">
+                  Read Aloud
+                </h3>
+
+                <p class="text-xs text-[#7A837D] mt-0.5">
+                  Read sentences clearly and naturally
+                </p>
+
+              </div>
+
+
+              <div class="text-right">
+
+                <span class="block text-[11px] font-bold text-[#7A837D]">
+                  5 min
+                </span>
+
+                <svg
+                  class="w-4 h-4 ml-auto mt-2 text-[#A0A7A2]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 18l6-6-6-6"
+                  />
+                </svg>
+
+              </div>
+
+            </div>
+
+          </button>
+
+
+          <!-- Repeat -->
+          <button
+            class="w-full p-4 rounded-[22px] border border-[#E5E8E2] bg-white text-left"
+          >
+
+            <div class="flex items-center gap-4">
+
+              <div
+                class="w-11 h-11 rounded-xl bg-[#FFF0E2] flex items-center justify-center shrink-0"
+              >
+
+                <svg
+                  class="w-5 h-5 text-[#E58A45]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M8 6v12l10-6L8 6Z"
+                  />
+                </svg>
+
+              </div>
+
+
+              <div class="flex-1">
+
+                <h3 class="font-extrabold text-[15px]">
+                  Repeat
+                </h3>
+
+                <p class="text-xs text-[#7A837D] mt-0.5">
+                  Listen to a sentence and repeat it
+                </p>
+
+              </div>
+
+
+              <div class="text-right">
+
+                <span class="block text-[11px] font-bold text-[#7A837D]">
+                  5 min
+                </span>
+
+                <svg
+                  class="w-4 h-4 ml-auto mt-2 text-[#A0A7A2]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 18l6-6-6-6"
+                  />
+                </svg>
+
+              </div>
+
+            </div>
+
+          </button>
+
+
+          <!-- Short Answer -->
+          <button
+            class="w-full p-4 rounded-[22px] border border-[#E5E8E2] bg-white text-left"
+          >
+
+            <div class="flex items-center gap-4">
+
+              <div
+                class="w-11 h-11 rounded-xl bg-[#DCEBDD] flex items-center justify-center shrink-0"
+              >
+
+                <svg
+                  class="w-5 h-5 text-[#1F6B4F]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M7 8h10M7 12h6M5 20l2.5-3H19a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2"
+                  />
+                </svg>
+
+              </div>
+
+
+              <div class="flex-1">
+
+                <h3 class="font-extrabold text-[15px]">
+                  Short Answer
+                </h3>
+
+                <p class="text-xs text-[#7A837D] mt-0.5">
+                  Answer everyday questions naturally
+                </p>
+
+              </div>
+
+
+              <div class="text-right">
+
+                <span class="block text-[11px] font-bold text-[#7A837D]">
+                  5 min
+                </span>
+
+                <svg
+                  class="w-4 h-4 ml-auto mt-2 text-[#A0A7A2]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 18l6-6-6-6"
+                  />
+                </svg>
+
+              </div>
+
+            </div>
+
+          </button>
+
+
+          <!-- Story Retelling -->
+          <button
+            class="w-full p-4 rounded-[22px] border border-[#E5E8E2] bg-white text-left"
+          >
+
+            <div class="flex items-center gap-4">
+
+              <div
+                class="w-11 h-11 rounded-xl bg-[#F2F5E8] flex items-center justify-center shrink-0"
+              >
+
+                <svg
+                  class="w-5 h-5 text-[#1F6B4F]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4 5h16M4 9h16M4 13h10"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17 16l3 3m0 0l-3 3m3-3h-7"
+                  />
+                </svg>
+
+              </div>
+
+
+              <div class="flex-1">
+
+                <h3 class="font-extrabold text-[15px]">
+                  Story Retelling
+                </h3>
+
+                <p class="text-xs text-[#7A837D] mt-0.5">
+                  Listen to a story and retell it
+                </p>
+
+              </div>
+
+
+              <div class="text-right">
+
+                <span class="block text-[11px] font-bold text-[#7A837D]">
+                  7 min
+                </span>
+
+                <svg
+                  class="w-4 h-4 ml-auto mt-2 text-[#A0A7A2]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 18l6-6-6-6"
+                  />
+                </svg>
+
+              </div>
+
+            </div>
+
+          </button>
+
+
+          <!-- Open Question -->
+          <button
+            class="w-full p-4 rounded-[22px] border border-[#E5E8E2] bg-white text-left"
+          >
+
+            <div class="flex items-center gap-4">
+
+              <div
+                class="w-11 h-11 rounded-xl bg-[#FFF0E2] flex items-center justify-center shrink-0"
+              >
+
+                <svg
+                  class="w-5 h-5 text-[#E58A45]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="9"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9.5 9a2.5 2.5 0 1 1 4.2 1.8c-1.1.9-1.7 1.3-1.7 2.7"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linecap="round"
+                    d="M12 17h.01"
+                  />
+                </svg>
+
+              </div>
+
+
+              <div class="flex-1">
+
+                <h3 class="font-extrabold text-[15px]">
+                  Open Question
+                </h3>
+
+                <p class="text-xs text-[#7A837D] mt-0.5">
+                  Express your thoughts on a topic
+                </p>
+
+              </div>
+
+
+              <div class="text-right">
+
+                <span class="block text-[11px] font-bold text-[#7A837D]">
+                  7 min
+                </span>
+
+                <svg
+                  class="w-4 h-4 ml-auto mt-2 text-[#A0A7A2]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 18l6-6-6-6"
+                  />
+                </svg>
+
+              </div>
+
+            </div>
+
+          </button>
+
+        </div>
+
+
+        <!-- Tip -->
+        <div class="mt-5 p-4 rounded-2xl bg-[#F2F5E8]">
+
+          <div class="flex gap-3">
+
+            <div
+              class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0"
+            >
+              <span class="text-sm">💡</span>
+            </div>
+
+            <div>
+
+              <p class="text-xs font-extrabold">
+                Speaking tip
+              </p>
+
+              <p class="text-xs text-[#7A837D] leading-5 mt-1">
+                Focus on speaking naturally. Don't worry about being perfect.
+                Clear and confident communication matters most.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= BOTTOM NAV ================= -->
+      <nav
+        class="absolute bottom-0 left-0 right-0 bg-[#FCFBF8]/95 backdrop-blur border-t border-[#E8EAE5] px-5 py-3"
+      >
+
+        <div class="flex justify-between">
+
+          <!-- Home -->
+          <button class="flex flex-col items-center gap-1 text-[#7A837D]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+              stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 11.5 12 4l9 7.5" />
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M5 10v9h14v-9" />
+            </svg>
+
+            <span class="text-[10px] font-semibold">
+              Home
+            </span>
+          </button>
+
+
+          <!-- Practice -->
+          <button class="flex flex-col items-center gap-1 text-[#1F6B4F]">
+
+            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+              stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 3a9 9 0 1 0 9 9" />
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 7v5l3 2" />
+            </svg>
+
+            <span class="text-[10px] font-extrabold">
+              Practice
+            </span>
+
+          </button>
+
+
+          <!-- Tests -->
+          <button class="flex flex-col items-center gap-1 text-[#7A837D]">
+
+            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+              stroke-width="1.8" viewBox="0 0 24 24">
+              <rect x="5" y="4" width="14" height="17" rx="2" />
+              <path stroke-linecap="round" d="M8 8h8M8 12h8M8 16h5" />
+            </svg>
+
+            <span class="text-[10px] font-semibold">
+              Tests
+            </span>
+
+          </button>
+
+
+          <!-- Progress -->
+          <button class="flex flex-col items-center gap-1 text-[#7A837D]">
+
+            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+              stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4 19V9M10 19V5M16 19v-7M22 19H2" />
+            </svg>
+
+            <span class="text-[10px] font-semibold">
+              Progress
+            </span>
+
+          </button>
+
+
+          <!-- Profile -->
+          <button class="flex flex-col items-center gap-1 text-[#7A837D]">
+
+            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+              stroke-width="1.8" viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="3.5" />
+              <path stroke-linecap="round"
+                d="M5 20c.8-3.2 3.3-5 7-5s6.2 1.8 7 5" />
+            </svg>
+
+            <span class="text-[10px] font-semibold">
+              Profile
+            </span>
+
+          </button>
+
+        </div>
+
+      </nav>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

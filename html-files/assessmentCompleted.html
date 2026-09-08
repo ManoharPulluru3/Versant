@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Assessment Completed — ElytEdu</title>
+
+  <!-- Nunito Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['Nunito Sans', 'sans-serif']
+          },
+          colors: {
+            brand: '#1F6B4F',
+            'brand-light': '#DCEBDD',
+            orange: '#E58A45',
+            ink: '#17221D',
+            muted: '#7A837D',
+            cream: '#F2F5E8',
+            surface: '#FCFBF8'
+          },
+          boxShadow: {
+            soft: '0 20px 60px rgba(31, 107, 79, 0.08)'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-screen bg-[#F2F5E8] font-nunito text-[#17221D]">
+
+  <!-- Decorative background -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+
+    <div
+      class="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#DCEBDD] opacity-70 blur-3xl">
+    </div>
+
+    <div
+      class="absolute top-1/3 -right-32 h-80 w-80 rounded-full bg-[#F5DCC7] opacity-50 blur-3xl">
+    </div>
+
+    <div
+      class="absolute -bottom-32 left-1/3 h-72 w-72 rounded-full bg-[#DCEBDD] opacity-50 blur-3xl">
+    </div>
+
+  </div>
+
+  <!-- Main -->
+  <main class="relative min-h-screen flex items-center justify-center px-4 py-6 sm:px-6">
+
+    <div
+      class="w-full max-w-[1180px] min-h-[calc(100vh-48px)]
+             rounded-[40px] bg-[#FCFBF8]
+             shadow-[0_24px_80px_rgba(23,34,29,0.08)]
+             border border-[#E9EDE5]
+             flex flex-col overflow-hidden"
+    >
+
+      <!-- Header -->
+      <header class="h-[76px] shrink-0 border-b border-[#ECEFE9] px-5 sm:px-8 flex items-center justify-between">
+
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+
+          <div
+            class="h-10 w-10 rounded-xl bg-[#1F6B4F]
+                   flex items-center justify-center relative"
+          >
+            <!-- Speech bubble -->
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              class="w-5 h-5 text-white"
+            >
+              <path
+                d="M5 6.5C5 5.12 6.12 4 7.5 4h9C17.88 4 19 5.12 19 6.5v6c0 1.38-1.12 2.5-2.5 2.5H12l-4.5 3v-3H7.5C6.12 15 5 13.88 5 12.5v-6Z"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9 9h6M9 12h4"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <!-- Orange dot -->
+            <span
+              class="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-[#E58A45] border-2 border-[#FCFBF8]"
+            ></span>
+          </div>
+
+          <div class="hidden sm:block">
+            <div class="font-extrabold text-[17px] tracking-[-0.3px]">
+              ElytEdu
+            </div>
+            <div class="text-[9px] font-bold tracking-[1.5px] text-[#7A837D]">
+              ENGLISH ASSESSMENT
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Status -->
+        <div class="flex items-center gap-2">
+
+          <span class="h-2 w-2 rounded-full bg-[#1F6B4F]"></span>
+
+          <span class="text-[12px] sm:text-[13px] font-semibold text-[#7A837D]">
+            Assessment submitted
+          </span>
+
+        </div>
+
+      </header>
+
+      <!-- Content -->
+      <section class="flex-1 flex items-center justify-center px-5 py-12 sm:px-10 lg:px-16">
+
+        <div class="w-full max-w-[720px] text-center">
+
+          <!-- Success icon -->
+          <div class="relative mx-auto mb-7 w-fit">
+
+            <!-- Outer glow -->
+            <div
+              class="absolute inset-0 rounded-full bg-[#DCEBDD] blur-2xl opacity-80 scale-125">
+            </div>
+
+            <!-- Circle -->
+            <div
+              class="relative h-24 w-24 sm:h-28 sm:w-28 rounded-full
+                     bg-[#DCEBDD]
+                     flex items-center justify-center"
+            >
+
+              <div
+                class="h-[72px] w-[72px] sm:h-[82px] sm:w-[82px]
+                       rounded-full bg-[#1F6B4F]
+                       flex items-center justify-center
+                       shadow-[0_12px_30px_rgba(31,107,79,0.18)]"
+              >
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="w-9 h-9 sm:w-10 sm:h-10 text-white"
+                >
+                  <path
+                    d="M5 12.5 9.2 17 19 7"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+              </div>
+
+            </div>
+
+            <!-- Small orange accent -->
+            <span
+              class="absolute -right-1 top-2 h-4 w-4 rounded-full bg-[#E58A45]
+                     border-[3px] border-[#FCFBF8]"
+            ></span>
+
+          </div>
+
+          <!-- Heading -->
+          <div class="max-w-[600px] mx-auto">
+
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1.5
+                     rounded-full bg-[#F1F5F0]
+                     border border-[#E2EAE3]
+                     text-[#1F6B4F] text-[11px] font-extrabold
+                     uppercase tracking-[1.2px] mb-4"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-[#1F6B4F]"></span>
+              Assessment submitted
+            </div>
+
+            <h1
+              class="text-[32px] sm:text-[42px] lg:text-[46px]
+                     leading-[1.08] font-extrabold
+                     tracking-[-1.5px]"
+            >
+              Assessment completed.
+            </h1>
+
+            <p
+              class="mt-4 text-[15px] sm:text-[17px]
+                     leading-7 text-[#7A837D]"
+            >
+              Well done, Emma! Your English Communication Test has been
+              submitted successfully.
+            </p>
+
+          </div>
+
+          <!-- Summary card -->
+          <div
+            class="mt-9 bg-white rounded-[24px]
+                   border border-[#E7EBE5]
+                   shadow-[0_12px_40px_rgba(23,34,29,0.05)]
+                   overflow-hidden text-left"
+          >
+
+            <!-- Card heading -->
+            <div
+              class="px-5 sm:px-6 py-4
+                     border-b border-[#ECEFE9]
+                     flex items-center justify-between"
+            >
+
+              <div>
+                <p class="text-[11px] font-extrabold uppercase tracking-[1px] text-[#7A837D]">
+                  Completed assessment
+                </p>
+
+                <h2 class="mt-1 text-[16px] sm:text-[17px] font-extrabold">
+                  English Communication Test
+                </h2>
+              </div>
+
+              <div
+                class="h-9 w-9 rounded-xl bg-[#DCEBDD]
+                       flex items-center justify-center"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="w-5 h-5 text-[#1F6B4F]"
+                >
+                  <path
+                    d="M7 3.8h7.5L19 8.3V20H7a2 2 0 0 1-2-2V5.8a2 2 0 0 1 2-2Z"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14 3.8V9h5"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="m8.5 14 2.2 2.2 4.8-5"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-3 divide-x divide-[#ECEFE9]">
+
+              <!-- Questions -->
+              <div class="px-3 sm:px-6 py-5">
+
+                <p class="text-[11px] font-bold text-[#7A837D]">
+                  Questions
+                </p>
+
+                <p class="mt-1 text-[21px] sm:text-[24px] font-extrabold">
+                  12
+                </p>
+
+                <p class="mt-0.5 text-[10px] sm:text-[11px] text-[#7A837D]">
+                  Completed
+                </p>
+
+              </div>
+
+              <!-- Time -->
+              <div class="px-3 sm:px-6 py-5">
+
+                <p class="text-[11px] font-bold text-[#7A837D]">
+                  Time spent
+                </p>
+
+                <p class="mt-1 text-[21px] sm:text-[24px] font-extrabold">
+                  27:42
+                </p>
+
+                <p class="mt-0.5 text-[10px] sm:text-[11px] text-[#7A837D]">
+                  Minutes
+                </p>
+
+              </div>
+
+              <!-- Skills -->
+              <div class="px-3 sm:px-6 py-5">
+
+                <p class="text-[11px] font-bold text-[#7A837D]">
+                  Skills
+                </p>
+
+                <p class="mt-1 text-[21px] sm:text-[24px] font-extrabold">
+                  4
+                </p>
+
+                <p class="mt-0.5 text-[10px] sm:text-[11px] text-[#7A837D]">
+                  Assessed
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Results information -->
+          <div
+            class="mt-5 rounded-[20px]
+                   bg-[#F5F7F2]
+                   border border-[#E7ECE4]
+                   px-5 py-4
+                   flex items-start gap-3 text-left"
+          >
+
+            <div
+              class="shrink-0 h-8 w-8 rounded-lg
+                     bg-[#DCEBDD]
+                     flex items-center justify-center"
+            >
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                class="w-4 h-4 text-[#1F6B4F]"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="8.5"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                />
+
+                <path
+                  d="M12 10.5v5"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+
+                <circle
+                  cx="12"
+                  cy="7.5"
+                  r="1"
+                  fill="currentColor"
+                />
+              </svg>
+
+            </div>
+
+            <div>
+
+              <p class="text-[13px] font-extrabold">
+                Your results are being prepared
+              </p>
+
+              <p class="mt-1 text-[12px] leading-5 text-[#7A837D]">
+                Your speaking, listening, reading and writing responses
+                will be evaluated. Your detailed score and skill report
+                will be available shortly.
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- Actions -->
+          <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+
+            <button
+              onclick="viewResults()"
+              class="w-full sm:w-auto min-w-[210px]
+                     h-12 px-6 rounded-xl
+                     bg-[#1F6B4F] text-white
+                     text-[14px] font-extrabold
+                     shadow-[0_8px_20px_rgba(31,107,79,0.16)]
+                     hover:bg-[#195A42]
+                     active:scale-[0.98]
+                     transition"
+            >
+              View Results
+            </button>
+
+            <button
+              onclick="goHome()"
+              class="w-full sm:w-auto min-w-[150px]
+                     h-12 px-6 rounded-xl
+                     bg-white text-[#17221D]
+                     border border-[#DDE3DC]
+                     text-[14px] font-extrabold
+                     hover:bg-[#F7F8F5]
+                     active:scale-[0.98]
+                     transition"
+            >
+              Back to Home
+            </button>
+
+          </div>
+
+          <!-- Footer message -->
+          <p
+            class="mt-7 text-[11px] sm:text-[12px]
+                   text-[#9AA19C]"
+          >
+            You can safely leave this page. Your assessment has been submitted.
+          </p>
+
+        </div>
+
+      </section>
+
+      <!-- Bottom footer -->
+      <footer
+        class="shrink-0 border-t border-[#ECEFE9]
+               px-5 sm:px-8 py-4
+               flex items-center justify-center"
+      >
+
+        <p class="text-[10px] font-bold tracking-[1.4px] text-[#9AA19C]">
+          POWERED BY ELYTEDU
+        </p>
+
+      </footer>
+
+    </div>
+
+  </main>
+
+  <!-- JS -->
+  <script>
+
+    function viewResults() {
+      // Replace with your actual results route
+      window.location.href = "/assessment/results";
+    }
+
+    function goHome() {
+      // Replace with your actual home route
+      window.location.href = "/home";
+    }
+
+  </script>
+
+</body>
+</html>

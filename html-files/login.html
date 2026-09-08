@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>ElytEdu - Login</title>
+
+  <!-- Nunito Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['Nunito Sans', 'sans-serif'],
+          },
+          colors: {
+            cream: '#F2F5E8',
+            surface: '#FCFBF8',
+            green: '#1F6B4F',
+            greenLight: '#DCEBDD',
+            orange: '#E58A45',
+            dark: '#17221D',
+            muted: '#7A837D',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: #e8ece2;
+    }
+
+    .soft-shadow {
+      box-shadow: 0 20px 60px rgba(35, 52, 43, 0.08);
+    }
+
+    input::placeholder {
+      color: #A1A8A2;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- APP FRAME -->
+  <main
+    class="relative mx-auto flex min-h-screen max-w-[430px] flex-col overflow-hidden bg-[#FCFBF8] lg:my-6 lg:min-h-[900px] lg:rounded-[40px] soft-shadow"
+  >
+
+    <!-- ===================================================== -->
+    <!-- DECORATIVE BACKGROUND -->
+    <!-- ===================================================== -->
+
+    <div
+      class="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#DCEBDD]"
+    ></div>
+
+    <div
+      class="absolute -bottom-28 -left-24 h-64 w-64 rounded-full bg-[#FFF0DF]"
+    ></div>
+
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <header class="relative px-6 pt-7">
+
+      <button
+        class="flex h-10 w-10 items-center justify-center rounded-full bg-[#F2F5E8]"
+        aria-label="Back"
+      >
+
+        <svg
+          class="h-5 w-5 text-[#17221D]"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19 12H5M11 18l-6-6 6-6"
+          />
+        </svg>
+
+      </button>
+
+    </header>
+
+
+    <!-- ===================================================== -->
+    <!-- LOGIN CONTENT -->
+    <!-- ===================================================== -->
+
+    <div class="relative flex flex-1 flex-col px-6 pt-12">
+
+      <!-- Brand -->
+
+      <div>
+
+        <div class="flex items-center gap-3">
+
+          <div
+            class="flex h-12 w-12 items-center justify-center rounded-[16px] bg-[#1F6B4F]"
+          >
+
+            <svg
+              class="h-6 w-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              viewBox="0 0 48 48"
+            >
+
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 12.5A5.5 5.5 0 0 1 14.5 7h19A5.5 5.5 0 0 1 39 12.5v13A5.5 5.5 0 0 1 33.5 31H23l-8.5 7v-7A5.5 5.5 0 0 1 9 25.5v-13Z"
+              />
+
+              <path
+                stroke-linecap="round"
+                d="M17 18h14M17 23h9"
+              />
+
+            </svg>
+
+          </div>
+
+          <div>
+
+            <h1 class="text-[20px] font-black tracking-[-0.6px] text-[#17221D]">
+              Elyt<span class="text-[#1F6B4F]">Edu</span>
+            </h1>
+
+            <p class="text-[9px] font-bold uppercase tracking-[1.5px] text-[#9AA19B]">
+              English Assessment
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Heading -->
+
+      <div class="mt-10">
+
+        <h2
+          class="text-[29px] font-black leading-[1.15] tracking-[-0.9px] text-[#17221D]"
+        >
+          Welcome back.
+        </h2>
+
+        <p
+          class="mt-2 max-w-[300px] text-[13px] font-medium leading-5 text-[#7A837D]"
+        >
+          Sign in to continue your English assessment and practice.
+        </p>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- FORM -->
+      <!-- ================================================= -->
+
+      <form class="mt-9">
+
+        <!-- Student ID -->
+
+        <div>
+
+          <label
+            class="mb-2 block text-[11px] font-extrabold text-[#39443E]"
+          >
+            Student ID / Email
+          </label>
+
+          <div class="relative">
+
+            <div
+              class="pointer-events-none absolute left-4 top-1/2 flex -translate-y-1/2 items-center justify-center"
+            >
+
+              <svg
+                class="h-[18px] w-[18px] text-[#8E9790]"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                viewBox="0 0 24 24"
+              >
+
+                <circle cx="12" cy="8" r="3.5"/>
+
+                <path
+                  stroke-linecap="round"
+                  d="M5 20a7 7 0 0 1 14 0"
+                />
+
+              </svg>
+
+            </div>
+
+            <input
+              type="text"
+              placeholder="Enter your student ID or email"
+              class="h-[54px] w-full rounded-[17px] border border-[#E7EBE3] bg-[#F7F8F3] pl-12 pr-4 text-[12px] font-semibold text-[#17221D] outline-none transition focus:border-[#1F6B4F] focus:bg-white"
+            />
+
+          </div>
+
+        </div>
+
+
+        <!-- Password -->
+
+        <div class="mt-5">
+
+          <div class="mb-2 flex items-center justify-between">
+
+            <label
+              class="block text-[11px] font-extrabold text-[#39443E]"
+            >
+              Password
+            </label>
+
+            <button
+              type="button"
+              class="text-[10px] font-extrabold text-[#1F6B4F]"
+            >
+              Forgot password?
+            </button>
+
+          </div>
+
+
+          <div class="relative">
+
+            <div
+              class="pointer-events-none absolute left-4 top-1/2 flex -translate-y-1/2 items-center justify-center"
+            >
+
+              <svg
+                class="h-[18px] w-[18px] text-[#8E9790]"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                viewBox="0 0 24 24"
+              >
+
+                <rect
+                  x="5"
+                  y="10"
+                  width="14"
+                  height="11"
+                  rx="2"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  d="M8 10V7a4 4 0 0 1 8 0v3"
+                />
+
+              </svg>
+
+            </div>
+
+
+            <input
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              class="h-[54px] w-full rounded-[17px] border border-[#E7EBE3] bg-[#F7F8F3] pl-12 pr-12 text-[12px] font-semibold text-[#17221D] outline-none transition focus:border-[#1F6B4F] focus:bg-white"
+            />
+
+
+            <button
+              type="button"
+              onclick="togglePassword()"
+              class="absolute right-4 top-1/2 -translate-y-1/2"
+            >
+
+              <svg
+                id="eyeIcon"
+                class="h-[18px] w-[18px] text-[#8E9790]"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                viewBox="0 0 24 24"
+              >
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                />
+
+                <circle cx="12" cy="12" r="2.5"/>
+
+              </svg>
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- Remember -->
+
+        <div class="mt-5 flex items-center gap-2">
+
+          <input
+            id="remember"
+            type="checkbox"
+            class="h-4 w-4 rounded border-[#D7DED5] accent-[#1F6B4F]"
+          />
+
+          <label
+            for="remember"
+            class="text-[10px] font-semibold text-[#7A837D]"
+          >
+            Keep me signed in
+          </label>
+
+        </div>
+
+
+        <!-- Login button -->
+
+        <button
+          type="button"
+          class="mt-7 flex h-[54px] w-full items-center justify-center gap-2 rounded-[17px] bg-[#1F6B4F] text-[13px] font-extrabold text-white shadow-[0_8px_20px_rgba(31,107,79,0.16)] transition active:scale-[0.98]"
+        >
+
+          Sign In
+
+          <svg
+            class="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+
+            <path
+              stroke-linecap="round"
+              d="M5 12h13M13 6l6 6-6 6"
+            />
+
+          </svg>
+
+        </button>
+
+      </form>
+
+
+      <!-- ================================================= -->
+      <!-- COLLEGE ACCESS -->
+      <!-- ================================================= -->
+
+      <div class="mt-8 flex items-center gap-3">
+
+        <div class="h-px flex-1 bg-[#EAEDE7]"></div>
+
+        <span class="text-[9px] font-bold uppercase tracking-[1px] text-[#A0A69F]">
+          College Access
+        </span>
+
+        <div class="h-px flex-1 bg-[#EAEDE7]"></div>
+
+      </div>
+
+
+      <button
+        class="mt-4 flex h-[50px] w-full items-center justify-center gap-2 rounded-[16px] border border-[#E5EAE2] bg-white text-[11px] font-extrabold text-[#39443E]"
+      >
+
+        <svg
+          class="h-4 w-4 text-[#1F6B4F]"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          viewBox="0 0 24 24"
+        >
+
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 20V8l8-5 8 5v12M2 20h20"
+          />
+
+          <path
+            stroke-linecap="round"
+            d="M8 12h1M12 12h1M16 12h1M8 16h1M12 16h1M16 16h1"
+          />
+
+        </svg>
+
+        Sign in with College ID
+
+      </button>
+
+
+      <!-- Help -->
+
+      <div class="mt-auto pb-9 pt-10 text-center">
+
+        <p class="text-[10px] font-medium text-[#9AA19B]">
+          Having trouble signing in?
+        </p>
+
+        <button
+          class="mt-1 text-[10px] font-extrabold text-[#1F6B4F]"
+        >
+          Contact your college administrator
+        </button>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ===================================================== -->
+  <!-- PASSWORD TOGGLE -->
+  <!-- ===================================================== -->
+
+  <script>
+
+    function togglePassword() {
+
+      const password = document.getElementById('password');
+
+      if (password.type === 'password') {
+        password.type = 'text';
+      } else {
+        password.type = 'password';
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>

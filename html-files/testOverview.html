@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElytEdu — Test Overview</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F2F5E8',
+            surface: '#FCFBF8',
+            green: '#1F6B4F',
+            lightgreen: '#DCEBDD',
+            orange: '#E58A45',
+            dark: '#17221D',
+            muted: '#7A837D'
+          },
+          fontFamily: {
+            nunito: ['Nunito Sans', 'sans-serif']
+          },
+          boxShadow: {
+            app: '0 24px 70px rgba(31,107,79,0.10)'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-cream font-nunito text-dark antialiased">
+
+  <!-- Background decoration -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-green/10 blur-3xl"></div>
+    <div class="absolute top-1/3 -right-24 w-72 h-72 rounded-full bg-orange/10 blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/3 w-80 h-80 rounded-full bg-green/5 blur-3xl"></div>
+  </div>
+
+
+  <!-- App -->
+  <main class="relative min-h-screen flex justify-center lg:py-8">
+
+    <div class="w-full max-w-[430px] min-h-screen lg:min-h-[850px]
+                bg-surface lg:rounded-[40px] lg:shadow-app
+                overflow-hidden flex flex-col">
+
+      <!-- ================= HEADER ================= -->
+      <header class="px-5 pt-5">
+
+        <div class="flex items-center justify-between">
+
+          <!-- Back -->
+          <button
+            onclick="goBack()"
+            class="w-10 h-10 rounded-full border border-black/5
+                   flex items-center justify-center
+                   hover:bg-green/5 transition">
+
+            <svg width="19" height="19" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5"/>
+              <path d="M12 19l-7-7 7-7"/>
+            </svg>
+
+          </button>
+
+
+          <!-- Logo -->
+          <div class="flex items-center gap-2">
+
+            <div class="w-8 h-8 rounded-[11px] bg-green
+                        flex items-center justify-center relative">
+
+              <svg width="16" height="16" viewBox="0 0 24 24"
+                   fill="none" stroke="white" stroke-width="2">
+                <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5
+                         7.4 7.4 0 0 1-3.2-.7L4 20l1.7-4.2
+                         A7.5 7.5 0 1 1 20 11.5Z"/>
+              </svg>
+
+              <span class="absolute -right-0.5 -top-0.5
+                           w-2 h-2 rounded-full bg-orange"></span>
+
+            </div>
+
+            <span class="text-sm font-800 tracking-tight">
+              ElytEdu
+            </span>
+
+          </div>
+
+
+          <!-- Step -->
+          <div class="text-right">
+            <p class="text-[10px] uppercase tracking-[0.14em]
+                      font-700 text-muted">
+              Assessment
+            </p>
+
+            <p class="text-xs font-800 text-green">
+              Step 3 of 4
+            </p>
+          </div>
+
+        </div>
+
+
+        <!-- Progress -->
+        <div class="mt-5 h-1.5 bg-green/10 rounded-full overflow-hidden">
+          <div class="h-full w-3/4 bg-green rounded-full"></div>
+        </div>
+
+      </header>
+
+
+
+      <!-- ================= CONTENT ================= -->
+      <section class="flex-1 px-5 pt-7 pb-36 overflow-y-auto">
+
+        <!-- Heading -->
+        <div class="mb-7">
+
+          <div class="w-12 h-12 rounded-[16px] bg-lightgreen
+                      flex items-center justify-center mb-4">
+
+            <svg width="24" height="24" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="1.8"
+                 class="text-green">
+
+              <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5
+                       A2.5 2.5 0 0 0 4 21.5v-16Z"/>
+
+              <path d="M4 5.5v14"/>
+              <path d="M8 7h8"/>
+              <path d="M8 11h8"/>
+            </svg>
+
+          </div>
+
+          <h1 class="text-[28px] leading-tight font-800 tracking-tight">
+            Your assessment
+          </h1>
+
+          <p class="mt-2 text-sm leading-6 text-muted max-w-[360px]">
+            Here's what you'll complete in your English Communication Test.
+            Take your time and focus on each section.
+          </p>
+
+        </div>
+
+
+
+        <!-- ================= SUMMARY ================= -->
+        <div class="bg-lightgreen rounded-[24px] p-5 mb-6">
+
+          <div class="flex items-start justify-between">
+
+            <div>
+              <p class="text-[10px] uppercase tracking-[0.14em]
+                        font-800 text-green/70">
+                English
+              </p>
+
+              <h2 class="mt-1 text-lg font-800">
+                Communication Test
+              </h2>
+            </div>
+
+            <div class="w-10 h-10 rounded-[13px] bg-white/70
+                        flex items-center justify-center">
+
+              <svg width="20" height="20" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor"
+                   stroke-width="1.8" class="text-green">
+
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+              </svg>
+
+            </div>
+
+          </div>
+
+
+          <div class="grid grid-cols-2 gap-3 mt-5">
+
+            <div class="bg-white/65 rounded-[16px] p-3.5">
+              <p class="text-[11px] text-muted">
+                Estimated time
+              </p>
+              <p class="mt-1 font-800 text-base">
+                30 minutes
+              </p>
+            </div>
+
+            <div class="bg-white/65 rounded-[16px] p-3.5">
+              <p class="text-[11px] text-muted">
+                Total questions
+              </p>
+              <p class="mt-1 font-800 text-base">
+                40 questions
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================= ASSESSMENT JOURNEY ================= -->
+        <div class="mb-7">
+
+          <div class="flex items-center justify-between mb-4">
+
+            <h2 class="text-base font-800">
+              Assessment journey
+            </h2>
+
+            <span class="text-[11px] font-700 text-muted">
+              4 sections
+            </span>
+
+          </div>
+
+
+          <div class="relative">
+
+            <!-- Connecting line -->
+            <div class="absolute left-[20px] top-6 bottom-6
+                        w-px bg-green/15"></div>
+
+
+            <!-- Speaking -->
+            <div class="relative flex gap-4 pb-4">
+
+              <div class="relative z-10 w-10 h-10 shrink-0
+                          rounded-[13px] bg-green
+                          flex items-center justify-center">
+
+                <svg width="19" height="19" viewBox="0 0 24 24"
+                     fill="none" stroke="white" stroke-width="1.8">
+                  <rect x="9" y="3" width="6" height="11" rx="3"/>
+                  <path d="M5 11a7 7 0 0 0 14 0"/>
+                  <path d="M12 18v3"/>
+                  <path d="M8 21h8"/>
+                </svg>
+
+              </div>
+
+              <div class="flex-1 bg-white border border-black/5
+                          rounded-[18px] px-4 py-3.5">
+
+                <div class="flex items-center justify-between">
+
+                  <div>
+                    <h3 class="font-800 text-sm">
+                      Speaking
+                    </h3>
+
+                    <p class="text-[11px] text-muted mt-0.5">
+                      Speak clearly and naturally
+                    </p>
+                  </div>
+
+                  <span class="text-[11px] font-800 text-green">
+                    ~10 min
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            <!-- Listening -->
+            <div class="relative flex gap-4 pb-4">
+
+              <div class="relative z-10 w-10 h-10 shrink-0
+                          rounded-[13px] bg-white border border-green/15
+                          flex items-center justify-center">
+
+                <svg width="19" height="19" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor"
+                     stroke-width="1.8" class="text-green">
+
+                  <path d="M4 13a8 8 0 0 1 16 0"/>
+                  <path d="M4 13v3a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 2Z"/>
+                  <path d="M20 13v3a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2Z"/>
+                  <path d="M17 18c-.7 1.5-2 2.5-4 2.5"/>
+                </svg>
+
+              </div>
+
+              <div class="flex-1 bg-white border border-black/5
+                          rounded-[18px] px-4 py-3.5">
+
+                <div class="flex items-center justify-between">
+
+                  <div>
+                    <h3 class="font-800 text-sm">
+                      Listening
+                    </h3>
+
+                    <p class="text-[11px] text-muted mt-0.5">
+                      Listen and understand
+                    </p>
+                  </div>
+
+                  <span class="text-[11px] font-800 text-green">
+                    ~7 min
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            <!-- Reading -->
+            <div class="relative flex gap-4 pb-4">
+
+              <div class="relative z-10 w-10 h-10 shrink-0
+                          rounded-[13px] bg-white border border-green/15
+                          flex items-center justify-center">
+
+                <svg width="19" height="19" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor"
+                     stroke-width="1.8" class="text-green">
+
+                  <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5
+                           A2.5 2.5 0 0 0 4 21.5v-16Z"/>
+                  <path d="M4 5.5v14"/>
+                  <path d="M8 7h8"/>
+                  <path d="M8 11h7"/>
+
+                </svg>
+
+              </div>
+
+              <div class="flex-1 bg-white border border-black/5
+                          rounded-[18px] px-4 py-3.5">
+
+                <div class="flex items-center justify-between">
+
+                  <div>
+                    <h3 class="font-800 text-sm">
+                      Reading
+                    </h3>
+
+                    <p class="text-[11px] text-muted mt-0.5">
+                      Read and understand
+                    </p>
+                  </div>
+
+                  <span class="text-[11px] font-800 text-green">
+                    ~6 min
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            <!-- Writing -->
+            <div class="relative flex gap-4">
+
+              <div class="relative z-10 w-10 h-10 shrink-0
+                          rounded-[13px] bg-white border border-green/15
+                          flex items-center justify-center">
+
+                <svg width="19" height="19" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor"
+                     stroke-width="1.8" class="text-green">
+
+                  <path d="M12 20h9"/>
+                  <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1
+                           1-4 11.5-11.5Z"/>
+                </svg>
+
+              </div>
+
+              <div class="flex-1 bg-white border border-black/5
+                          rounded-[18px] px-4 py-3.5">
+
+                <div class="flex items-center justify-between">
+
+                  <div>
+                    <h3 class="font-800 text-sm">
+                      Writing
+                    </h3>
+
+                    <p class="text-[11px] text-muted mt-0.5">
+                      Write clearly and accurately
+                    </p>
+                  </div>
+
+                  <span class="text-[11px] font-800 text-green">
+                    ~7 min
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================= WHAT TO EXPECT ================= -->
+        <div>
+
+          <h2 class="text-base font-800 mb-4">
+            What to expect
+          </h2>
+
+          <div class="grid grid-cols-3 gap-2.5">
+
+            <div class="bg-[#F7F7F2] rounded-[17px] p-3.5">
+              <div class="w-8 h-8 rounded-[10px] bg-white
+                          flex items-center justify-center mb-2.5">
+
+                <svg width="16" height="16" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor"
+                     stroke-width="1.8" class="text-green">
+
+                  <circle cx="12" cy="12" r="9"/>
+                  <path d="M12 7v5l3 2"/>
+
+                </svg>
+
+              </div>
+
+              <p class="text-xs font-800">
+                Timed
+              </p>
+
+              <p class="text-[10px] text-muted mt-1 leading-4">
+                Each section has a time limit
+              </p>
+
+            </div>
+
+
+            <div class="bg-[#F7F7F2] rounded-[17px] p-3.5">
+
+              <div class="w-8 h-8 rounded-[10px] bg-white
+                          flex items-center justify-center mb-2.5">
+
+                <svg width="16" height="16" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor"
+                     stroke-width="1.8" class="text-green">
+
+                  <path d="M12 3v18"/>
+                  <path d="M7 8h10"/>
+                  <path d="M7 16h10"/>
+
+                </svg>
+
+              </div>
+
+              <p class="text-xs font-800">
+                Forward only
+              </p>
+
+              <p class="text-[10px] text-muted mt-1 leading-4">
+                You cannot return to earlier questions
+              </p>
+
+            </div>
+
+
+            <div class="bg-[#F7F7F2] rounded-[17px] p-3.5">
+
+              <div class="w-8 h-8 rounded-[10px] bg-white
+                          flex items-center justify-center mb-2.5">
+
+                <svg width="16" height="16" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor"
+                     stroke-width="1.8" class="text-green">
+
+                  <path d="M12 3l7 3v5c0 4.5-3 8-7 10
+                           -4-2-7-5.5-7-10V6l7-3Z"/>
+                  <path d="m9 12 2 2 4-4"/>
+
+                </svg>
+
+              </div>
+
+              <p class="text-xs font-800">
+                Recorded
+              </p>
+
+              <p class="text-[10px] text-muted mt-1 leading-4">
+                Responses are evaluated
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================= BOTTOM CTA ================= -->
+      <div class="fixed bottom-0 left-1/2 -translate-x-1/2
+                  w-full max-w-[430px]
+                  bg-surface/95 backdrop-blur-xl
+                  border-t border-black/5
+                  px-5 pt-4 pb-5">
+
+        <div class="flex items-center justify-between mb-3">
+
+          <div>
+            <p class="text-[10px] uppercase tracking-[0.12em]
+                      font-800 text-muted">
+              Ready?
+            </p>
+
+            <p class="text-sm font-800 mt-0.5">
+              30 min assessment
+            </p>
+          </div>
+
+          <div class="text-right">
+            <p class="text-[10px] text-muted">
+              40 questions
+            </p>
+
+            <p class="text-[11px] font-700 text-green mt-0.5">
+              4 skills
+            </p>
+          </div>
+
+        </div>
+
+
+        <button
+          onclick="continueToSample()"
+          class="w-full h-14 rounded-[18px] bg-green text-white
+                 font-800 text-sm
+                 flex items-center justify-center gap-2
+                 hover:bg-[#195C44] active:scale-[0.99]
+                 transition">
+
+          Continue to Sample
+
+          <svg width="18" height="18" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14"/>
+            <path d="m13 6 6 6-6 6"/>
+          </svg>
+
+        </button>
+
+      </div>
+
+    </div>
+  </main>
+
+
+
+  <!-- ================= JS ================= -->
+  <script>
+
+    function goBack() {
+      console.log("Going back to instructions");
+    }
+
+    function continueToSample() {
+      console.log("Continue to sample question");
+      // window.location.href = "/assessment/sample";
+    }
+
+  </script>
+
+</body>
+</html>

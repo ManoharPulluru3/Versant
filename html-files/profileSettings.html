@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElytEdu — Profile & Settings</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      font-family: "Nunito Sans", sans-serif;
+    }
+
+    body {
+      background: #F2F5E8;
+      color: #17221D;
+    }
+
+    .app-shell {
+      background: #FCFBF8;
+    }
+
+    .soft-shadow {
+      box-shadow:
+        0 24px 70px rgba(31, 107, 79, 0.08),
+        0 4px 18px rgba(23, 34, 29, 0.04);
+    }
+
+    .orb-green {
+      background: #DCEBDD;
+    }
+
+    .orb-orange {
+      background: #F4D7BE;
+    }
+
+    .setting-row {
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .setting-row:hover {
+      background: #F7F8F2;
+    }
+
+    .nav-item {
+      transition: all 0.2s ease;
+    }
+
+    .nav-item:hover {
+      transform: translateY(-1px);
+    }
+
+    .toggle {
+      transition: background 0.2s ease;
+    }
+
+    .toggle-dot {
+      transition: transform 0.2s ease;
+    }
+
+    .toggle.active {
+      background: #1F6B4F;
+    }
+
+    .toggle.active .toggle-dot {
+      transform: translateX(20px);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- Decorative background -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-32 -left-32 w-80 h-80 rounded-full orb-green blur-3xl opacity-70"></div>
+    <div class="absolute top-1/3 -right-32 w-96 h-96 rounded-full orb-orange blur-3xl opacity-50"></div>
+    <div class="absolute bottom-0 left-1/3 w-72 h-72 rounded-full orb-green blur-3xl opacity-40"></div>
+  </div>
+
+  <!-- Main application -->
+  <main class="relative min-h-screen p-0 lg:p-5">
+
+    <div class="
+      app-shell
+      min-h-screen
+      lg:min-h-[calc(100vh-40px)]
+      lg:max-w-[1180px]
+      lg:mx-auto
+      lg:rounded-[40px]
+      soft-shadow
+      overflow-hidden
+      flex
+      flex-col
+    ">
+
+      <!-- Header -->
+      <header class="
+        px-5 sm:px-7 lg:px-10
+        pt-6 lg:pt-8
+        pb-5
+        border-b border-[#E8EBE4]
+      ">
+
+        <div class="flex items-center justify-between gap-4">
+
+          <!-- Left -->
+          <div class="flex items-center gap-3">
+
+            <button
+              onclick="goBack()"
+              class="
+                w-10 h-10
+                rounded-xl
+                border border-[#E5E8E2]
+                bg-white
+                flex items-center justify-center
+                text-[#17221D]
+                hover:bg-[#F5F7F1]
+                transition
+              "
+              aria-label="Go back"
+            >
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M15 18L9 12L15 6"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+
+            <div>
+              <p class="text-[12px] font-700 tracking-wide text-[#7A837D]">
+                ACCOUNT
+              </p>
+
+              <h1 class="text-[20px] sm:text-[22px] font-800 leading-tight">
+                Profile & Settings
+              </h1>
+            </div>
+
+          </div>
+
+          <!-- ElytEdu logo -->
+          <div class="hidden sm:flex items-center gap-2">
+
+            <div class="
+              w-9 h-9
+              rounded-xl
+              bg-[#1F6B4F]
+              flex items-center justify-center
+              relative
+            ">
+
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M5 6.5C5 5.67 5.67 5 6.5 5H17.5C18.33 5 19 5.67 19 6.5V14.5C19 15.33 18.33 16 17.5 16H12L8 19V16H6.5C5.67 16 5 15.33 5 14.5V6.5Z"
+                  stroke="#FCFBF8"
+                  stroke-width="1.7"
+                  stroke-linejoin="round"
+                />
+                <circle cx="16.2" cy="7.8" r="1.5" fill="#E58A45"/>
+              </svg>
+
+            </div>
+
+            <div class="leading-none">
+              <p class="font-800 text-[16px]">ElytEdu</p>
+              <p class="text-[9px] font-700 tracking-[0.16em] text-[#7A837D] mt-1">
+                ENGLISH ASSESSMENT
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="flex-1 px-5 sm:px-7 lg:px-10 py-7 lg:py-9">
+
+        <div class="max-w-[920px] mx-auto">
+
+          <!-- Profile intro -->
+          <section class="mb-8">
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+
+              <div class="flex items-center gap-4">
+
+                <!-- Avatar -->
+                <div class="
+                  w-[68px] h-[68px]
+                  rounded-[22px]
+                  bg-[#DCEBDD]
+                  flex items-center justify-center
+                  text-[#1F6B4F]
+                  font-800
+                  text-[22px]
+                  shrink-0
+                ">
+                  EW
+                </div>
+
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h2 class="text-[24px] font-800">
+                      Emma Wilson
+                    </h2>
+
+                    <span class="
+                      px-2.5 py-1
+                      rounded-full
+                      bg-[#DCEBDD]
+                      text-[#1F6B4F]
+                      text-[11px]
+                      font-800
+                    ">
+                      B2 · Upper Intermediate
+                    </span>
+                  </div>
+
+                  <p class="text-[14px] text-[#7A837D] mt-1">
+                    Student · English Communication
+                  </p>
+
+                  <p class="text-[12px] text-[#9AA19C] mt-1">
+                    Last active today
+                  </p>
+                </div>
+
+              </div>
+
+              <button
+                onclick="editProfile()"
+                class="
+                  h-10
+                  px-4
+                  rounded-xl
+                  border border-[#DDE2DA]
+                  bg-white
+                  text-[#1F6B4F]
+                  text-[13px]
+                  font-800
+                  flex items-center justify-center gap-2
+                  hover:bg-[#F6F8F3]
+                  transition
+                "
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 20H21"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  />
+                  <path
+                    d="M16.5 3.5C17.3284 2.67157 18.6716 2.67157 19.5 3.5C20.3284 4.32843 20.3284 5.67157 19.5 6.5L8 18L3 19L4 14L16.5 3.5Z"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+                Edit profile
+              </button>
+
+            </div>
+
+          </section>
+
+          <!-- Profile information -->
+          <section class="mb-7">
+
+            <div class="mb-3">
+              <h3 class="text-[16px] font-800">
+                Profile information
+              </h3>
+
+              <p class="text-[13px] text-[#7A837D] mt-0.5">
+                Your student and academic information.
+              </p>
+            </div>
+
+            <div class="
+              bg-white
+              border border-[#E5E8E2]
+              rounded-[22px]
+              overflow-hidden
+            ">
+
+              <!-- Name -->
+              <div class="
+                setting-row
+                px-5 py-4
+                flex items-center justify-between gap-5
+                border-b border-[#ECEEE9]
+              ">
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <circle
+                        cx="12"
+                        cy="8"
+                        r="3.5"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                      />
+                      <path
+                        d="M5 20C5.8 16.9 8.1 15 12 15C15.9 15 18.2 16.9 19 20"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[12px] text-[#8A928D]">
+                      Full name
+                    </p>
+                    <p class="text-[14px] font-700 mt-0.5">
+                      Emma Wilson
+                    </p>
+                  </div>
+
+                </div>
+
+                <span class="text-[12px] text-[#9AA19C]">
+                  Student
+                </span>
+
+              </div>
+
+              <!-- Email -->
+              <div class="
+                setting-row
+                px-5 py-4
+                flex items-center justify-between gap-5
+                border-b border-[#ECEEE9]
+              ">
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <rect
+                        x="3.5"
+                        y="5"
+                        width="17"
+                        height="14"
+                        rx="2"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                      />
+                      <path
+                        d="M4.5 7L12 13L19.5 7"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[12px] text-[#8A928D]">
+                      Email
+                    </p>
+                    <p class="text-[14px] font-700 mt-0.5">
+                      emma.wilson@college.edu
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- Student ID -->
+              <div class="
+                setting-row
+                px-5 py-4
+                flex items-center justify-between gap-5
+                border-b border-[#ECEEE9]
+              ">
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <rect
+                        x="4"
+                        y="5"
+                        width="16"
+                        height="14"
+                        rx="2"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                      />
+                      <path
+                        d="M8 9H16M8 13H13"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[12px] text-[#8A928D]">
+                      Student ID
+                    </p>
+                    <p class="text-[14px] font-700 mt-0.5">
+                      EW20260421
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- College -->
+              <div class="
+                setting-row
+                px-5 py-4
+                flex items-center justify-between gap-5
+              ">
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M4 20H20"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M6 20V9L12 5L18 9V20"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M9 12H15M9 15H15"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[12px] text-[#8A928D]">
+                      Institution
+                    </p>
+                    <p class="text-[14px] font-700 mt-0.5">
+                      ElytEdu College
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- Account settings -->
+          <section class="mb-7">
+
+            <div class="mb-3">
+              <h3 class="text-[16px] font-800">
+                Account settings
+              </h3>
+
+              <p class="text-[13px] text-[#7A837D] mt-0.5">
+                Manage your account preferences and security.
+              </p>
+            </div>
+
+            <div class="
+              bg-white
+              border border-[#E5E8E2]
+              rounded-[22px]
+              overflow-hidden
+            ">
+
+              <!-- Change password -->
+              <button
+                onclick="changePassword()"
+                class="
+                  setting-row
+                  w-full
+                  px-5 py-4
+                  flex items-center justify-between gap-4
+                  border-b border-[#ECEEE9]
+                  text-left
+                "
+              >
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <rect
+                        x="5"
+                        y="10"
+                        width="14"
+                        height="10"
+                        rx="2"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                      />
+                      <path
+                        d="M8 10V7.5C8 5.29 9.79 3.5 12 3.5C14.21 3.5 16 5.29 16 7.5V10"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[14px] font-700">
+                      Change password
+                    </p>
+                    <p class="text-[12px] text-[#8A928D] mt-0.5">
+                      Update your account password
+                    </p>
+                  </div>
+
+                </div>
+
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="text-[#9AA19C] shrink-0"
+                >
+                  <path
+                    d="M9 18L15 12L9 6"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+              </button>
+
+              <!-- Notifications -->
+              <button
+                onclick="openNotifications()"
+                class="
+                  setting-row
+                  w-full
+                  px-5 py-4
+                  flex items-center justify-between gap-4
+                  border-b border-[#ECEEE9]
+                  text-left
+                "
+              >
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M18 9C18 5.69 15.31 3 12 3C8.69 3 6 5.69 6 9C6 14 4 16 4 16H20C20 16 18 14 18 9Z"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M10 20H14"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[14px] font-700">
+                      Notifications
+                    </p>
+                    <p class="text-[12px] text-[#8A928D] mt-0.5">
+                      Assessment and learning updates
+                    </p>
+                  </div>
+
+                </div>
+
+                <div class="flex items-center gap-2">
+
+                  <span class="
+                    px-2 py-1
+                    rounded-full
+                    bg-[#FDEBDD]
+                    text-[#B86B32]
+                    text-[10px]
+                    font-800
+                  ">
+                    4 unread
+                  </span>
+
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    class="text-[#9AA19C] shrink-0"
+                  >
+                    <path
+                      d="M9 18L15 12L9 6"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+
+                </div>
+
+              </button>
+
+              <!-- Language -->
+              <div class="
+                setting-row
+                px-5 py-4
+                flex items-center justify-between gap-4
+                border-b border-[#ECEEE9]
+              ">
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8.5"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                      />
+                      <path
+                        d="M3.8 12H20.2M12 3.5C14.2 5.8 15.3 8.63 15.3 12C15.3 15.37 14.2 18.2 12 20.5C9.8 18.2 8.7 15.37 8.7 12C8.7 8.63 9.8 5.8 12 3.5Z"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[14px] font-700">
+                      Language
+                    </p>
+                    <p class="text-[12px] text-[#8A928D] mt-0.5">
+                      Interface language
+                    </p>
+                  </div>
+
+                </div>
+
+                <span class="
+                  text-[13px]
+                  font-700
+                  text-[#1F6B4F]
+                  flex items-center gap-2
+                ">
+                  English
+
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 18L15 12L9 6"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </span>
+
+              </div>
+
+              <!-- Remember device -->
+              <div class="
+                setting-row
+                px-5 py-4
+                flex items-center justify-between gap-5
+              ">
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <rect
+                        x="4"
+                        y="5"
+                        width="16"
+                        height="14"
+                        rx="2"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                      />
+                      <path
+                        d="M8 9H16M8 13H13"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[14px] font-700">
+                      Remember this device
+                    </p>
+                    <p class="text-[12px] text-[#8A928D] mt-0.5">
+                      Stay signed in on this device
+                    </p>
+                  </div>
+
+                </div>
+
+                <button
+                  id="deviceToggle"
+                  onclick="toggleDevice()"
+                  class="
+                    toggle active
+                    w-[44px] h-[24px]
+                    rounded-full
+                    bg-[#1F6B4F]
+                    p-[2px]
+                    shrink-0
+                  "
+                  aria-label="Toggle remember device"
+                >
+                  <span
+                    class="
+                      toggle-dot
+                      block
+                      w-5 h-5
+                      rounded-full
+                      bg-white
+                      shadow-sm
+                    "
+                  ></span>
+                </button>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- Assessment preferences -->
+          <section class="mb-7">
+
+            <div class="mb-3">
+              <h3 class="text-[16px] font-800">
+                Assessment preferences
+              </h3>
+
+              <p class="text-[13px] text-[#7A837D] mt-0.5">
+                Preferences that help you prepare for assessments.
+              </p>
+            </div>
+
+            <div class="
+              bg-white
+              border border-[#E5E8E2]
+              rounded-[22px]
+              overflow-hidden
+            ">
+
+              <!-- Audio -->
+              <div class="
+                setting-row
+                px-5 py-4
+                flex items-center justify-between gap-5
+                border-b border-[#ECEEE9]
+              ">
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M5 9V15H9L14 19V5L9 9H5Z"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M17 9C18 10 18 14 17 15"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[14px] font-700">
+                      Assessment audio
+                    </p>
+                    <p class="text-[12px] text-[#8A928D] mt-0.5">
+                      Use headphones when available
+                    </p>
+                  </div>
+
+                </div>
+
+                <span class="
+                  px-2.5 py-1
+                  rounded-full
+                  bg-[#DCEBDD]
+                  text-[#1F6B4F]
+                  text-[10px]
+                  font-800
+                ">
+                  Recommended
+                </span>
+
+              </div>
+
+              <!-- Microphone -->
+              <div class="
+                setting-row
+                px-5 py-4
+                flex items-center justify-between gap-5
+                border-b border-[#ECEEE9]
+              ">
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <rect
+                        x="8"
+                        y="3"
+                        width="8"
+                        height="12"
+                        rx="4"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                      />
+                      <path
+                        d="M5 11C5 14.87 8.13 18 12 18C15.87 18 19 14.87 19 11"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M12 18V21M9 21H15"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[14px] font-700">
+                      Microphone
+                    </p>
+                    <p class="text-[12px] text-[#8A928D] mt-0.5">
+                      Default microphone
+                    </p>
+                  </div>
+
+                </div>
+
+                <button
+                  onclick="checkDevice()"
+                  class="
+                    px-3 py-2
+                    rounded-lg
+                    border border-[#DDE2DA]
+                    text-[#1F6B4F]
+                    text-[11px]
+                    font-800
+                    bg-white
+                    hover:bg-[#F6F8F3]
+                    transition
+                  "
+                >
+                  Check device
+                </button>
+
+              </div>
+
+              <!-- Auto-play -->
+              <div class="
+                setting-row
+                px-5 py-4
+                flex items-center justify-between gap-5
+              ">
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M8 5L18 12L8 19V5Z"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[14px] font-700">
+                      Auto-play practice audio
+                    </p>
+                    <p class="text-[12px] text-[#8A928D] mt-0.5">
+                      Automatically play audio during practice
+                    </p>
+                  </div>
+
+                </div>
+
+                <button
+                  id="audioToggle"
+                  onclick="toggleAudio()"
+                  class="
+                    toggle
+                    w-[44px] h-[24px]
+                    rounded-full
+                    bg-[#D6DBD4]
+                    p-[2px]
+                    shrink-0
+                  "
+                  aria-label="Toggle auto-play audio"
+                >
+                  <span
+                    class="
+                      toggle-dot
+                      block
+                      w-5 h-5
+                      rounded-full
+                      bg-white
+                      shadow-sm
+                    "
+                  ></span>
+                </button>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- Support -->
+          <section class="mb-7">
+
+            <div class="mb-3">
+              <h3 class="text-[16px] font-800">
+                Support
+              </h3>
+            </div>
+
+            <div class="
+              bg-white
+              border border-[#E5E8E2]
+              rounded-[22px]
+              overflow-hidden
+            ">
+
+              <!-- Help -->
+              <button
+                onclick="openHelp()"
+                class="
+                  setting-row
+                  w-full
+                  px-5 py-4
+                  flex items-center justify-between gap-4
+                  border-b border-[#ECEEE9]
+                  text-left
+                "
+              >
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8.5"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                      />
+                      <path
+                        d="M9.7 9C9.95 7.9 10.8 7.2 12 7.2C13.4 7.2 14.3 8.1 14.3 9.25C14.3 10.4 13.6 11.05 12.65 11.65C11.8 12.2 11.5 12.7 11.5 13.5"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                      />
+                      <circle
+                        cx="11.5"
+                        cy="16.5"
+                        r="0.8"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[14px] font-700">
+                      Help & support
+                    </p>
+                    <p class="text-[12px] text-[#8A928D] mt-0.5">
+                      Get help with your account or assessment
+                    </p>
+                  </div>
+
+                </div>
+
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-[#9AA19C]">
+                  <path
+                    d="M9 18L15 12L9 6"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                  />
+                </svg>
+
+              </button>
+
+              <!-- Privacy -->
+              <button
+                onclick="openPrivacy()"
+                class="
+                  setting-row
+                  w-full
+                  px-5 py-4
+                  flex items-center justify-between gap-4
+                  text-left
+                "
+              >
+
+                <div class="flex items-center gap-3">
+
+                  <div class="
+                    w-10 h-10
+                    rounded-xl
+                    bg-[#F1F5ED]
+                    flex items-center justify-center
+                    text-[#1F6B4F]
+                  ">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 3L19 6V11C19 15.5 16.2 19 12 21C7.8 19 5 15.5 5 11V6L12 3Z"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M9 12L11 14L15 10"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p class="text-[14px] font-700">
+                      Privacy & data
+                    </p>
+                    <p class="text-[12px] text-[#8A928D] mt-0.5">
+                      Manage your data and privacy preferences
+                    </p>
+                  </div>
+
+                </div>
+
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-[#9AA19C]">
+                  <path
+                    d="M9 18L15 12L9 6"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                  />
+                </svg>
+
+              </button>
+
+            </div>
+
+          </section>
+
+          <!-- Sign out -->
+          <section class="mb-8">
+
+            <button
+              onclick="signOut()"
+              class="
+                w-full
+                h-12
+                rounded-[16px]
+                border border-[#E9D8CF]
+                bg-[#FFF9F5]
+                text-[#B65F39]
+                font-800
+                text-[14px]
+                flex items-center justify-center gap-2
+                hover:bg-[#FFF3EC]
+                transition
+              "
+            >
+
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M10 5H6.5C5.67 5 5 5.67 5 6.5V17.5C5 18.33 5.67 19 6.5 19H10"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+
+                <path
+                  d="M14 8L18 12L14 16"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+
+                <path
+                  d="M18 12H10"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+              </svg>
+
+              Sign out
+            </button>
+
+          </section>
+
+          <!-- Footer -->
+          <footer class="text-center pb-4">
+
+            <p class="
+              text-[9px]
+              font-800
+              tracking-[0.18em]
+              text-[#A1A8A2]
+            ">
+              ELYTEDU · ENGLISH ASSESSMENT
+            </p>
+
+            <p class="text-[11px] text-[#B0B6B1] mt-2">
+              Version 1.0.0
+            </p>
+
+          </footer>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+
+    function goBack() {
+      window.location.href = "/home";
+    }
+
+    function editProfile() {
+      alert("Open Edit Profile");
+    }
+
+    function changePassword() {
+      alert("Open Change Password");
+    }
+
+    function openNotifications() {
+      window.location.href = "/notifications";
+    }
+
+    function checkDevice() {
+      window.location.href = "/assessment/device-check";
+    }
+
+    function openHelp() {
+      alert("Open Help & Support");
+    }
+
+    function openPrivacy() {
+      alert("Open Privacy & Data");
+    }
+
+    function signOut() {
+      const confirmed = confirm(
+        "Are you sure you want to sign out?"
+      );
+
+      if (confirmed) {
+        window.location.href = "/login";
+      }
+    }
+
+    function toggleDevice() {
+
+      const toggle =
+        document.getElementById("deviceToggle");
+
+      toggle.classList.toggle("active");
+
+    }
+
+    function toggleAudio() {
+
+      const toggle =
+        document.getElementById("audioToggle");
+
+      toggle.classList.toggle("active");
+
+      if (toggle.classList.contains("active")) {
+        toggle.style.background = "#1F6B4F";
+      } else {
+        toggle.style.background = "#D6DBD4";
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>

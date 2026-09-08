@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElytEdu — Begin Assessment</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F2F5E8',
+            surface: '#FCFBF8',
+            green: '#1F6B4F',
+            lightgreen: '#DCEBDD',
+            orange: '#E58A45',
+            dark: '#17221D',
+            muted: '#7A837D'
+          },
+          fontFamily: {
+            nunito: ['Nunito Sans', 'sans-serif']
+          },
+          boxShadow: {
+            app: '0 24px 70px rgba(31,107,79,0.10)'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-cream font-nunito text-dark antialiased">
+
+  <!-- Background decoration -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-green/10 blur-3xl"></div>
+    <div class="absolute top-1/3 -right-24 w-72 h-72 rounded-full bg-orange/10 blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/4 w-80 h-80 rounded-full bg-green/5 blur-3xl"></div>
+  </div>
+
+
+  <!-- App -->
+  <main class="relative min-h-screen flex justify-center lg:py-8">
+
+    <div class="w-full max-w-[430px] min-h-screen lg:min-h-[850px]
+                bg-surface lg:rounded-[40px] lg:shadow-app
+                overflow-hidden flex flex-col">
+
+      <!-- ================= HEADER ================= -->
+      <header class="px-5 pt-5">
+
+        <div class="flex items-center justify-between">
+
+          <!-- Logo -->
+          <div class="flex items-center gap-2">
+
+            <div class="w-8 h-8 rounded-[11px] bg-green
+                        flex items-center justify-center relative">
+
+              <svg width="16" height="16" viewBox="0 0 24 24"
+                   fill="none" stroke="white" stroke-width="2">
+                <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5
+                         7.4 7.4 0 0 1-3.2-.7L4 20l1.7-4.2
+                         A7.5 7.5 0 1 1 20 11.5Z"/>
+              </svg>
+
+              <span class="absolute -right-0.5 -top-0.5
+                           w-2 h-2 rounded-full bg-orange"></span>
+
+            </div>
+
+            <span class="text-sm font-800 tracking-tight">
+              ElytEdu
+            </span>
+
+          </div>
+
+
+          <!-- Step -->
+          <div class="text-right">
+            <p class="text-[10px] uppercase tracking-[0.14em]
+                      font-700 text-muted">
+              Assessment
+            </p>
+
+            <p class="text-xs font-800 text-green">
+              Step 4 of 4
+            </p>
+          </div>
+
+        </div>
+
+
+        <!-- Progress -->
+        <div class="mt-5 h-1.5 bg-green/10 rounded-full overflow-hidden">
+          <div class="h-full w-full bg-green rounded-full"></div>
+        </div>
+
+      </header>
+
+
+
+      <!-- ================= CONTENT ================= -->
+      <section class="flex-1 px-5 pt-10 pb-36 overflow-y-auto">
+
+        <!-- Hero -->
+        <div class="text-center mb-8">
+
+          <div class="mx-auto w-16 h-16 rounded-[22px]
+                      bg-lightgreen flex items-center justify-center">
+
+            <svg width="30" height="30" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="1.8" class="text-green">
+
+              <path d="M5 12l5 5L20 7"/>
+
+            </svg>
+
+          </div>
+
+
+          <p class="mt-5 text-[10px] uppercase tracking-[0.16em]
+                    font-800 text-green">
+            You're ready
+          </p>
+
+          <h1 class="mt-2 text-[30px] leading-tight font-800 tracking-tight">
+            Begin your<br>assessment
+          </h1>
+
+          <p class="mt-3 text-sm leading-6 text-muted max-w-[320px] mx-auto">
+            Your device is ready and the sample is complete.
+            You're all set to start the English Communication Test.
+          </p>
+
+        </div>
+
+
+
+        <!-- ================= SUMMARY CARD ================= -->
+        <div class="rounded-[26px] bg-lightgreen p-5 mb-5">
+
+          <div class="flex items-start justify-between mb-5">
+
+            <div>
+              <p class="text-[10px] uppercase tracking-[0.14em]
+                        font-800 text-green/70">
+                English
+              </p>
+
+              <h2 class="mt-1 text-lg font-800">
+                Communication Test
+              </h2>
+            </div>
+
+
+            <div class="w-10 h-10 rounded-[13px] bg-white/70
+                        flex items-center justify-center">
+
+              <svg width="20" height="20" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor"
+                   stroke-width="1.8" class="text-green">
+
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+
+              </svg>
+
+            </div>
+
+          </div>
+
+
+          <div class="grid grid-cols-3 gap-2.5">
+
+            <div class="bg-white/70 rounded-[16px] p-3 text-center">
+              <p class="text-[10px] text-muted">
+                Time
+              </p>
+              <p class="mt-1 text-sm font-800">
+                30 min
+              </p>
+            </div>
+
+            <div class="bg-white/70 rounded-[16px] p-3 text-center">
+              <p class="text-[10px] text-muted">
+                Questions
+              </p>
+              <p class="mt-1 text-sm font-800">
+                40
+              </p>
+            </div>
+
+            <div class="bg-white/70 rounded-[16px] p-3 text-center">
+              <p class="text-[10px] text-muted">
+                Skills
+              </p>
+              <p class="mt-1 text-sm font-800">
+                4
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================= READY CHECKS ================= -->
+        <div class="bg-white border border-black/5
+                    rounded-[24px] p-5 mb-5">
+
+          <h3 class="text-sm font-800 mb-4">
+            Ready checks
+          </h3>
+
+
+          <div class="space-y-3">
+
+            <!-- Device -->
+            <div class="flex items-center gap-3">
+
+              <div class="w-8 h-8 rounded-full bg-lightgreen
+                          flex items-center justify-center">
+
+                <svg width="15" height="15" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor"
+                     stroke-width="2.2" class="text-green">
+                  <path d="M5 12l5 5L20 7"/>
+                </svg>
+
+              </div>
+
+              <div>
+                <p class="text-sm font-800">
+                  Device ready
+                </p>
+                <p class="text-[11px] text-muted">
+                  Microphone and internet connected
+                </p>
+              </div>
+
+            </div>
+
+
+            <!-- Instructions -->
+            <div class="flex items-center gap-3">
+
+              <div class="w-8 h-8 rounded-full bg-lightgreen
+                          flex items-center justify-center">
+
+                <svg width="15" height="15" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor"
+                     stroke-width="2.2" class="text-green">
+                  <path d="M5 12l5 5L20 7"/>
+                </svg>
+
+              </div>
+
+              <div>
+                <p class="text-sm font-800">
+                  Instructions reviewed
+                </p>
+                <p class="text-[11px] text-muted">
+                  You confirmed the assessment rules
+                </p>
+              </div>
+
+            </div>
+
+
+            <!-- Sample -->
+            <div class="flex items-center gap-3">
+
+              <div class="w-8 h-8 rounded-full bg-lightgreen
+                          flex items-center justify-center">
+
+                <svg width="15" height="15" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor"
+                     stroke-width="2.2" class="text-green">
+                  <path d="M5 12l5 5L20 7"/>
+                </svg>
+
+              </div>
+
+              <div>
+                <p class="text-sm font-800">
+                  Sample completed
+                </p>
+                <p class="text-[11px] text-muted">
+                  You've seen how the questions work
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================= FIRST SECTION ================= -->
+        <div class="rounded-[22px] border border-green/10
+                    bg-green/[0.04] p-4">
+
+          <div class="flex items-center gap-3">
+
+            <div class="w-11 h-11 rounded-[14px] bg-green
+                        flex items-center justify-center">
+
+              <svg width="20" height="20" viewBox="0 0 24 24"
+                   fill="none" stroke="white" stroke-width="1.8">
+
+                <rect x="9" y="3" width="6" height="11" rx="3"/>
+                <path d="M5 11a7 7 0 0 0 14 0"/>
+                <path d="M12 18v3"/>
+                <path d="M8 21h8"/>
+
+              </svg>
+
+            </div>
+
+
+            <div class="flex-1">
+
+              <p class="text-[10px] uppercase tracking-[0.13em]
+                        font-800 text-green">
+                First section
+              </p>
+
+              <h3 class="text-sm font-800 mt-0.5">
+                Speaking
+              </h3>
+
+              <p class="text-[11px] text-muted mt-0.5">
+                Starts with Read Aloud · about 10 minutes
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- Reminder -->
+        <div class="mt-5 flex items-start gap-3 px-1">
+
+          <div class="w-8 h-8 rounded-[11px] bg-[#F7F7F2]
+                      flex items-center justify-center shrink-0">
+
+            <svg width="15" height="15" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="1.8" class="text-muted">
+
+              <path d="M12 8v4"/>
+              <path d="M12 16h.01"/>
+              <circle cx="12" cy="12" r="9"/>
+
+            </svg>
+
+          </div>
+
+          <p class="text-[11px] leading-5 text-muted">
+            Once you begin, the assessment timer starts. Stay in a quiet
+            place and keep this window open.
+          </p>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================= BOTTOM CTA ================= -->
+      <div class="fixed bottom-0 left-1/2 -translate-x-1/2
+                  w-full max-w-[430px]
+                  bg-surface/95 backdrop-blur-xl
+                  border-t border-black/5
+                  px-5 pt-4 pb-5">
+
+        <button
+          onclick="startSpeaking()"
+          class="w-full h-14 rounded-[18px]
+                 bg-green text-green
+                 font-800 text-sm
+                 flex items-center justify-center gap-2
+                 shadow-lg shadow-green/15
+                 hover:bg-[#195C44]
+                 active:scale-[0.99]
+                 transition">
+
+          Start Speaking Section
+
+          <svg width="18" height="18" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14"/>
+            <path d="m13 6 6 6-6 6"/>
+          </svg>
+
+        </button>
+
+
+        <p class="mt-3 text-center text-[10px] text-muted">
+          Assessment begins immediately after you continue
+        </p>
+
+      </div>
+
+    </div>
+  </main>
+
+
+
+  <!-- ================= JS ================= -->
+  <script>
+
+    function startSpeaking() {
+      console.log("Starting Speaking section");
+
+      // Next screen:
+      // window.location.href = "/assessment/speaking/read-aloud";
+    }
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Writing — Dictation | ElytEdu</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      font-family: "Nunito Sans", sans-serif;
+    }
+
+    body {
+      background: #F2F5E8;
+      color: #17221D;
+    }
+
+    .soft-shadow {
+      box-shadow: 0 20px 60px rgba(31, 107, 79, 0.08);
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 9999px;
+      filter: blur(70px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb-green {
+      width: 280px;
+      height: 280px;
+      background: rgba(31, 107, 79, 0.09);
+      top: -100px;
+      left: -100px;
+    }
+
+    .orb-orange {
+      width: 240px;
+      height: 240px;
+      background: rgba(229, 138, 69, 0.08);
+      right: -80px;
+      bottom: -70px;
+    }
+
+    .wave-bar {
+      animation: wave 1s ease-in-out infinite;
+    }
+
+    .wave-bar:nth-child(2) {
+      animation-delay: .12s;
+    }
+
+    .wave-bar:nth-child(3) {
+      animation-delay: .24s;
+    }
+
+    .wave-bar:nth-child(4) {
+      animation-delay: .36s;
+    }
+
+    .wave-bar:nth-child(5) {
+      animation-delay: .48s;
+    }
+
+    .wave-bar:nth-child(6) {
+      animation-delay: .60s;
+    }
+
+    .wave-bar:nth-child(7) {
+      animation-delay: .72s;
+    }
+
+    @keyframes wave {
+      0%, 100% {
+        height: 8px;
+      }
+
+      50% {
+        height: 25px;
+      }
+    }
+
+    .play-pulse {
+      animation: playPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes playPulse {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(31, 107, 79, 0.12);
+      }
+
+      50% {
+        box-shadow: 0 0 0 10px rgba(31, 107, 79, 0);
+      }
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(31, 107, 79, 0.10);
+    }
+
+    .progress-fill {
+      transition: width 0.25s ease;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- Background decoration -->
+  <div class="orb orb-green"></div>
+  <div class="orb orb-orange"></div>
+
+  <!-- Main Assessment -->
+  <main class="relative z-10 min-h-screen flex items-center justify-center p-0 sm:p-6">
+
+    <div
+      class="w-full max-w-[1180px]
+             min-h-screen sm:min-h-[calc(100vh-48px)]
+             bg-[#FCFBF8]
+             sm:rounded-[40px]
+             soft-shadow
+             overflow-hidden
+             flex flex-col"
+    >
+
+      <!-- ================= HEADER ================= -->
+
+      <header class="px-5 sm:px-8 pt-5 sm:pt-7">
+
+        <div class="flex items-center justify-between">
+
+          <!-- Section -->
+          <div class="flex items-center gap-3">
+
+            <div
+              class="w-10 h-10 rounded-xl
+                     bg-[#DCEBDD]
+                     flex items-center justify-center"
+            >
+
+              <!-- Writing / audio icon -->
+              <svg
+                class="w-5 h-5 text-[#1F6B4F]"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 10v4"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8 7v10"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4v16"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M16 7v10"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M20 10v4"
+                />
+              </svg>
+
+            </div>
+
+            <div>
+
+              <p
+                class="text-xs font-bold uppercase
+                       tracking-[0.12em] text-[#7A837D]"
+              >
+                Writing
+              </p>
+
+              <p class="text-sm font-bold text-[#17221D]">
+                Dictation
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- Question -->
+          <div class="text-right">
+
+            <p class="text-xs text-[#7A837D] font-semibold">
+              Question
+            </p>
+
+            <p class="text-sm font-extrabold text-[#17221D]">
+              10 of 10
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- Progress -->
+        <div
+          class="mt-5 h-1.5 bg-[#E8ECE4]
+                 rounded-full overflow-hidden"
+        >
+
+          <div
+            class="h-full bg-[#1F6B4F]
+                   rounded-full progress-fill"
+            style="width: 100%"
+          ></div>
+
+        </div>
+
+      </header>
+
+      <!-- ================= CONTENT ================= -->
+
+      <section
+        class="flex-1 px-5 sm:px-8
+               pt-7 pb-36
+               overflow-y-auto"
+      >
+
+        <!-- Timer -->
+        <div class="flex justify-end mb-5">
+
+          <div
+            id="timerPill"
+            class="inline-flex items-center gap-2
+                   px-3.5 py-2 rounded-full
+                   bg-[#F5F2EC]
+                   border border-[#E9E5DD]"
+          >
+
+            <span
+              id="timerDot"
+              class="w-2 h-2 rounded-full bg-[#E58A45]"
+            ></span>
+
+            <span
+              id="timer"
+              class="text-sm font-bold
+                     text-[#17221D]
+                     tabular-nums"
+            >
+              01:00
+            </span>
+
+          </div>
+
+        </div>
+
+        <!-- Intro -->
+        <div class="max-w-3xl mx-auto text-center">
+
+          <div
+            class="inline-flex items-center gap-2
+                   px-3 py-1.5 rounded-full
+                   bg-[#DCEBDD]
+                   text-[#1F6B4F]
+                   text-xs font-bold"
+          >
+
+            Writing · Dictation
+
+          </div>
+
+          <h1
+            class="mt-4 text-2xl sm:text-3xl
+                   font-extrabold tracking-tight
+                   text-[#17221D]"
+          >
+            Listen and type
+          </h1>
+
+          <p
+            class="mt-2 text-sm sm:text-base
+                   text-[#7A837D]
+                   leading-relaxed"
+          >
+            Listen carefully to the sentence and type exactly what you hear.
+            Focus on spelling, punctuation and accuracy.
+          </p>
+
+        </div>
+
+        <!-- ================= AUDIO CARD ================= -->
+
+        <div class="max-w-3xl mx-auto mt-7">
+
+          <div
+            class="rounded-[28px]
+                   border border-[#E6EAE2]
+                   bg-white
+                   p-5 sm:p-7"
+          >
+
+            <!-- Card Header -->
+            <div class="flex items-center justify-between">
+
+              <div class="flex items-center gap-2">
+
+                <div
+                  class="w-9 h-9 rounded-xl
+                         bg-[#F2F5E8]
+                         flex items-center justify-center"
+                >
+
+                  <svg
+                    class="w-5 h-5 text-[#1F6B4F]"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11 5L6 9H3v6h3l5 4V5z"
+                    />
+
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15.5 8.5a5 5 0 010 7"
+                    />
+
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M18 6a8 8 0 010 12"
+                    />
+
+                  </svg>
+
+                </div>
+
+                <span
+                  class="text-sm font-extrabold
+                         text-[#17221D]"
+                >
+                  Listen
+                </span>
+
+              </div>
+
+              <span
+                id="listenCount"
+                class="px-2.5 py-1 rounded-full
+                       bg-[#F5F2EC]
+                       text-[#7A837D]
+                       text-xs font-bold"
+              >
+                2 listens
+
+              </span>
+
+            </div>
+
+            <!-- Audio Player -->
+            <div
+              class="mt-6 rounded-[24px]
+                     bg-[#F8F9F5]
+                     border border-[#E8ECE4]
+                     p-5 sm:p-6"
+            >
+
+              <div
+                class="flex flex-col sm:flex-row
+                       items-center gap-5"
+              >
+
+                <!-- Play -->
+                <button
+                  id="playBtn"
+                  onclick="playAudio()"
+                  class="play-pulse
+                         w-16 h-16 shrink-0
+                         rounded-full
+                         bg-[#1F6B4F]
+                         text-white
+                         flex items-center justify-center
+                         hover:bg-[#18583F]
+                         transition"
+                >
+
+                  <!-- Play icon -->
+                  <svg
+                    id="playIcon"
+                    class="w-7 h-7 ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+
+                </button>
+
+                <!-- Audio details -->
+                <div class="w-full">
+
+                  <div class="flex items-center justify-between">
+
+                    <div>
+
+                      <p
+                        id="audioStatus"
+                        class="text-sm font-extrabold
+                               text-[#17221D]"
+                      >
+                        Listen to the sentence
+                      </p>
+
+                      <p
+                        id="audioSubtext"
+                        class="mt-0.5 text-xs
+                               text-[#7A837D]"
+                      >
+                        Tap play when you're ready
+                      </p>
+
+                    </div>
+
+                    <span
+                      id="audioTime"
+                      class="text-xs font-bold
+                             text-[#7A837D]"
+                    >
+                      00:12
+                    </span>
+
+                  </div>
+
+                  <!-- Progress -->
+                  <div
+                    class="mt-4 h-1.5
+                           bg-[#E2E7DF]
+                           rounded-full overflow-hidden"
+                  >
+
+                    <div
+                      id="audioProgress"
+                      class="h-full bg-[#1F6B4F]
+                             rounded-full transition-all"
+                      style="width: 0%"
+                    ></div>
+
+                  </div>
+
+                  <!-- Waveform -->
+                  <div
+                    class="mt-4 h-8
+                           flex items-center
+                           justify-center gap-1"
+                  >
+
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+                    <span class="wave-bar w-1 rounded-full bg-[#B7C8BA]"></span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- Replay info -->
+              <div
+                class="mt-5 pt-4
+                       border-t border-[#E5E9E1]
+                       flex items-center
+                       justify-between"
+              >
+
+                <p
+                  class="text-xs
+                         text-[#7A837D]"
+                >
+                  You can listen up to two times.
+                </p>
+
+                <span
+                  id="listenStatus"
+                  class="text-xs font-bold
+                         text-[#E58A45]"
+                >
+                  2 remaining
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ================= RESPONSE ================= -->
+
+          <div class="mt-5">
+
+            <div
+              class="flex items-center
+                     justify-between mb-2.5"
+            >
+
+              <div class="flex items-center gap-2">
+
+                <span
+                  class="w-2 h-2 rounded-full
+                         bg-[#1F6B4F]"
+                ></span>
+
+                <span
+                  class="text-sm font-extrabold
+                         text-[#17221D]"
+                >
+                  Your response
+                </span>
+
+              </div>
+
+              <span
+                id="wordCount"
+                class="text-xs font-bold
+                       text-[#7A837D]"
+              >
+                0 words
+              </span>
+
+            </div>
+
+            <!-- Response Box -->
+            <div
+              class="relative rounded-[26px]
+                     border border-[#DDE4DB]
+                     bg-white overflow-hidden"
+            >
+
+              <textarea
+                id="response"
+                rows="6"
+                maxlength="300"
+                disabled
+                placeholder="Listen to the sentence first..."
+                class="w-full px-5 py-5
+                       sm:px-6 sm:py-6
+                       text-[15px] sm:text-base
+                       leading-7
+                       text-[#17221D]
+                       placeholder:text-[#A2AAA4]
+                       bg-transparent"
+              ></textarea>
+
+              <!-- Toolbar -->
+              <div
+                class="px-4 sm:px-5 py-3.5
+                       border-t border-[#EDF0EA]
+                       bg-[#FCFBF8]
+                       flex items-center
+                       justify-between"
+              >
+
+                <div class="flex items-center gap-2">
+
+                  <svg
+                    class="w-4 h-4 text-[#7A837D]"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 6h16"
+                    />
+
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 12h16"
+                    />
+
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 18h10"
+                    />
+
+                  </svg>
+
+                  <span
+                    id="inputHint"
+                    class="text-xs text-[#7A837D]"
+                  >
+                    Listen before typing
+                  </span>
+
+                </div>
+
+                <span
+                  id="charCount"
+                  class="text-xs font-semibold
+                         text-[#7A837D]"
+                >
+                  0 / 300
+                </span>
+
+              </div>
+
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-2.5 mt-3">
+
+              <div
+                class="px-3 py-3 rounded-2xl
+                       bg-[#F8F9F5]
+                       border border-[#E8ECE4]"
+              >
+
+                <p
+                  class="text-[10px]
+                         uppercase tracking-wide
+                         font-bold text-[#9AA29C]"
+                >
+                  Words
+                </p>
+
+                <p
+                  id="wordsStat"
+                  class="mt-1 text-sm
+                         font-extrabold
+                         text-[#17221D]"
+                >
+                  0
+                </p>
+
+              </div>
+
+              <div
+                class="px-3 py-3 rounded-2xl
+                       bg-[#F8F9F5]
+                       border border-[#E8ECE4]"
+              >
+
+                <p
+                  class="text-[10px]
+                         uppercase tracking-wide
+                         font-bold text-[#9AA29C]"
+                >
+                  Characters
+                </p>
+
+                <p
+                  id="charactersStat"
+                  class="mt-1 text-sm
+                         font-extrabold
+                         text-[#17221D]"
+                >
+                  0
+                </p>
+
+              </div>
+
+              <div
+                class="px-3 py-3 rounded-2xl
+                       bg-[#F8F9F5]
+                       border border-[#E8ECE4]"
+              >
+
+                <p
+                  class="text-[10px]
+                         uppercase tracking-wide
+                         font-bold text-[#9AA29C]"
+                >
+                  Status
+                </p>
+
+                <p
+                  id="statusStat"
+                  class="mt-1 text-sm
+                         font-extrabold
+                         text-[#E58A45]"
+                >
+                  Locked
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ================= TIP ================= -->
+
+          <div
+            class="mt-5 rounded-[24px]
+                   bg-[#F2F5E8]
+                   border border-[#DCEBDD]
+                   p-4 sm:p-5"
+          >
+
+            <div class="flex items-start gap-3">
+
+              <div
+                class="w-9 h-9 rounded-xl
+                       bg-white
+                       flex items-center justify-center
+                       shrink-0"
+              >
+
+                <svg
+                  class="w-4.5 h-4.5 text-[#1F6B4F]"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="9"
+                  />
+
+                  <path
+                    stroke-linecap="round"
+                    d="M12 10v6"
+                  />
+
+                  <path
+                    stroke-linecap="round"
+                    d="M12 7h.01"
+                  />
+
+                </svg>
+
+              </div>
+
+              <div>
+
+                <p
+                  class="text-sm font-extrabold
+                         text-[#17221D]"
+                >
+                  Dictation tip
+                </p>
+
+                <p
+                  class="mt-1 text-sm
+                         leading-relaxed
+                         text-[#66706A]"
+                >
+                  Listen for the complete sentence before typing.
+                  Pay attention to small words, verb endings,
+                  spelling and punctuation.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= BOTTOM BAR ================= -->
+
+      <div
+        class="fixed sm:absolute
+               bottom-0 left-0 right-0
+               bg-[#FCFBF8]/95
+               backdrop-blur-md
+               border-t border-[#E8ECE4]"
+      >
+
+        <div
+          class="max-w-[1180px] mx-auto
+                 px-5 sm:px-8
+                 py-4 sm:py-5"
+        >
+
+          <div
+            class="flex items-center
+                   justify-between gap-5"
+          >
+
+            <div class="hidden sm:block">
+
+              <p
+                id="bottomStatus"
+                class="text-xs font-semibold
+                       text-[#7A837D]"
+              >
+                Listen to the sentence first
+              </p>
+
+            </div>
+
+            <button
+              id="continueBtn"
+              disabled
+              onclick="continueToNext()"
+              class="w-full sm:w-auto
+                     min-w-[180px]
+                     px-7 py-3.5
+                     rounded-2xl
+                     bg-[#E3E7E1]
+                     text-[#9AA29C]
+                     text-sm font-extrabold
+                     cursor-not-allowed
+                     transition"
+            >
+              Continue
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= JAVASCRIPT ================= -->
+
+  <script>
+
+    /* --------------------------------
+       ELEMENTS
+    -------------------------------- */
+
+    const playBtn = document.getElementById("playBtn");
+    const playIcon = document.getElementById("playIcon");
+
+    const audioStatus = document.getElementById("audioStatus");
+    const audioSubtext = document.getElementById("audioSubtext");
+    const audioTime = document.getElementById("audioTime");
+    const audioProgress = document.getElementById("audioProgress");
+
+    const listenCount = document.getElementById("listenCount");
+    const listenStatus = document.getElementById("listenStatus");
+
+    const response = document.getElementById("response");
+
+    const wordCount = document.getElementById("wordCount");
+    const charCount = document.getElementById("charCount");
+
+    const wordsStat = document.getElementById("wordsStat");
+    const charactersStat = document.getElementById("charactersStat");
+    const statusStat = document.getElementById("statusStat");
+
+    const continueBtn = document.getElementById("continueBtn");
+    const bottomStatus = document.getElementById("bottomStatus");
+
+    const timer = document.getElementById("timer");
+    const timerPill = document.getElementById("timerPill");
+    const timerDot = document.getElementById("timerDot");
+
+    /* --------------------------------
+       STATE
+    -------------------------------- */
+
+    let listensRemaining = 2;
+
+    let isPlaying = false;
+
+    let audioSeconds = 0;
+
+    const AUDIO_DURATION = 12;
+
+    let responseEnabled = false;
+
+    let assessmentCompleted = false;
+
+    let timeLeft = 60;
+
+    /* --------------------------------
+       TIMER
+    -------------------------------- */
+
+    function formatTime(seconds) {
+
+      const minutes = Math.floor(seconds / 60);
+
+      const secs = seconds % 60;
+
+      return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+
+    }
+
+    timer.textContent = formatTime(timeLeft);
+
+    const assessmentTimer = setInterval(() => {
+
+      if (assessmentCompleted) return;
+
+      timeLeft--;
+
+      if (timeLeft <= 0) {
+
+        timeLeft = 0;
+
+        clearInterval(assessmentTimer);
+
+        timer.textContent = "00:00";
+
+        finishResponse();
+
+        return;
+
+      }
+
+      timer.textContent = formatTime(timeLeft);
+
+      /* Last 15 seconds */
+
+      if (timeLeft <= 15) {
+
+        timerPill.classList.remove(
+          "bg-[#F5F2EC]"
+        );
+
+        timerPill.classList.add(
+          "bg-[#FFF1E8]"
+        );
+
+        timerDot.classList.remove(
+          "bg-[#E58A45]"
+        );
+
+        timerDot.classList.add(
+          "bg-[#C76A2A]"
+        );
+
+        timer.classList.add(
+          "text-[#C76A2A]"
+        );
+
+      }
+
+    }, 1000);
+
+    /* --------------------------------
+       PLAY AUDIO
+    -------------------------------- */
+
+    function playAudio() {
+
+      if (isPlaying) return;
+
+      if (listensRemaining <= 0) return;
+
+      listensRemaining--;
+
+      isPlaying = true;
+
+      audioSeconds = 0;
+
+      listenCount.textContent =
+        `${listensRemaining} ${listensRemaining === 1 ? "listen" : "listens"} left`;
+
+      listenStatus.textContent =
+        `${listensRemaining} remaining`;
+
+      listenStatus.className =
+        "text-xs font-bold text-[#7A837D]";
+
+      playBtn.classList.remove("play-pulse");
+
+      playBtn.classList.add(
+        "bg-[#18583F]"
+      );
+
+      /* Pause icon */
+
+      playIcon.innerHTML = `
+        <rect x="7" y="5" width="3.5" height="14" rx="1"></rect>
+        <rect x="13.5" y="5" width="3.5" height="14" rx="1"></rect>
+      `;
+
+      audioStatus.textContent =
+        "Playing sentence...";
+
+      audioSubtext.textContent =
+        "Listen carefully";
+
+      const audioInterval = setInterval(() => {
+
+        audioSeconds++;
+
+        const percentage =
+          (audioSeconds / AUDIO_DURATION) * 100;
+
+        audioProgress.style.width =
+          `${Math.min(percentage, 100)}%`;
+
+        const remaining =
+          Math.max(AUDIO_DURATION - audioSeconds, 0);
+
+        audioTime.textContent =
+          `00:${String(remaining).padStart(2, "0")}`;
+
+        if (audioSeconds >= AUDIO_DURATION) {
+
+          clearInterval(audioInterval);
+
+          finishAudio();
+
+        }
+
+      }, 1000);
+
+    }
+
+    /* --------------------------------
+       AUDIO COMPLETE
+    -------------------------------- */
+
+    function finishAudio() {
+
+      isPlaying = false;
+
+      audioProgress.style.width = "100%";
+
+      audioTime.textContent =
+        "00:00";
+
+      playIcon.innerHTML = `
+        <path d="M8 5v14l11-7z"/>
+      `;
+
+      playBtn.classList.remove(
+        "bg-[#18583F]"
+      );
+
+      if (listensRemaining > 0) {
+
+        playBtn.classList.add(
+          "play-pulse"
+        );
+
+      } else {
+
+        playBtn.classList.remove(
+          "play-pulse"
+        );
+
+      }
+
+      audioStatus.textContent =
+        "Sentence played";
+
+      audioSubtext.textContent =
+        listensRemaining > 0
+          ? "You can listen once more"
+          : "No listens remaining";
+
+      /* Enable typing */
+
+      enableResponse();
+
+    }
+
+    /* --------------------------------
+       ENABLE RESPONSE
+    -------------------------------- */
+
+    function enableResponse() {
+
+      if (responseEnabled) return;
+
+      responseEnabled = true;
+
+      response.disabled = false;
+
+      response.placeholder =
+        "Type exactly what you heard...";
+
+      response.focus();
+
+      document.getElementById(
+        "inputHint"
+      ).textContent =
+        "Type what you heard";
+
+      statusStat.textContent =
+        "Ready";
+
+      statusStat.className =
+        "mt-1 text-sm font-extrabold text-[#1F6B4F]";
+
+      bottomStatus.textContent =
+        "Type the sentence to continue";
+
+    }
+
+    /* --------------------------------
+       RESPONSE STATS
+    -------------------------------- */
+
+    response.addEventListener(
+      "input",
+      updateStats
+    );
+
+    function updateStats() {
+
+      const text =
+        response.value.trim();
+
+      const characters =
+        response.value.length;
+
+      const words =
+        text
+          ? text.split(/\s+/).filter(Boolean).length
+          : 0;
+
+      wordCount.textContent =
+        `${words} ${words === 1 ? "word" : "words"}`;
+
+      charCount.textContent =
+        `${characters} / 300`;
+
+      wordsStat.textContent =
+        words;
+
+      charactersStat.textContent =
+        characters;
+
+      if (characters === 0) {
+
+        statusStat.textContent =
+          "Ready";
+
+        statusStat.className =
+          "mt-1 text-sm font-extrabold text-[#E58A45]";
+
+        bottomStatus.textContent =
+          "Type the sentence to continue";
+
+        disableButton();
+
+        return;
+
+      }
+
+      if (words < 3) {
+
+        statusStat.textContent =
+          "In progress";
+
+        statusStat.className =
+          "mt-1 text-sm font-extrabold text-[#E58A45]";
+
+        bottomStatus.textContent =
+          "Continue typing";
+
+        disableButton();
+
+        return;
+
+      }
+
+      statusStat.textContent =
+        "Ready";
+
+      statusStat.className =
+        "mt-1 text-sm font-extrabold text-[#1F6B4F]";
+
+      bottomStatus.textContent =
+        "Response is ready";
+
+      enableButton();
+
+    }
+
+    /* --------------------------------
+       BUTTON STATES
+    -------------------------------- */
+
+    function enableButton() {
+
+      continueBtn.disabled = false;
+
+      continueBtn.className =
+        "w-full sm:w-auto min-w-[180px] " +
+        "px-7 py-3.5 rounded-2xl " +
+        "bg-[#1F6B4F] text-white " +
+        "text-sm font-extrabold " +
+        "cursor-pointer transition " +
+        "hover:bg-[#18583F] " +
+        "active:scale-[0.98]";
+
+    }
+
+    function disableButton() {
+
+      continueBtn.disabled = true;
+
+      continueBtn.className =
+        "w-full sm:w-auto min-w-[180px] " +
+        "px-7 py-3.5 rounded-2xl " +
+        "bg-[#E3E7E1] text-[#9AA29C] " +
+        "text-sm font-extrabold " +
+        "cursor-not-allowed transition";
+
+    }
+
+    /* --------------------------------
+       TIME EXPIRED
+    -------------------------------- */
+
+    function finishResponse() {
+
+      if (assessmentCompleted) return;
+
+      assessmentCompleted = true;
+
+      response.disabled = true;
+
+      audioStatus.textContent =
+        "Response time ended";
+
+      statusStat.textContent =
+        "Completed";
+
+      statusStat.className =
+        "mt-1 text-sm font-extrabold text-[#1F6B4F]";
+
+      bottomStatus.textContent =
+        "Response saved";
+
+      enableButton();
+
+    }
+
+    /* --------------------------------
+       CONTINUE
+    -------------------------------- */
+
+    function continueToNext() {
+
+      if (!response.value.trim()) {
+        return;
+      }
+
+      assessmentCompleted = true;
+
+      /*
+        REAL IMPLEMENTATION:
+
+        Save:
+
+        {
+          attemptId,
+          questionId,
+          type: "writing_dictation",
+          response: response.value,
+          startedAt,
+          completedAt,
+          audioListenCount,
+          timeSpent
+        }
+
+        Then navigate to:
+
+        /assessment/writing/passage-reconstruction
+      */
+
+      alert(
+        "Response saved.\n\nNext: Writing — Passage Reconstruction"
+      );
+
+      // Example:
+      // window.location.href =
+      //   "/assessment/writing/passage-reconstruction";
+
+    }
+
+    /* --------------------------------
+       BACK
+    -------------------------------- */
+
+    function goBack() {
+
+      const text =
+        response.value.trim();
+
+      if (text) {
+
+        const confirmed =
+          confirm(
+            "Your response may be lost. Are you sure you want to go back?"
+          );
+
+        if (!confirmed) return;
+
+      }
+
+      alert(
+        "Back to Writing — Typing"
+      );
+
+      // Example:
+      // window.location.href =
+      //   "/assessment/writing/typing";
+
+    }
+
+  </script>
+
+</body>
+</html>

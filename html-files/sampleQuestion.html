@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElytEdu — Sample Question</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F2F5E8',
+            surface: '#FCFBF8',
+            green: '#1F6B4F',
+            lightgreen: '#DCEBDD',
+            orange: '#E58A45',
+            dark: '#17221D',
+            muted: '#7A837D'
+          },
+          fontFamily: {
+            nunito: ['Nunito Sans', 'sans-serif']
+          },
+          boxShadow: {
+            app: '0 24px 70px rgba(31,107,79,0.10)'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-cream font-nunito text-dark antialiased">
+
+  <!-- Background decoration -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-green/10 blur-3xl"></div>
+    <div class="absolute top-1/3 -right-24 w-72 h-72 rounded-full bg-orange/10 blur-3xl"></div>
+  </div>
+
+
+  <!-- App -->
+  <main class="relative min-h-screen flex justify-center lg:py-8">
+
+    <div class="w-full max-w-[430px] min-h-screen lg:min-h-[850px]
+                bg-surface lg:rounded-[40px] lg:shadow-app
+                overflow-hidden flex flex-col">
+
+      <!-- ================= HEADER ================= -->
+      <header class="px-5 pt-5">
+
+        <div class="flex items-center justify-between">
+
+          <!-- Assessment label -->
+          <div class="flex items-center gap-2">
+
+            <div class="w-8 h-8 rounded-[11px] bg-green
+                        flex items-center justify-center relative">
+
+              <svg width="16" height="16" viewBox="0 0 24 24"
+                   fill="none" stroke="white" stroke-width="2">
+                <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5
+                         7.4 7.4 0 0 1-3.2-.7L4 20l1.7-4.2
+                         A7.5 7.5 0 1 1 20 11.5Z"/>
+              </svg>
+
+              <span class="absolute -right-0.5 -top-0.5
+                           w-2 h-2 rounded-full bg-orange"></span>
+
+            </div>
+
+            <div>
+              <p class="text-[10px] uppercase tracking-[0.14em]
+                        font-800 text-muted">
+                English Assessment
+              </p>
+
+              <p class="text-xs font-800 text-dark">
+                Sample Question
+              </p>
+            </div>
+
+          </div>
+
+
+          <!-- Question indicator -->
+          <div class="text-right">
+            <p class="text-[10px] text-muted">
+              Before the test
+            </p>
+
+            <p class="text-xs font-800 text-green">
+              Sample
+            </p>
+          </div>
+
+        </div>
+
+
+        <!-- Small progress -->
+        <div class="mt-5 h-1.5 bg-green/10 rounded-full overflow-hidden">
+          <div class="h-full w-full bg-green rounded-full"></div>
+        </div>
+
+      </header>
+
+
+
+      <!-- ================= CONTENT ================= -->
+      <section class="flex-1 px-5 pt-8 pb-36 overflow-y-auto">
+
+        <!-- Intro -->
+        <div class="text-center mb-7">
+
+          <div class="mx-auto w-14 h-14 rounded-[18px]
+                      bg-lightgreen flex items-center justify-center">
+
+            <svg width="27" height="27" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="1.8" class="text-green">
+
+              <rect x="9" y="3" width="6" height="11" rx="3"/>
+              <path d="M5 11a7 7 0 0 0 14 0"/>
+              <path d="M12 18v3"/>
+              <path d="M8 21h8"/>
+
+            </svg>
+
+          </div>
+
+
+          <p class="mt-4 text-[10px] uppercase tracking-[0.16em]
+                    font-800 text-green">
+            Speaking · Read Aloud
+          </p>
+
+          <h1 class="mt-1 text-[26px] leading-tight font-800 tracking-tight">
+            Let's try one first.
+          </h1>
+
+          <p class="mt-2 text-sm leading-6 text-muted max-w-[340px] mx-auto">
+            This sample shows how a speaking question will work during your
+            assessment.
+          </p>
+
+        </div>
+
+
+
+        <!-- ================= SAMPLE QUESTION ================= -->
+        <div class="rounded-[26px] bg-lightgreen p-5 mb-5">
+
+          <div class="flex items-center justify-between mb-5">
+
+            <div>
+              <p class="text-[10px] uppercase tracking-[0.13em]
+                        font-800 text-green/70">
+                Sample
+              </p>
+
+              <h2 class="text-base font-800 mt-1">
+                Read the sentence aloud
+              </h2>
+            </div>
+
+
+            <div class="w-10 h-10 rounded-[13px] bg-white/70
+                        flex items-center justify-center">
+
+              <svg width="20" height="20" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor"
+                   stroke-width="1.8" class="text-green">
+
+                <path d="M12 3v18"/>
+                <path d="M8 8v8"/>
+                <path d="M16 7v10"/>
+                <path d="M4 10v4"/>
+                <path d="M20 9v6"/>
+
+              </svg>
+
+            </div>
+
+          </div>
+
+
+          <!-- Sentence -->
+          <div class="bg-white rounded-[20px] p-5">
+
+            <p class="text-[18px] leading-8 font-700 text-dark text-center">
+              “The students are preparing for their final examination.”
+            </p>
+
+          </div>
+
+
+          <!-- Instruction -->
+          <div class="mt-4 flex items-start gap-3">
+
+            <div class="w-7 h-7 shrink-0 rounded-full bg-white/70
+                        flex items-center justify-center">
+
+              <svg width="14" height="14" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor"
+                   stroke-width="2" class="text-green">
+
+                <path d="M12 8v4"/>
+                <path d="M12 16h.01"/>
+                <circle cx="12" cy="12" r="9"/>
+
+              </svg>
+
+            </div>
+
+            <p class="text-[11px] leading-5 text-green/80">
+              When you're ready, tap the microphone and read the sentence
+              naturally and clearly.
+            </p>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================= RECORDING AREA ================= -->
+        <div class="bg-white border border-black/5
+                    rounded-[24px] p-5">
+
+          <div class="flex items-center justify-between">
+
+            <div>
+              <p class="text-xs font-800">
+                Your response
+              </p>
+
+              <p id="statusText" class="text-[11px] text-muted mt-1">
+                Tap the microphone to try it
+              </p>
+            </div>
+
+
+            <!-- Timer -->
+            <div id="timerBox"
+                 class="hidden px-3 py-1.5 rounded-full bg-lightgreen">
+
+              <div class="flex items-center gap-1.5">
+
+                <span class="w-1.5 h-1.5 rounded-full bg-orange
+                             animate-pulse"></span>
+
+                <span id="timer"
+                      class="text-[11px] font-800 text-green">
+                  00:10
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Mic -->
+          <div class="flex justify-center py-7">
+
+            <button
+              id="micButton"
+              onclick="toggleRecording()"
+              class="relative w-20 h-20 rounded-full bg-green
+                     text-white flex items-center justify-center
+                     shadow-lg shadow-green/20
+                     hover:bg-[#195C44]
+                     active:scale-95 transition">
+
+              <!-- Pulse -->
+              <span id="pulse"
+                    class="hidden absolute inset-0 rounded-full
+                           border-2 border-green animate-ping">
+              </span>
+
+
+              <svg id="micIcon"
+                   width="30" height="30"
+                   viewBox="0 0 24 24"
+                   fill="none"
+                   stroke="currentColor"
+                   stroke-width="1.8">
+
+                <rect x="9" y="3" width="6" height="11" rx="3"/>
+                <path d="M5 11a7 7 0 0 0 14 0"/>
+                <path d="M12 18v3"/>
+                <path d="M8 21h8"/>
+
+              </svg>
+
+            </button>
+
+          </div>
+
+
+          <!-- Audio bars -->
+          <div id="audioBars"
+               class="h-7 flex items-center justify-center
+                      gap-1 opacity-30">
+
+            <span class="w-1 h-2 rounded-full bg-green"></span>
+            <span class="w-1 h-4 rounded-full bg-green"></span>
+            <span class="w-1 h-6 rounded-full bg-green"></span>
+            <span class="w-1 h-3 rounded-full bg-green"></span>
+            <span class="w-1 h-5 rounded-full bg-green"></span>
+            <span class="w-1 h-2 rounded-full bg-green"></span>
+            <span class="w-1 h-4 rounded-full bg-green"></span>
+            <span class="w-1 h-6 rounded-full bg-green"></span>
+            <span class="w-1 h-3 rounded-full bg-green"></span>
+            <span class="w-1 h-5 rounded-full bg-green"></span>
+            <span class="w-1 h-2 rounded-full bg-green"></span>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ================= SAMPLE NOTE ================= -->
+        <div class="mt-5 flex items-center gap-3 px-1">
+
+          <div class="w-8 h-8 rounded-[11px] bg-[#F7F7F2]
+                      flex items-center justify-center shrink-0">
+
+            <svg width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="1.8" class="text-muted">
+
+              <path d="M12 3v18"/>
+              <path d="M5 8h14"/>
+              <path d="M5 16h14"/>
+
+            </svg>
+
+          </div>
+
+          <p class="text-[11px] leading-5 text-muted">
+            This is only a sample. Your response here will not affect your
+            assessment score.
+          </p>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================= BOTTOM CTA ================= -->
+      <div class="fixed bottom-0 left-1/2 -translate-x-1/2
+                  w-full max-w-[430px]
+                  bg-surface/95 backdrop-blur-xl
+                  border-t border-black/5
+                  px-5 pt-4 pb-5">
+
+        <button
+          id="continueButton"
+          onclick="beginAssessment()"
+          class="w-full h-14 rounded-[18px]
+                 bg-green text-white
+                 font-800 text-sm
+                 flex items-center justify-center gap-2
+                 hover:bg-[#195C44]
+                 active:scale-[0.99]
+                 transition">
+
+          Begin Assessment
+
+          <svg width="18" height="18" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14"/>
+            <path d="m13 6 6 6-6 6"/>
+          </svg>
+
+        </button>
+
+      </div>
+
+    </div>
+  </main>
+
+
+
+  <!-- ================= JS ================= -->
+  <script>
+
+    let recording = false;
+    let timeLeft = 10;
+    let timerInterval = null;
+
+    function toggleRecording() {
+
+      const micButton = document.getElementById('micButton');
+      const pulse = document.getElementById('pulse');
+      const statusText = document.getElementById('statusText');
+      const timerBox = document.getElementById('timerBox');
+      const audioBars = document.getElementById('audioBars');
+
+      if (!recording) {
+
+        recording = true;
+
+        statusText.textContent = "Listening... read the sentence aloud";
+        statusText.classList.remove("text-muted");
+        statusText.classList.add("text-green");
+
+        pulse.classList.remove("hidden");
+        timerBox.classList.remove("hidden");
+
+        audioBars.classList.remove("opacity-30");
+        audioBars.classList.add("opacity-100");
+
+        micButton.classList.add("scale-105");
+
+        startTimer();
+
+      } else {
+
+        stopRecording();
+
+      }
+
+    }
+
+
+    function startTimer() {
+
+      const timer = document.getElementById('timer');
+
+      timerInterval = setInterval(() => {
+
+        timeLeft--;
+
+        timer.textContent =
+          `00:${String(timeLeft).padStart(2, '0')}`;
+
+        if (timeLeft <= 0) {
+          stopRecording();
+        }
+
+      }, 1000);
+
+    }
+
+
+    function stopRecording() {
+
+      clearInterval(timerInterval);
+
+      recording = false;
+
+      const statusText = document.getElementById('statusText');
+      const pulse = document.getElementById('pulse');
+      const audioBars = document.getElementById('audioBars');
+      const micButton = document.getElementById('micButton');
+
+      statusText.textContent = "Response recorded";
+      statusText.classList.remove("text-muted");
+      statusText.classList.add("text-green");
+
+      pulse.classList.add("hidden");
+
+      audioBars.classList.remove("opacity-100");
+      audioBars.classList.add("opacity-30");
+
+      micButton.classList.remove("scale-105");
+
+    }
+
+
+    function beginAssessment() {
+
+      console.log("Starting actual assessment");
+
+      // Next screen:
+      // window.location.href = "/assessment/speaking/read-aloud";
+
+    }
+
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>ElytEdu — Progress & Score History</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      font-family: "Nunito Sans", sans-serif;
+    }
+
+    body {
+      background: #F2F5E8;
+      color: #17221D;
+    }
+
+    .app-shell {
+      background: #FCFBF8;
+    }
+
+    .soft-shadow {
+      box-shadow:
+        0 24px 70px rgba(31, 107, 79, 0.08),
+        0 4px 18px rgba(23, 34, 29, 0.04);
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 9999px;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb-green {
+      width: 260px;
+      height: 260px;
+      background: rgba(31, 107, 79, 0.10);
+      top: 5%;
+      left: -100px;
+    }
+
+    .orb-orange {
+      width: 220px;
+      height: 220px;
+      background: rgba(229, 138, 69, 0.10);
+      right: -80px;
+      top: 45%;
+    }
+
+    .chart-line {
+      fill: none;
+      stroke: #1F6B4F;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .chart-area {
+      fill: url(#scoreGradient);
+    }
+
+    .chart-dot {
+      fill: #FCFBF8;
+      stroke: #1F6B4F;
+      stroke-width: 3;
+    }
+
+    .skill-bar {
+      transition: width 0.5s ease;
+    }
+
+    .history-row {
+      transition: all 0.2s ease;
+    }
+
+    .history-row:hover {
+      background: #F7F8F4;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- Decorative background -->
+  <div class="orb orb-green"></div>
+  <div class="orb orb-orange"></div>
+
+  <!-- App shell -->
+  <main
+    class="app-shell relative z-10 mx-auto min-h-screen w-full max-w-[1180px] overflow-hidden lg:my-6 lg:min-h-[calc(100vh-48px)] lg:rounded-[40px] soft-shadow"
+  >
+
+    <!-- Header -->
+    <header class="border-b border-[#E8ECE4]">
+
+      <div
+        class="flex items-center justify-between px-5 py-4 sm:px-8 lg:px-10"
+      >
+
+        <!-- Back -->
+        <button
+          onclick="goBack()"
+          class="flex h-10 w-10 items-center justify-center rounded-full border border-[#E3E8E1] bg-white text-[#17221D] transition hover:bg-[#F2F5E8]"
+          aria-label="Go back"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="19"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </button>
+
+        <!-- Logo -->
+        <div class="flex items-center gap-2.5">
+
+          <div
+            class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1F6B4F]"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19"
+              height="19"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-9 8.5 9.2 9.2 0 0 1-4-.9L3 21l1.9-4.5A8.5 8.5 0 1 1 21 11.5Z"
+              />
+              <path d="M8 10h.01"/>
+              <path d="M12 10h.01"/>
+              <path d="M16 10h.01"/>
+            </svg>
+          </div>
+
+          <div class="leading-none">
+
+            <div class="text-[15px] font-extrabold tracking-[-0.02em]">
+              ElytEdu
+            </div>
+
+            <div
+              class="mt-1 text-[8px] font-bold tracking-[0.18em] text-[#7A837D]"
+            >
+              ENGLISH ASSESSMENT
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Spacer -->
+        <div class="w-10"></div>
+
+      </div>
+
+    </header>
+
+    <!-- Content -->
+    <section class="px-5 pb-10 pt-7 sm:px-8 lg:px-10 lg:pt-9">
+
+      <div class="mx-auto max-w-[920px]">
+
+        <!-- Intro -->
+        <div>
+
+          <div
+            class="inline-flex items-center gap-2 rounded-full bg-[#DCEBDD] px-3.5 py-1.5 text-[11px] font-extrabold tracking-wide text-[#1F6B4F]"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-[#1F6B4F]"></span>
+            YOUR PROGRESS
+          </div>
+
+          <h1
+            class="mt-4 text-[30px] font-extrabold leading-[1.1] tracking-[-0.04em] sm:text-[38px]"
+          >
+            Progress & score history
+          </h1>
+
+          <p
+            class="mt-3 max-w-[700px] text-[15px] leading-7 text-[#7A837D] sm:text-[16px]"
+          >
+            Track how your English communication skills have developed
+            over time and see where you're improving.
+          </p>
+
+        </div>
+
+        <!-- Current score -->
+        <div
+          class="mt-7 overflow-hidden rounded-[28px] bg-[#1F6B4F] p-6 text-white sm:p-7"
+        >
+
+          <div
+            class="flex flex-col gap-7 sm:flex-row sm:items-center sm:justify-between"
+          >
+
+            <div>
+
+              <div
+                class="text-[10px] font-extrabold uppercase tracking-[0.16em] text-white/60"
+              >
+                CURRENT SCORE
+              </div>
+
+              <div class="mt-2 flex items-end gap-3">
+
+                <span
+                  class="text-[50px] font-extrabold leading-none tracking-[-0.06em]"
+                >
+                  82
+                </span>
+
+                <span
+                  class="pb-1.5 text-[14px] font-semibold text-white/65"
+                >
+                  / 100
+                </span>
+
+              </div>
+
+              <div class="mt-3 flex items-center gap-2">
+
+                <span
+                  class="rounded-full bg-white/10 px-3 py-1 text-[11px] font-extrabold text-white"
+                >
+                  B2
+                </span>
+
+                <span class="text-[12px] font-semibold text-white/65">
+                  Upper Intermediate
+                </span>
+
+              </div>
+
+            </div>
+
+            <!-- Improvement -->
+            <div
+              class="rounded-[22px] border border-white/10 bg-white/10 px-5 py-4"
+            >
+
+              <div
+                class="flex items-center gap-2 text-[11px] font-bold text-white/60"
+              >
+
+                <div
+                  class="flex h-7 w-7 items-center justify-center rounded-full bg-white/10"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m5 12 5 5L20 7"/>
+                  </svg>
+                </div>
+
+                Since last assessment
+
+              </div>
+
+              <div class="mt-2 flex items-baseline gap-2">
+
+                <span class="text-[28px] font-extrabold">
+                  +8
+                </span>
+
+                <span class="text-[12px] font-bold text-white/60">
+                  points
+                </span>
+
+              </div>
+
+              <div class="mt-1 text-[11px] font-semibold text-white/60">
+                74 → 82
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Score trend -->
+        <div class="mt-8">
+
+          <div class="flex items-end justify-between">
+
+            <div>
+
+              <div
+                class="text-[11px] font-extrabold uppercase tracking-[0.13em] text-[#7A837D]"
+              >
+                SCORE TREND
+              </div>
+
+              <h2
+                class="mt-1.5 text-[22px] font-extrabold tracking-[-0.03em]"
+              >
+                Your overall performance
+              </h2>
+
+            </div>
+
+            <div
+              class="hidden rounded-full bg-[#DCEBDD] px-3 py-1.5 text-[10px] font-extrabold text-[#1F6B4F] sm:block"
+            >
+              +8 points
+            </div>
+
+          </div>
+
+          <!-- Chart -->
+          <div
+            class="mt-4 rounded-[26px] border border-[#E7EAE4] bg-white p-5 sm:p-6"
+          >
+
+            <div class="relative h-[240px] w-full">
+
+              <!-- Y labels -->
+              <div
+                class="absolute bottom-0 left-0 top-0 flex w-8 flex-col justify-between text-[10px] font-bold text-[#A0A7A2]"
+              >
+                <span>100</span>
+                <span>90</span>
+                <span>80</span>
+                <span>70</span>
+                <span>60</span>
+              </div>
+
+              <!-- Chart -->
+              <div class="absolute bottom-0 left-10 right-0 top-0">
+
+                <svg
+                  viewBox="0 0 700 220"
+                  preserveAspectRatio="none"
+                  class="h-full w-full"
+                >
+
+                  <defs>
+
+                    <linearGradient
+                      id="scoreGradient"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop
+                        offset="0%"
+                        stop-color="#1F6B4F"
+                        stop-opacity="0.18"
+                      />
+
+                      <stop
+                        offset="100%"
+                        stop-color="#1F6B4F"
+                        stop-opacity="0"
+                      />
+                    </linearGradient>
+
+                  </defs>
+
+                  <!-- Horizontal grid -->
+                  <line
+                    x1="0"
+                    y1="10"
+                    x2="700"
+                    y2="10"
+                    stroke="#EEF1EB"
+                    stroke-width="1"
+                  />
+
+                  <line
+                    x1="0"
+                    y1="60"
+                    x2="700"
+                    y2="60"
+                    stroke="#EEF1EB"
+                    stroke-width="1"
+                  />
+
+                  <line
+                    x1="0"
+                    y1="110"
+                    x2="700"
+                    y2="110"
+                    stroke="#EEF1EB"
+                    stroke-width="1"
+                  />
+
+                  <line
+                    x1="0"
+                    y1="160"
+                    x2="700"
+                    y2="160"
+                    stroke="#EEF1EB"
+                    stroke-width="1"
+                  />
+
+                  <line
+                    x1="0"
+                    y1="210"
+                    x2="700"
+                    y2="210"
+                    stroke="#EEF1EB"
+                    stroke-width="1"
+                  />
+
+                  <!-- Area -->
+                  <path
+                    class="chart-area"
+                    d="
+                      M 30 180
+                      L 160 145
+                      L 290 120
+                      L 420 95
+                      L 550 70
+                      L 670 45
+                      L 670 220
+                      L 30 220
+                      Z
+                    "
+                  />
+
+                  <!-- Line -->
+                  <path
+                    class="chart-line"
+                    d="
+                      M 30 180
+                      L 160 145
+                      L 290 120
+                      L 420 95
+                      L 550 70
+                      L 670 45
+                    "
+                  />
+
+                  <!-- Points -->
+                  <circle
+                    class="chart-dot"
+                    cx="30"
+                    cy="180"
+                    r="5"
+                  />
+
+                  <circle
+                    class="chart-dot"
+                    cx="160"
+                    cy="145"
+                    r="5"
+                  />
+
+                  <circle
+                    class="chart-dot"
+                    cx="290"
+                    cy="120"
+                    r="5"
+                  />
+
+                  <circle
+                    class="chart-dot"
+                    cx="420"
+                    cy="95"
+                    r="5"
+                  />
+
+                  <circle
+                    class="chart-dot"
+                    cx="550"
+                    cy="70"
+                    r="5"
+                  />
+
+                  <circle
+                    class="chart-dot"
+                    cx="670"
+                    cy="45"
+                    r="5"
+                  />
+
+                </svg>
+
+                <!-- Current score bubble -->
+                <div
+                  class="absolute right-[1%] top-[4%] rounded-xl bg-[#17221D] px-2.5 py-1.5 text-[10px] font-extrabold text-white shadow-sm"
+                >
+                  82
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- X labels -->
+            <div
+              class="ml-10 mt-2 grid grid-cols-6 text-center text-[9px] font-bold text-[#9AA19C]"
+            >
+              <span>Apr</span>
+              <span>May</span>
+              <span>Jun</span>
+              <span>Jul</span>
+              <span>Aug</span>
+              <span>Sep</span>
+            </div>
+
+            <!-- Chart insight -->
+            <div
+              class="mt-5 flex items-start gap-3 rounded-2xl bg-[#F4F7F1] p-4"
+            >
+
+              <div
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#DCEBDD] text-[#1F6B4F]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m3 17 6-6 4 4 8-8"/>
+                  <path d="M14 7h7v7"/>
+                </svg>
+              </div>
+
+              <div>
+
+                <div class="text-[12px] font-extrabold">
+                  You're moving in the right direction
+                </div>
+
+                <p
+                  class="mt-0.5 text-[11px] leading-5 text-[#7A837D]"
+                >
+                  Your score has improved steadily across your recent
+                  assessments. Keep practicing consistently to reach the
+                  next level.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Skill progress -->
+        <div class="mt-8">
+
+          <div>
+
+            <div
+              class="text-[11px] font-extrabold uppercase tracking-[0.13em] text-[#7A837D]"
+            >
+              SKILL PROGRESS
+            </div>
+
+            <h2
+              class="mt-1.5 text-[22px] font-extrabold tracking-[-0.03em]"
+            >
+              How your skills compare
+            </h2>
+
+          </div>
+
+          <div
+            class="mt-4 grid gap-3 sm:grid-cols-2"
+          >
+
+            <!-- Speaking -->
+            <div
+              class="rounded-[22px] border border-[#E7EAE4] bg-white p-5"
+            >
+
+              <div class="flex items-center justify-between">
+
+                <div class="flex items-center gap-3">
+
+                  <div
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#DCEBDD] text-[#1F6B4F]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                      <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                      <path d="M12 19v3"/>
+                      <path d="M8 22h8"/>
+                    </svg>
+                  </div>
+
+                  <span class="text-[14px] font-extrabold">
+                    Speaking
+                  </span>
+
+                </div>
+
+                <span class="text-[22px] font-extrabold">
+                  86
+                </span>
+
+              </div>
+
+              <div class="mt-4 h-2 overflow-hidden rounded-full bg-[#EEF1EB]">
+                <div
+                  class="skill-bar h-full rounded-full bg-[#1F6B4F]"
+                  style="width: 86%"
+                ></div>
+              </div>
+
+              <div class="mt-2 flex justify-between text-[10px] font-bold text-[#929A95]">
+                <span>Strong</span>
+                <span>86 / 100</span>
+              </div>
+
+            </div>
+
+            <!-- Listening -->
+            <div
+              class="rounded-[22px] border border-[#E7EAE4] bg-white p-5"
+            >
+
+              <div class="flex items-center justify-between">
+
+                <div class="flex items-center gap-3">
+
+                  <div
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#DCEBDD] text-[#1F6B4F]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M11 5 6 9H2v6h4l5 4Z"/>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                    </svg>
+                  </div>
+
+                  <span class="text-[14px] font-extrabold">
+                    Listening
+                  </span>
+
+                </div>
+
+                <span class="text-[22px] font-extrabold">
+                  79
+                </span>
+
+              </div>
+
+              <div class="mt-4 h-2 overflow-hidden rounded-full bg-[#EEF1EB]">
+                <div
+                  class="skill-bar h-full rounded-full bg-[#1F6B4F]"
+                  style="width: 79%"
+                ></div>
+              </div>
+
+              <div class="mt-2 flex justify-between text-[10px] font-bold text-[#929A95]">
+                <span>Good</span>
+                <span>79 / 100</span>
+              </div>
+
+            </div>
+
+            <!-- Reading -->
+            <div
+              class="rounded-[22px] border border-[#E7EAE4] bg-white p-5"
+            >
+
+              <div class="flex items-center justify-between">
+
+                <div class="flex items-center gap-3">
+
+                  <div
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#DCEBDD] text-[#1F6B4F]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M4 5a3 3 0 0 1 3-3h13v18H7a3 3 0 0 0-3 3Z"/>
+                      <path d="M7 2v18"/>
+                    </svg>
+                  </div>
+
+                  <span class="text-[14px] font-extrabold">
+                    Reading
+                  </span>
+
+                </div>
+
+                <span class="text-[22px] font-extrabold">
+                  84
+                </span>
+
+              </div>
+
+              <div class="mt-4 h-2 overflow-hidden rounded-full bg-[#EEF1EB]">
+                <div
+                  class="skill-bar h-full rounded-full bg-[#1F6B4F]"
+                  style="width: 84%"
+                ></div>
+              </div>
+
+              <div class="mt-2 flex justify-between text-[10px] font-bold text-[#929A95]">
+                <span>Strong</span>
+                <span>84 / 100</span>
+              </div>
+
+            </div>
+
+            <!-- Writing -->
+            <div
+              class="rounded-[22px] border border-[#E7EAE4] bg-white p-5"
+            >
+
+              <div class="flex items-center justify-between">
+
+                <div class="flex items-center gap-3">
+
+                  <div
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FBE9DC] text-[#E58A45]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M12 20h9"/>
+                      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+                    </svg>
+                  </div>
+
+                  <span class="text-[14px] font-extrabold">
+                    Writing
+                  </span>
+
+                </div>
+
+                <span class="text-[22px] font-extrabold">
+                  78
+                </span>
+
+              </div>
+
+              <div class="mt-4 h-2 overflow-hidden rounded-full bg-[#EEF1EB]">
+                <div
+                  class="skill-bar h-full rounded-full bg-[#E58A45]"
+                  style="width: 78%"
+                ></div>
+              </div>
+
+              <div class="mt-2 flex justify-between text-[10px] font-bold text-[#929A95]">
+                <span>Focus area</span>
+                <span>78 / 100</span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Assessment history -->
+        <div class="mt-8">
+
+          <div class="flex items-end justify-between">
+
+            <div>
+
+              <div
+                class="text-[11px] font-extrabold uppercase tracking-[0.13em] text-[#7A837D]"
+              >
+                HISTORY
+              </div>
+
+              <h2
+                class="mt-1.5 text-[22px] font-extrabold tracking-[-0.03em]"
+              >
+                Assessment history
+              </h2>
+
+            </div>
+
+            <button
+              onclick="viewAllHistory()"
+              class="text-[11px] font-extrabold text-[#1F6B4F]"
+            >
+              View all
+            </button>
+
+          </div>
+
+          <div
+            class="mt-4 overflow-hidden rounded-[24px] border border-[#E7EAE4] bg-white"
+          >
+
+            <!-- Header -->
+            <div
+              class="hidden grid-cols-[1fr_110px_100px_100px] border-b border-[#EEF1EB] bg-[#FAFBF8] px-5 py-3 text-[9px] font-extrabold uppercase tracking-[0.12em] text-[#9AA19C] sm:grid"
+            >
+              <span>Assessment</span>
+              <span>Date</span>
+              <span>Score</span>
+              <span>Level</span>
+            </div>
+
+            <!-- Row 1 -->
+            <button
+              onclick="openAssessment('English Communication Test')"
+              class="history-row flex w-full items-center gap-4 border-b border-[#EEF1EB] px-5 py-4 text-left sm:grid sm:grid-cols-[1fr_110px_100px_100px]"
+            >
+
+              <div class="min-w-0 flex-1">
+
+                <div class="text-[13px] font-extrabold">
+                  English Communication Test
+                </div>
+
+                <div class="mt-1 text-[10px] font-semibold text-[#929A95] sm:hidden">
+                  September 8, 2026
+                </div>
+
+              </div>
+
+              <div class="hidden text-[11px] font-semibold text-[#7A837D] sm:block">
+                Sep 8, 2026
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                <span class="text-[18px] font-extrabold">
+                  82
+                </span>
+
+                <span class="text-[9px] font-bold text-[#1F6B4F]">
+                  +8
+                </span>
+              </div>
+
+              <div
+                class="hidden text-[11px] font-extrabold text-[#1F6B4F] sm:block"
+              >
+                B2
+              </div>
+
+            </button>
+
+            <!-- Row 2 -->
+            <button
+              onclick="openAssessment('English Placement Test')"
+              class="history-row flex w-full items-center gap-4 border-b border-[#EEF1EB] px-5 py-4 text-left sm:grid sm:grid-cols-[1fr_110px_100px_100px]"
+            >
+
+              <div class="min-w-0 flex-1">
+
+                <div class="text-[13px] font-extrabold">
+                  English Placement Test
+                </div>
+
+                <div class="mt-1 text-[10px] font-semibold text-[#929A95] sm:hidden">
+                  August 12, 2026
+                </div>
+
+              </div>
+
+              <div class="hidden text-[11px] font-semibold text-[#7A837D] sm:block">
+                Aug 12, 2026
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                <span class="text-[18px] font-extrabold">
+                  74
+                </span>
+              </div>
+
+              <div
+                class="hidden text-[11px] font-extrabold text-[#1F6B4F] sm:block"
+              >
+                B1
+              </div>
+
+            </button>
+
+            <!-- Row 3 -->
+            <button
+              onclick="openAssessment('Speaking Evaluation')"
+              class="history-row flex w-full items-center gap-4 border-b border-[#EEF1EB] px-5 py-4 text-left sm:grid sm:grid-cols-[1fr_110px_100px_100px]"
+            >
+
+              <div class="min-w-0 flex-1">
+
+                <div class="text-[13px] font-extrabold">
+                  Speaking Evaluation
+                </div>
+
+                <div class="mt-1 text-[10px] font-semibold text-[#929A95] sm:hidden">
+                  July 21, 2026
+                </div>
+
+              </div>
+
+              <div class="hidden text-[11px] font-semibold text-[#7A837D] sm:block">
+                Jul 21, 2026
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                <span class="text-[18px] font-extrabold">
+                  71
+                </span>
+              </div>
+
+              <div
+                class="hidden text-[11px] font-extrabold text-[#7A837D] sm:block"
+              >
+                B1
+              </div>
+
+            </button>
+
+            <!-- Row 4 -->
+            <button
+              onclick="openAssessment('Communication Practice Test')"
+              class="history-row flex w-full items-center gap-4 px-5 py-4 text-left sm:grid sm:grid-cols-[1fr_110px_100px_100px]"
+            >
+
+              <div class="min-w-0 flex-1">
+
+                <div class="text-[13px] font-extrabold">
+                  Communication Practice Test
+                </div>
+
+                <div class="mt-1 text-[10px] font-semibold text-[#929A95] sm:hidden">
+                  June 10, 2026
+                </div>
+
+              </div>
+
+              <div class="hidden text-[11px] font-semibold text-[#7A837D] sm:block">
+                Jun 10, 2026
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                <span class="text-[18px] font-extrabold">
+                  68
+                </span>
+              </div>
+
+              <div
+                class="hidden text-[11px] font-extrabold text-[#7A837D] sm:block"
+              >
+                B1
+              </div>
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- Progress insight -->
+        <div
+          class="mt-7 flex items-start gap-4 rounded-[24px] border border-[#E7EAE4] bg-white p-5 sm:p-6"
+        >
+
+          <div
+            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#DCEBDD] text-[#1F6B4F]"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 3v18h18"/>
+              <path d="m7 16 4-5 3 3 6-8"/>
+            </svg>
+          </div>
+
+          <div>
+
+            <div class="text-[14px] font-extrabold">
+              Your biggest improvement
+            </div>
+
+            <p class="mt-1 text-[12px] leading-5 text-[#7A837D]">
+              You've improved by
+              <span class="font-extrabold text-[#1F6B4F]">
+                14 points
+              </span>
+              since your first recorded assessment. Your progress suggests
+              that consistent practice is making a measurable difference.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- CTA -->
+        <div
+          class="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between"
+        >
+
+          <button
+            onclick="goBack()"
+            class="flex h-12 items-center justify-center rounded-2xl border border-[#DDE3DC] bg-white px-6 text-[13px] font-extrabold text-[#17221D] transition hover:bg-[#F6F7F3]"
+          >
+            Back
+          </button>
+
+          <button
+            onclick="startPractice()"
+            class="flex h-12 items-center justify-center gap-2 rounded-2xl bg-[#1F6B4F] px-7 text-[13px] font-extrabold text-white transition hover:opacity-95"
+          >
+            Continue Practicing
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+
+          </button>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="pb-2 pt-8 text-center">
+
+          <div
+            class="text-[9px] font-extrabold tracking-[0.2em] text-[#A1A7A2]"
+          >
+            ELYTEDU · ENGLISH ASSESSMENT
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+
+    function goBack() {
+      window.location.href = "/home";
+    }
+
+    function startPractice() {
+      window.location.href = "/practice";
+    }
+
+    function viewAllHistory() {
+      alert("Opening complete assessment history...");
+    }
+
+    function openAssessment(name) {
+      alert("Opening: " + name);
+    }
+
+  </script>
+
+</body>
+</html>

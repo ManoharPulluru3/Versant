@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Detailed Skill Report — ElytEdu</title>
+
+  <!-- Nunito Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['Nunito Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-screen bg-[#F2F5E8] font-nunito text-[#17221D]">
+
+  <!-- Background decoration -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+
+    <div
+      class="absolute -top-24 -left-24 h-80 w-80 rounded-full
+             bg-[#DCEBDD] opacity-70 blur-3xl">
+    </div>
+
+    <div
+      class="absolute top-1/3 -right-32 h-96 w-96 rounded-full
+             bg-[#F5DCC7] opacity-45 blur-3xl">
+    </div>
+
+    <div
+      class="absolute -bottom-40 left-1/3 h-80 w-80 rounded-full
+             bg-[#DCEBDD] opacity-50 blur-3xl">
+    </div>
+
+  </div>
+
+  <!-- App -->
+  <main class="relative min-h-screen flex items-center justify-center p-0 sm:p-6">
+
+    <div
+      class="w-full max-w-[1180px]
+             min-h-screen sm:min-h-[calc(100vh-48px)]
+             bg-[#FCFBF8]
+             sm:rounded-[40px]
+             border border-[#E8ECE6]
+             shadow-[0_24px_80px_rgba(23,34,29,0.08)]
+             overflow-hidden flex flex-col"
+    >
+
+      <!-- Header -->
+      <header
+        class="h-[76px] shrink-0
+               px-5 sm:px-8
+               border-b border-[#ECEFE9]
+               flex items-center justify-between"
+      >
+
+        <div class="flex items-center gap-3">
+
+          <button
+            onclick="goBack()"
+            class="h-10 w-10 rounded-xl
+                   border border-[#E1E6DF]
+                   bg-white
+                   flex items-center justify-center
+                   hover:bg-[#F6F8F4]
+                   transition"
+            aria-label="Back"
+          >
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              class="w-5 h-5"
+            >
+              <path
+                d="M15 18 9 12l6-6"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+
+          </button>
+
+          <div class="hidden sm:block">
+
+            <p
+              class="text-[10px]
+                     uppercase tracking-[1.5px]
+                     font-extrabold
+                     text-[#7A837D]"
+            >
+              Assessment
+            </p>
+
+            <p class="mt-0.5 text-[15px] font-extrabold">
+              Detailed Report
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- ElytEdu -->
+        <div class="flex items-center gap-2.5">
+
+          <div
+            class="relative h-9 w-9 rounded-xl
+                   bg-[#1F6B4F]
+                   flex items-center justify-center"
+          >
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              class="w-[18px] h-[18px] text-white"
+            >
+
+              <path
+                d="M5 6.5C5 5.12 6.12 4 7.5 4h9C17.88 4 19 5.12 19 6.5v6c0 1.38-1.12 2.5-2.5 2.5H12l-4.5 3v-3H7.5C6.12 15 5 13.88 5 12.5v-6Z"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linejoin="round"
+              />
+
+              <path
+                d="M9 9h6M9 12h4"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+
+            </svg>
+
+            <span
+              class="absolute -right-1 -top-1
+                     h-2.5 w-2.5 rounded-full
+                     bg-[#E58A45]
+                     border-2 border-[#FCFBF8]"
+            ></span>
+
+          </div>
+
+          <span class="font-extrabold text-[16px]">
+            ElytEdu
+          </span>
+
+        </div>
+
+      </header>
+
+      <!-- Scrollable content -->
+      <section class="flex-1 overflow-y-auto">
+
+        <div class="max-w-[900px] mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10">
+
+          <!-- Heading -->
+          <div>
+
+            <div
+              class="inline-flex items-center gap-2
+                     px-3 py-1.5 rounded-full
+                     bg-[#DCEBDD]
+                     border border-[#CFE2D2]
+                     text-[#1F6B4F]
+                     text-[10px] sm:text-[11px]
+                     font-extrabold uppercase
+                     tracking-[1.2px]"
+            >
+
+              <span class="w-1.5 h-1.5 rounded-full bg-[#1F6B4F]"></span>
+
+              Skill analysis
+
+            </div>
+
+            <div
+              class="mt-4 flex flex-col sm:flex-row
+                     sm:items-end sm:justify-between gap-4"
+            >
+
+              <div>
+
+                <h1
+                  class="text-[30px] sm:text-[38px]
+                         font-extrabold
+                         tracking-[-1.2px]"
+                >
+                  Detailed Skill Report
+                </h1>
+
+                <p
+                  class="mt-2 text-[14px] sm:text-[15px]
+                         leading-6 text-[#7A837D]"
+                >
+                  A closer look at your performance across the four
+                  English communication skills.
+                </p>
+
+              </div>
+
+              <div
+                class="shrink-0 inline-flex items-center
+                       gap-2 px-3 py-2
+                       rounded-xl bg-white
+                       border border-[#E3E8E1]"
+              >
+
+                <div
+                  class="h-7 w-7 rounded-lg
+                         bg-[#DCEBDD]
+                         flex items-center justify-center"
+                >
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    class="w-4 h-4 text-[#1F6B4F]"
+                  >
+                    <path
+                      d="M7 3.8h7.5L19 8.3V20H7a2 2 0 0 1-2-2V5.8a2 2 0 0 1 2-2Z"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linejoin="round"
+                    />
+
+                    <path
+                      d="M14 3.8V9h5"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    />
+
+                    <path
+                      d="M8.5 14h7M8.5 17h5"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+
+                  </svg>
+
+                </div>
+
+                <div>
+
+                  <p class="text-[10px] text-[#7A837D] font-bold">
+                    Assessment
+                  </p>
+
+                  <p class="text-[12px] font-extrabold">
+                    English Communication Test
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Overall summary -->
+          <div
+            class="mt-7
+                   rounded-[24px]
+                   bg-white
+                   border border-[#E5EAE4]
+                   p-5 sm:p-6
+                   flex flex-col sm:flex-row
+                   sm:items-center
+                   justify-between gap-5"
+          >
+
+            <div>
+
+              <p
+                class="text-[10px]
+                       uppercase tracking-[1.2px]
+                       font-extrabold
+                       text-[#7A837D]"
+              >
+                Overall performance
+              </p>
+
+              <div class="mt-2 flex items-baseline gap-2">
+
+                <span
+                  class="text-[38px]
+                         font-extrabold
+                         tracking-[-1px]"
+                >
+                  82
+                </span>
+
+                <span
+                  class="text-[14px]
+                         font-bold
+                         text-[#9AA19C]"
+                >
+                  / 100
+                </span>
+
+              </div>
+
+            </div>
+
+            <div class="sm:text-right">
+
+              <div
+                class="inline-flex items-center gap-2
+                       px-3 py-1.5 rounded-lg
+                       bg-[#DCEBDD]
+                       text-[#1F6B4F]"
+              >
+
+                <span class="h-1.5 w-1.5 rounded-full bg-[#1F6B4F]"></span>
+
+                <span class="text-[11px] font-extrabold">
+                  B2 · Upper Intermediate
+                </span>
+
+              </div>
+
+              <p
+                class="mt-2 text-[11px]
+                       text-[#7A837D]"
+              >
+                Strong overall communication ability
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- Skill navigation -->
+          <div class="mt-8">
+
+            <div
+              id="skillTabs"
+              class="flex gap-2 overflow-x-auto pb-1"
+            >
+
+              <button
+                onclick="showSkill('speaking', this)"
+                class="skill-tab shrink-0
+                       px-4 py-2.5 rounded-xl
+                       bg-[#1F6B4F]
+                       text-white
+                       text-[12px]
+                       font-extrabold"
+              >
+                Speaking
+              </button>
+
+              <button
+                onclick="showSkill('listening', this)"
+                class="skill-tab shrink-0
+                       px-4 py-2.5 rounded-xl
+                       bg-white
+                       border border-[#E0E6DF]
+                       text-[#7A837D]
+                       text-[12px]
+                       font-extrabold"
+              >
+                Listening
+              </button>
+
+              <button
+                onclick="showSkill('reading', this)"
+                class="skill-tab shrink-0
+                       px-4 py-2.5 rounded-xl
+                       bg-white
+                       border border-[#E0E6DF]
+                       text-[#7A837D]
+                       text-[12px]
+                       font-extrabold"
+              >
+                Reading
+              </button>
+
+              <button
+                onclick="showSkill('writing', this)"
+                class="skill-tab shrink-0
+                       px-4 py-2.5 rounded-xl
+                       bg-white
+                       border border-[#E0E6DF]
+                       text-[#7A837D]
+                       text-[12px]
+                       font-extrabold"
+              >
+                Writing
+              </button>
+
+            </div>
+
+          </div>
+
+          <!-- ================= SPEAKING ================= -->
+
+          <div id="speaking" class="skill-panel mt-5">
+
+            <div
+              class="rounded-[24px]
+                     bg-[#1F6B4F]
+                     text-white
+                     p-6 sm:p-7
+                     relative overflow-hidden"
+            >
+
+              <div
+                class="absolute -right-20 -top-20
+                       w-56 h-56
+                       rounded-full
+                       bg-white/5"
+              ></div>
+
+              <div class="relative">
+
+                <div class="flex items-start justify-between">
+
+                  <div class="flex items-center gap-3">
+
+                    <div
+                      class="h-11 w-11 rounded-xl
+                             bg-white/10
+                             flex items-center justify-center"
+                    >
+
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        class="w-5 h-5"
+                      >
+
+                        <rect
+                          x="8"
+                          y="3"
+                          width="8"
+                          height="13"
+                          rx="4"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                        />
+
+                        <path
+                          d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                          stroke-linecap="round"
+                        />
+
+                      </svg>
+
+                    </div>
+
+                    <div>
+
+                      <p class="text-[16px] font-extrabold">
+                        Speaking
+                      </p>
+
+                      <p class="text-[11px] text-white/60">
+                        Fluency & pronunciation
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="text-right">
+
+                    <p
+                      class="text-[34px]
+                             leading-none
+                             font-extrabold"
+                    >
+                      86
+                    </p>
+
+                    <p
+                      class="mt-1 text-[10px]
+                             font-bold text-white/60"
+                    >
+                      Strong
+
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <div class="mt-6">
+
+                  <div class="flex justify-between text-[10px] font-bold text-white/60">
+
+                    <span>Performance</span>
+
+                    <span>86%</span>
+
+                  </div>
+
+                  <div
+                    class="mt-2 h-2
+                           rounded-full
+                           bg-white/15
+                           overflow-hidden"
+                  >
+
+                    <div
+                      class="h-full rounded-full bg-white"
+                      style="width:86%"
+                    ></div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Speaking metrics -->
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+              <!-- Fluency -->
+              <div class="metric-card">
+                <div class="metric-top">
+
+                  <div>
+                    <p class="metric-title">Fluency</p>
+                    <p class="metric-description">
+                      Pace, flow and natural speech
+                    </p>
+                  </div>
+
+                  <span class="metric-score">88</span>
+
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width:88%"></div>
+                </div>
+              </div>
+
+              <!-- Pronunciation -->
+              <div class="metric-card">
+                <div class="metric-top">
+
+                  <div>
+                    <p class="metric-title">Pronunciation</p>
+                    <p class="metric-description">
+                      Clarity and sound accuracy
+                    </p>
+                  </div>
+
+                  <span class="metric-score">85</span>
+
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width:85%"></div>
+                </div>
+              </div>
+
+              <!-- Vocabulary -->
+              <div class="metric-card">
+                <div class="metric-top">
+
+                  <div>
+                    <p class="metric-title">Vocabulary</p>
+                    <p class="metric-description">
+                      Range and appropriate word use
+                    </p>
+                  </div>
+
+                  <span class="metric-score">84</span>
+
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width:84%"></div>
+                </div>
+              </div>
+
+              <!-- Grammar -->
+              <div class="metric-card">
+                <div class="metric-top">
+
+                  <div>
+                    <p class="metric-title">Grammar</p>
+                    <p class="metric-description">
+                      Accuracy of spoken sentences
+                    </p>
+                  </div>
+
+                  <span class="metric-score">87</span>
+
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width:87%"></div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Speaking insight -->
+            <div class="insight-card">
+
+              <div class="insight-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M12 3v18M7 8h10M7 16h10"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                </svg>
+
+              </div>
+
+              <div>
+
+                <p class="insight-title">
+                  Speaking is your strongest skill
+                </p>
+
+                <p class="insight-text">
+                  You communicated ideas clearly with good fluency and
+                  pronunciation. Continue expanding your vocabulary to
+                  make your responses more precise.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ================= LISTENING ================= -->
+
+          <div id="listening" class="skill-panel hidden mt-5">
+
+            <div class="skill-header orange">
+
+              <div class="flex items-center gap-3">
+
+                <div class="skill-icon orange-icon">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    class="w-5 h-5"
+                  >
+
+                    <path
+                      d="M4 13a8 8 0 0 1 16 0"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linecap="round"
+                    />
+
+                    <path
+                      d="M4 13v3a2 2 0 0 0 2 2h1v-7H6a2 2 0 0 0-2 2ZM20 13v3a2 2 0 0 1-2 2h-1v-7h1a2 2 0 0 1 2 2Z"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                    />
+
+                  </svg>
+
+                </div>
+
+                <div>
+
+                  <p class="text-[16px] font-extrabold">
+                    Listening
+                  </p>
+
+                  <p class="text-[11px] text-[#7A837D]">
+                    Understanding spoken English
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div class="text-right">
+
+                <p class="skill-score">
+                  79
+                </p>
+
+                <p class="skill-label orange-text">
+                  Good
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Main Idea</p>
+                    <p class="metric-description">
+                      Understanding overall meaning
+                    </p>
+                  </div>
+                  <span class="metric-score">82</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill orange-fill" style="width:82%"></div>
+                </div>
+              </div>
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Key Details</p>
+                    <p class="metric-description">
+                      Identifying important information
+                    </p>
+                  </div>
+                  <span class="metric-score">76</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill orange-fill" style="width:76%"></div>
+                </div>
+              </div>
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Context</p>
+                    <p class="metric-description">
+                      Understanding meaning from context
+                    </p>
+                  </div>
+                  <span class="metric-score">80</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill orange-fill" style="width:80%"></div>
+                </div>
+              </div>
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Response Accuracy</p>
+                    <p class="metric-description">
+                      Selecting appropriate responses
+                    </p>
+                  </div>
+                  <span class="metric-score">78</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill orange-fill" style="width:78%"></div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="insight-card">
+
+              <div class="insight-icon orange-bg">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M12 3v18M7 8h10M7 16h10"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                </svg>
+
+              </div>
+
+              <div>
+
+                <p class="insight-title">
+                  Focus on key details
+                </p>
+
+                <p class="insight-text">
+                  You understand the main idea well. Practice listening
+                  for names, numbers, reasons and specific details to
+                  improve accuracy.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ================= READING ================= -->
+
+          <div id="reading" class="skill-panel hidden mt-5">
+
+            <div class="skill-header green">
+
+              <div class="flex items-center gap-3">
+
+                <div class="skill-icon green-icon">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    class="w-5 h-5"
+                  >
+
+                    <path
+                      d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 20.5v-15Z"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linejoin="round"
+                    />
+
+                    <path
+                      d="M5 20.5A2.5 2.5 0 0 1 7.5 18H19"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                    />
+
+                  </svg>
+
+                </div>
+
+                <div>
+
+                  <p class="text-[16px] font-extrabold">
+                    Reading
+                  </p>
+
+                  <p class="text-[11px] text-[#7A837D]">
+                    Comprehension & vocabulary
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div class="text-right">
+
+                <p class="skill-score">
+                  84
+                </p>
+
+                <p class="skill-label">
+                  Strong
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Comprehension</p>
+                    <p class="metric-description">
+                      Understanding written passages
+                    </p>
+                  </div>
+                  <span class="metric-score">86</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width:86%"></div>
+                </div>
+              </div>
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Vocabulary</p>
+                    <p class="metric-description">
+                      Understanding words in context
+                    </p>
+                  </div>
+                  <span class="metric-score">82</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width:82%"></div>
+                </div>
+              </div>
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Grammar</p>
+                    <p class="metric-description">
+                      Recognizing correct sentence structure
+                    </p>
+                  </div>
+                  <span class="metric-score">83</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width:83%"></div>
+                </div>
+              </div>
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Inference</p>
+                    <p class="metric-description">
+                      Connecting ideas and implied meaning
+                    </p>
+                  </div>
+                  <span class="metric-score">85</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width:85%"></div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="insight-card">
+
+              <div class="insight-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M12 3v18M7 8h10M7 16h10"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                </svg>
+
+              </div>
+
+              <div>
+
+                <p class="insight-title">
+                  Reading is a strong area
+                </p>
+
+                <p class="insight-text">
+                  You showed good comprehension and vocabulary awareness.
+                  Continue reading longer and more complex passages to
+                  build advanced understanding.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ================= WRITING ================= -->
+
+          <div id="writing" class="skill-panel hidden mt-5">
+
+            <div class="skill-header orange">
+
+              <div class="flex items-center gap-3">
+
+                <div class="skill-icon orange-icon">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    class="w-5 h-5"
+                  >
+
+                    <path
+                      d="m14 5 5 5M4 20l3.5-.8L18.5 8.2a2.1 2.1 0 0 0-3-3L4.5 16.2 4 20Z"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linejoin="round"
+                    />
+
+                  </svg>
+
+                </div>
+
+                <div>
+
+                  <p class="text-[16px] font-extrabold">
+                    Writing
+                  </p>
+
+                  <p class="text-[11px] text-[#7A837D]">
+                    Grammar & written communication
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div class="text-right">
+
+                <p class="skill-score">
+                  78
+                </p>
+
+                <p class="skill-label orange-text">
+                  Good
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Grammar</p>
+                    <p class="metric-description">
+                      Sentence accuracy and structure
+                    </p>
+                  </div>
+                  <span class="metric-score">76</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill orange-fill" style="width:76%"></div>
+                </div>
+              </div>
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Vocabulary</p>
+                    <p class="metric-description">
+                      Word range and precision
+                    </p>
+                  </div>
+                  <span class="metric-score">80</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill orange-fill" style="width:80%"></div>
+                </div>
+              </div>
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Organization</p>
+                    <p class="metric-description">
+                      Structure and flow of ideas
+                    </p>
+                  </div>
+                  <span class="metric-score">79</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill orange-fill" style="width:79%"></div>
+                </div>
+              </div>
+
+              <div class="metric-card">
+                <div class="metric-top">
+                  <div>
+                    <p class="metric-title">Task Completion</p>
+                    <p class="metric-description">
+                      Addressing the requested task
+                    </p>
+                  </div>
+                  <span class="metric-score">77</span>
+                </div>
+
+                <div class="metric-bar">
+                  <div class="metric-fill orange-fill" style="width:77%"></div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="insight-card">
+
+              <div class="insight-icon orange-bg">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M12 3v18M7 8h10M7 16h10"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                </svg>
+
+              </div>
+
+              <div>
+
+                <p class="insight-title">
+                  Writing is your main improvement area
+                </p>
+
+                <p class="insight-text">
+                  Your ideas are clear, but improving grammar accuracy
+                  and sentence structure will make your writing more
+                  effective and professional.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Bottom summary -->
+          <div
+            class="mt-8
+                   rounded-[24px]
+                   border border-[#E5EAE4]
+                   bg-white
+                   p-5 sm:p-6"
+          >
+
+            <div class="flex items-center justify-between gap-4">
+
+              <div>
+
+                <p
+                  class="text-[10px]
+                         uppercase tracking-[1.2px]
+                         font-extrabold
+                         text-[#7A837D]"
+                >
+                  Next step
+                </p>
+
+                <h3
+                  class="mt-1 text-[17px]
+                         font-extrabold"
+                >
+                  Build your improvement plan
+                </h3>
+
+              </div>
+
+              <button
+                onclick="viewImprovementPlan()"
+                class="shrink-0
+                       h-11 px-5 rounded-xl
+                       bg-[#1F6B4F]
+                       text-white
+                       text-[12px]
+                       font-extrabold
+                       hover:bg-[#195A42]
+                       transition"
+              >
+                View Plan
+              </button>
+
+            </div>
+
+            <p
+              class="mt-2 max-w-[650px]
+                     text-[12px]
+                     leading-5
+                     text-[#7A837D]"
+            >
+              Get personalized practice recommendations based on your
+              assessment performance and focus areas.
+            </p>
+
+          </div>
+
+          <!-- Navigation -->
+          <div
+            class="mt-6 pb-4
+                   flex items-center
+                   justify-center"
+          >
+
+            <button
+              onclick="goResults()"
+              class="text-[12px]
+                     font-bold
+                     text-[#7A837D]
+                     hover:text-[#1F6B4F]
+                     transition"
+            >
+              ← Back to Results
+            </button>
+
+          </div>
+
+          <p
+            class="pb-3 text-center
+                   text-[10px]
+                   font-bold
+                   tracking-[1.4px]
+                   text-[#A0A7A2]"
+          >
+            ELYTEDU · ENGLISH ASSESSMENT
+          </p>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <style>
+
+    .metric-card {
+      background: white;
+      border: 1px solid #E6EBE5;
+      border-radius: 20px;
+      padding: 18px;
+    }
+
+    .metric-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .metric-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #17221D;
+    }
+
+    .metric-description {
+      margin-top: 3px;
+      font-size: 10px;
+      line-height: 16px;
+      color: #7A837D;
+    }
+
+    .metric-score {
+      font-size: 20px;
+      font-weight: 800;
+      color: #17221D;
+    }
+
+    .metric-bar {
+      height: 7px;
+      margin-top: 15px;
+      border-radius: 999px;
+      background: #EEF1EC;
+      overflow: hidden;
+    }
+
+    .metric-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: #1F6B4F;
+    }
+
+    .orange-fill {
+      background: #E58A45;
+    }
+
+    .skill-header {
+      border-radius: 24px;
+      padding: 21px;
+      border: 1px solid #E5EAE4;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .skill-header.orange {
+      background: #FFF9F5;
+      border-color: #F1E0D3;
+    }
+
+    .skill-header.green {
+      background: #F7FAF6;
+      border-color: #DDE9DE;
+    }
+
+    .skill-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1F6B4F;
+      background: #DCEBDD;
+    }
+
+    .orange-icon {
+      color: #E58A45;
+      background: #F8E7D9;
+    }
+
+    .skill-score {
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 800;
+      color: #17221D;
+    }
+
+    .skill-label {
+      margin-top: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #1F6B4F;
+    }
+
+    .orange-text {
+      color: #E58A45;
+    }
+
+    .insight-card {
+      margin-top: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 17px;
+      border-radius: 20px;
+      background: #F5F7F2;
+      border: 1px solid #E4EAE2;
+    }
+
+    .insight-icon {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1F6B4F;
+      background: #DCEBDD;
+    }
+
+    .orange-bg {
+      color: #E58A45;
+      background: #F8E7D9;
+    }
+
+    .insight-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #17221D;
+    }
+
+    .insight-text {
+      margin-top: 4px;
+      font-size: 11px;
+      line-height: 18px;
+      color: #7A837D;
+    }
+
+    .skill-tab {
+      transition: all 0.2s ease;
+    }
+
+    @media (max-width: 640px) {
+
+      .skill-header {
+        padding: 17px;
+      }
+
+      .skill-score {
+        font-size: 27px;
+      }
+
+      .metric-card {
+        padding: 16px;
+      }
+
+    }
+
+  </style>
+
+  <script>
+
+    function showSkill(skillId, button) {
+
+      // Hide all panels
+      document.querySelectorAll(".skill-panel").forEach(panel => {
+        panel.classList.add("hidden");
+      });
+
+      // Show selected panel
+      document.getElementById(skillId).classList.remove("hidden");
+
+      // Reset all tabs
+      document.querySelectorAll(".skill-tab").forEach(tab => {
+
+        tab.classList.remove(
+          "bg-[#1F6B4F]",
+          "text-white"
+        );
+
+        tab.classList.add(
+          "bg-white",
+          "border",
+          "border-[#E0E6DF]",
+          "text-[#7A837D]"
+        );
+
+      });
+
+      // Activate selected tab
+      button.classList.remove(
+        "bg-white",
+        "border",
+        "border-[#E0E6DF]",
+        "text-[#7A837D]"
+      );
+
+      button.classList.add(
+        "bg-[#1F6B4F]",
+        "text-white"
+      );
+
+    }
+
+    function goBack() {
+      window.location.href = "/assessment/results";
+    }
+
+    function goResults() {
+      window.location.href = "/assessment/results";
+    }
+
+    function viewImprovementPlan() {
+      window.location.href = "/assessment/improvement-plan";
+    }
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>ElytEdu — Listening Conversation</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      font-family: "Nunito Sans", sans-serif;
+    }
+
+    body {
+      background: #f2f5e8;
+    }
+
+    .play-pulse {
+      animation: playPulse 2s infinite;
+    }
+
+    @keyframes playPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(31, 107, 79, 0.15);
+      }
+
+      70% {
+        box-shadow: 0 0 0 15px rgba(31, 107, 79, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(31, 107, 79, 0);
+      }
+    }
+
+    .audio-wave {
+      animation: audioWave 0.8s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .audio-wave:nth-child(2) {
+      animation-delay: .08s;
+    }
+
+    .audio-wave:nth-child(3) {
+      animation-delay: .16s;
+    }
+
+    .audio-wave:nth-child(4) {
+      animation-delay: .24s;
+    }
+
+    .audio-wave:nth-child(5) {
+      animation-delay: .32s;
+    }
+
+    .audio-wave:nth-child(6) {
+      animation-delay: .40s;
+    }
+
+    .audio-wave:nth-child(7) {
+      animation-delay: .48s;
+    }
+
+    .audio-wave:nth-child(8) {
+      animation-delay: .56s;
+    }
+
+    @keyframes audioWave {
+      0%, 100% {
+        transform: scaleY(.35);
+      }
+
+      50% {
+        transform: scaleY(1);
+      }
+    }
+
+    .timer-warning {
+      animation: timerPulse 1s infinite;
+    }
+
+    @keyframes timerPulse {
+      50% {
+        opacity: .7;
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen text-[#17221D]">
+
+  <!-- Assessment Shell -->
+  <div class="min-h-screen flex justify-center">
+
+    <div
+      class="w-full max-w-[1180px] min-h-screen bg-[#FCFBF8]
+      lg:my-5 lg:min-h-[calc(100vh-40px)] lg:rounded-[40px]
+      lg:shadow-[0_20px_70px_rgba(31,107,79,0.08)]
+      overflow-hidden flex flex-col"
+    >
+
+      <!-- ================= HEADER ================= -->
+
+      <header class="px-5 sm:px-8 lg:px-10 pt-5 sm:pt-7">
+
+        <div class="flex items-center justify-between">
+
+          <!-- Left -->
+          <div class="flex items-center gap-3">
+
+            <button
+              onclick="goBack()"
+              class="w-10 h-10 rounded-full border border-[#E5E9E0]
+              bg-white flex items-center justify-center
+              hover:bg-[#F5F7F1] transition"
+            >
+              <svg
+                class="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M19 12H5"/>
+                <path d="M12 19l-7-7 7-7"/>
+              </svg>
+            </button>
+
+            <!-- Logo / Section -->
+            <div class="flex items-center gap-2.5">
+
+              <div
+                class="w-9 h-9 rounded-xl bg-[#DCEBDD]
+                flex items-center justify-center"
+              >
+                <svg
+                  class="w-5 h-5 text-[#1F6B4F]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M21 11.5a8.38 8.38 0 0 1-9 8.5
+                    9.7 9.7 0 0 1-4-.8L3 21l1.8-4.4
+                    A8.5 8.5 0 1 1 21 11.5Z"
+                  />
+                  <path d="M8 11h.01"/>
+                  <path d="M12 11h.01"/>
+                  <path d="M16 11h.01"/>
+                </svg>
+              </div>
+
+              <div class="hidden sm:block">
+
+                <p class="text-xs font-semibold text-[#7A837D]">
+                  Listening
+                </p>
+
+                <p class="text-sm font-bold">
+                  Conversation
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Right -->
+          <div class="flex items-center gap-3">
+
+            <div class="hidden sm:block text-right">
+
+              <p class="text-xs text-[#7A837D]">
+                Question
+              </p>
+
+              <p class="text-sm font-bold">
+                6 of 10
+              </p>
+
+            </div>
+
+            <div
+              class="w-11 h-11 rounded-full bg-[#F2F5E8]
+              flex items-center justify-center"
+            >
+
+              <svg
+                class="w-5 h-5 text-[#1F6B4F]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+              </svg>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Progress -->
+        <div class="mt-5">
+
+          <div class="flex items-center justify-between mb-2">
+
+            <span class="text-xs font-semibold text-[#7A837D]">
+              Assessment progress
+            </span>
+
+            <span class="text-xs font-bold text-[#1F6B4F]">
+              60%
+            </span>
+
+          </div>
+
+          <div
+            class="h-1.5 bg-[#E9EDE5]
+            rounded-full overflow-hidden"
+          >
+
+            <div
+              class="h-full w-[60%] bg-[#1F6B4F]
+              rounded-full"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </header>
+
+      <!-- ================= MAIN ================= -->
+
+      <main
+        class="flex-1 px-5 sm:px-8 lg:px-10
+        py-7 sm:py-9 pb-36"
+      >
+
+        <div class="max-w-[820px] mx-auto">
+
+          <!-- Timer -->
+          <div class="flex justify-center mb-6">
+
+            <div
+              id="timer"
+              class="inline-flex items-center gap-2
+              px-4 py-2 rounded-full
+              bg-[#F2F5E8] border border-[#E1E8DD]
+              text-[#1F6B4F]"
+            >
+
+              <svg
+                class="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+              </svg>
+
+              <span class="text-sm font-bold">
+                Time remaining
+              </span>
+
+              <span
+                id="timerValue"
+                class="text-sm font-extrabold tracking-wide"
+              >
+                00:45
+              </span>
+
+            </div>
+
+          </div>
+
+          <!-- Heading -->
+          <section class="text-center mb-8">
+
+            <div
+              class="inline-flex items-center justify-center
+              w-12 h-12 rounded-2xl bg-[#DCEBDD] mb-4"
+            >
+
+              <svg
+                class="w-6 h-6 text-[#1F6B4F]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 10v4"/>
+                <path d="M7 8v8"/>
+                <path d="M11 6v12"/>
+                <path d="M15 9v6"/>
+                <path d="M19 11v2"/>
+              </svg>
+
+            </div>
+
+            <p
+              class="text-xs font-extrabold uppercase
+              tracking-[0.16em] text-[#E58A45] mb-2"
+            >
+              Listening · Conversation
+            </p>
+
+            <h1
+              class="text-[28px] sm:text-[34px]
+              leading-tight font-extrabold
+              tracking-[-0.02em]"
+            >
+              Listen and choose the best response
+            </h1>
+
+            <p
+              class="mt-3 max-w-[650px] mx-auto
+              text-sm sm:text-base leading-6
+              text-[#7A837D]"
+            >
+              Listen to the short conversation carefully,
+              then select the response that best completes it.
+            </p>
+
+          </section>
+
+          <!-- ================= AUDIO CARD ================= -->
+
+          <section
+            class="rounded-[28px]
+            border border-[#E3E8DF]
+            bg-white overflow-hidden
+            shadow-[0_10px_35px_rgba(31,107,79,0.05)]"
+          >
+
+            <div class="px-5 sm:px-7 pt-6">
+
+              <div class="flex items-center justify-between">
+
+                <div>
+
+                  <p class="text-sm font-extrabold">
+                    Conversation
+                  </p>
+
+                  <p
+                    id="audioStatus"
+                    class="mt-1 text-xs text-[#7A837D]"
+                  >
+                    Listen carefully before answering
+                  </p>
+
+                </div>
+
+                <!-- Listen Count -->
+                <span
+                  id="listenCount"
+                  class="px-3 py-1.5 rounded-full
+                  bg-[#F2F5E8] text-[#1F6B4F]
+                  text-xs font-bold"
+                >
+                  2 listens
+                </span>
+
+              </div>
+
+            </div>
+
+            <div class="px-5 sm:px-7 py-7">
+
+              <div
+                class="rounded-[24px]
+                bg-[#F8F9F5]
+                border border-[#E8ECE4]
+                p-6 sm:p-8"
+              >
+
+                <!-- Audio Controls -->
+                <div
+                  class="flex flex-col sm:flex-row
+                  items-center gap-6"
+                >
+
+                  <!-- Play Button -->
+                  <button
+                    id="playButton"
+                    onclick="playConversation()"
+                    class="play-pulse shrink-0
+                    w-16 h-16 rounded-full
+                    bg-[#1F6B4F] text-white
+                    flex items-center justify-center
+                    hover:bg-[#18583F]
+                    active:scale-95 transition"
+                  >
+
+                    <svg
+                      id="playIcon"
+                      class="w-7 h-7 ml-0.5"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+
+                  </button>
+
+                  <!-- Audio Info -->
+                  <div class="flex-1 w-full">
+
+                    <div
+                      class="flex items-center
+                      justify-between mb-3"
+                    >
+
+                      <span
+                        id="audioTime"
+                        class="text-xs font-bold
+                        text-[#7A837D]"
+                      >
+                        00:00
+                      </span>
+
+                      <span
+                        class="text-xs text-[#9AA19C]"
+                      >
+                        00:15
+                      </span>
+
+                    </div>
+
+                    <!-- Progress -->
+                    <div
+                      class="h-2 bg-[#E3E8DF]
+                      rounded-full overflow-hidden"
+                    >
+
+                      <div
+                        id="audioProgress"
+                        class="h-full w-0
+                        bg-[#1F6B4F]
+                        rounded-full transition-all"
+                      ></div>
+
+                    </div>
+
+                    <!-- Wave -->
+                    <div
+                      class="flex items-center
+                      justify-center gap-1
+                      h-10 mt-4"
+                    >
+
+                      <span class="audio-wave w-1 h-4 rounded-full bg-[#AFC6B7]"></span>
+                      <span class="audio-wave w-1 h-7 rounded-full bg-[#AFC6B7]"></span>
+                      <span class="audio-wave w-1 h-5 rounded-full bg-[#AFC6B7]"></span>
+                      <span class="audio-wave w-1 h-9 rounded-full bg-[#AFC6B7]"></span>
+                      <span class="audio-wave w-1 h-6 rounded-full bg-[#AFC6B7]"></span>
+                      <span class="audio-wave w-1 h-8 rounded-full bg-[#AFC6B7]"></span>
+                      <span class="audio-wave w-1 h-5 rounded-full bg-[#AFC6B7]"></span>
+                      <span class="audio-wave w-1 h-7 rounded-full bg-[#AFC6B7]"></span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <!-- Replay -->
+                <div
+                  class="mt-6 pt-5
+                  border-t border-[#E4E9E1]
+                  flex items-center justify-between"
+                >
+
+                  <p
+                    class="text-xs text-[#7A837D]"
+                  >
+                    You can listen to the conversation twice.
+                  </p>
+
+                  <button
+                    id="replayButton"
+                    onclick="playConversation()"
+                    class="text-xs font-bold
+                    text-[#1F6B4F]
+                    hover:underline"
+                  >
+                    Replay
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- ================= QUESTION ================= -->
+
+          <section
+            id="questionSection"
+            class="mt-5
+            rounded-[28px]
+            border border-[#E3E8DF]
+            bg-white overflow-hidden
+            opacity-50 pointer-events-none
+            transition-all duration-500"
+          >
+
+            <div class="px-5 sm:px-7 pt-6">
+
+              <div class="flex items-center justify-between">
+
+                <div>
+
+                  <p
+                    class="text-xs font-bold
+                    uppercase tracking-[0.12em]
+                    text-[#9AA19C]"
+                  >
+                    Question
+                  </p>
+
+                  <p
+                    class="mt-1 text-sm font-extrabold"
+                  >
+                    Choose the most natural response
+                  </p>
+
+                </div>
+
+                <div
+                  id="questionReady"
+                  class="hidden items-center gap-1.5
+                  text-xs font-bold
+                  text-[#1F6B4F]"
+                >
+
+                  <svg
+                    class="w-4 h-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m5 12 4 4L19 6"/>
+                  </svg>
+
+                  Ready
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="px-5 sm:px-7 py-6">
+
+              <!-- Prompt -->
+              <div
+                class="rounded-2xl
+                bg-[#F8F9F5]
+                border border-[#E8ECE4]
+                p-5"
+              >
+
+                <p
+                  class="text-[17px] sm:text-lg
+                  leading-7 font-bold"
+                >
+                  Your classmate says,
+                  <span class="text-[#1F6B4F]">
+                    “I missed the bus this morning and arrived late for class.”
+                  </span>
+                  What is the most natural response?
+                </p>
+
+              </div>
+
+              <!-- Options -->
+              <div
+                id="options"
+                class="mt-5 space-y-3"
+              >
+
+                <!-- A -->
+                <button
+                  onclick="selectOption('A', this)"
+                  class="option w-full text-left
+                  flex items-start gap-4
+                  p-4 rounded-2xl
+                  border border-[#E3E8DF]
+                  bg-white
+                  hover:bg-[#F8F9F5]
+                  hover:border-[#B9CFC1]
+                  transition"
+                >
+
+                  <span
+                    class="option-letter
+                    w-9 h-9 shrink-0
+                    rounded-xl
+                    bg-[#F2F5E8]
+                    text-[#1F6B4F]
+                    flex items-center justify-center
+                    text-sm font-extrabold"
+                  >
+                    A
+                  </span>
+
+                  <span
+                    class="pt-1 text-sm
+                    sm:text-[15px]
+                    font-semibold leading-5"
+                  >
+                    That sounds difficult. I hope you are okay.
+                  </span>
+
+                </button>
+
+                <!-- B -->
+                <button
+                  onclick="selectOption('B', this)"
+                  class="option w-full text-left
+                  flex items-start gap-4
+                  p-4 rounded-2xl
+                  border border-[#E3E8DF]
+                  bg-white
+                  hover:bg-[#F8F9F5]
+                  hover:border-[#B9CFC1]
+                  transition"
+                >
+
+                  <span
+                    class="option-letter
+                    w-9 h-9 shrink-0
+                    rounded-xl
+                    bg-[#F2F5E8]
+                    text-[#1F6B4F]
+                    flex items-center justify-center
+                    text-sm font-extrabold"
+                  >
+                    B
+                  </span>
+
+                  <span
+                    class="pt-1 text-sm
+                    sm:text-[15px]
+                    font-semibold leading-5"
+                  >
+                    Yes, the bus is usually blue.
+                  </span>
+
+                </button>
+
+                <!-- C -->
+                <button
+                  onclick="selectOption('C', this)"
+                  class="option w-full text-left
+                  flex items-start gap-4
+                  p-4 rounded-2xl
+                  border border-[#E3E8DF]
+                  bg-white
+                  hover:bg-[#F8F9F5]
+                  hover:border-[#B9CFC1]
+                  transition"
+                >
+
+                  <span
+                    class="option-letter
+                    w-9 h-9 shrink-0
+                    rounded-xl
+                    bg-[#F2F5E8]
+                    text-[#1F6B4F]
+                    flex items-center justify-center
+                    text-sm font-extrabold"
+                  >
+                    C
+                  </span>
+
+                  <span
+                    class="pt-1 text-sm
+                    sm:text-[15px]
+                    font-semibold leading-5"
+                  >
+                    You should buy a new classroom.
+                  </span>
+
+                </button>
+
+                <!-- D -->
+                <button
+                  onclick="selectOption('D', this)"
+                  class="option w-full text-left
+                  flex items-start gap-4
+                  p-4 rounded-2xl
+                  border border-[#E3E8DF]
+                  bg-white
+                  hover:bg-[#F8F9F5]
+                  hover:border-[#B9CFC1]
+                  transition"
+                >
+
+                  <span
+                    class="option-letter
+                    w-9 h-9 shrink-0
+                    rounded-xl
+                    bg-[#F2F5E8]
+                    text-[#1F6B4F]
+                    flex items-center justify-center
+                    text-sm font-extrabold"
+                  >
+                    D
+                  </span>
+
+                  <span
+                    class="pt-1 text-sm
+                    sm:text-[15px]
+                    font-semibold leading-5"
+                  >
+                    I don't think classes have buses.
+                  </span>
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- Info -->
+          <div class="mt-5 flex items-start gap-3 px-1">
+
+            <div
+              class="w-8 h-8 shrink-0
+              rounded-xl bg-[#FFF2E9]
+              flex items-center justify-center"
+            >
+
+              <svg
+                class="w-4 h-4 text-[#E58A45]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 8v4"/>
+                <path d="M12 16h.01"/>
+              </svg>
+
+            </div>
+
+            <p
+              class="text-xs sm:text-sm
+              leading-5 text-[#7A837D]"
+            >
+              Listen carefully for the meaning and context of
+              the conversation. Choose the response that would
+              sound most natural in everyday communication.
+            </p>
+
+          </div>
+
+        </div>
+
+      </main>
+
+      <!-- ================= BOTTOM ACTION ================= -->
+
+      <div class="fixed bottom-0 left-0 right-0 z-40">
+
+        <div class="max-w-[1180px] mx-auto">
+
+          <div
+            class="bg-[#FCFBF8]/95
+            backdrop-blur-md
+            border-t border-[#E8ECE4]
+            px-5 sm:px-8 lg:px-10
+            py-4 sm:py-5"
+          >
+
+            <div
+              class="max-w-[820px] mx-auto
+              flex items-center gap-4"
+            >
+
+              <div class="hidden sm:block flex-1">
+
+                <p
+                  id="bottomHint"
+                  class="text-xs font-semibold
+                  text-[#8A928C]"
+                >
+                  Listen to the conversation to continue
+                </p>
+
+              </div>
+
+              <button
+                id="continueButton"
+                onclick="continueAssessment()"
+                disabled
+                class="w-full sm:w-auto
+                sm:min-w-[190px]
+                h-12 px-7 rounded-2xl
+                bg-[#DCEBDD]
+                text-[#9BA59E]
+                font-extrabold text-sm
+                cursor-not-allowed transition"
+              >
+                Continue
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ================= JAVASCRIPT ================= -->
+
+  <script>
+
+    /* ==========================================
+       Assessment Timer
+    ========================================== */
+
+    let remainingSeconds = 45;
+
+    const timerValue =
+      document.getElementById("timerValue");
+
+    const timer =
+      document.getElementById("timer");
+
+    const assessmentTimer =
+      setInterval(() => {
+
+        if (remainingSeconds <= 0) {
+
+          clearInterval(assessmentTimer);
+
+          timerValue.textContent = "00:00";
+
+          return;
+        }
+
+        remainingSeconds--;
+
+        const minutes =
+          Math.floor(remainingSeconds / 60);
+
+        const seconds =
+          remainingSeconds % 60;
+
+        timerValue.textContent =
+          `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+        if (remainingSeconds <= 10) {
+
+          timer.classList.add(
+            "bg-[#FDEFE7]",
+            "border-[#F5D5C0]",
+            "text-[#C96D2F]",
+            "timer-warning"
+          );
+
+          timer.classList.remove(
+            "bg-[#F2F5E8]",
+            "border-[#E1E8DD]",
+            "text-[#1F6B4F]"
+          );
+
+        }
+
+      }, 1000);
+
+    /* ==========================================
+       Audio Simulation
+    ========================================== */
+
+    const AUDIO_DURATION = 15;
+
+    let audioPlaying = false;
+    let audioFinished = false;
+    let listenCount = 0;
+    let audioSeconds = 0;
+    let audioInterval = null;
+
+    const playButton =
+      document.getElementById("playButton");
+
+    const replayButton =
+      document.getElementById("replayButton");
+
+    const playIcon =
+      document.getElementById("playIcon");
+
+    const audioStatus =
+      document.getElementById("audioStatus");
+
+    const audioProgress =
+      document.getElementById("audioProgress");
+
+    const audioTime =
+      document.getElementById("audioTime");
+
+    const listenCountElement =
+      document.getElementById("listenCount");
+
+    function playConversation() {
+
+      if (audioPlaying) return;
+
+      if (listenCount >= 2) {
+
+        audioStatus.textContent =
+          "You have used both listens.";
+
+        return;
+      }
+
+      listenCount++;
+
+      audioPlaying = true;
+      audioSeconds = 0;
+
+      audioStatus.textContent =
+        "Playing conversation...";
+
+      listenCountElement.textContent =
+        listenCount === 1
+          ? "1 listen used"
+          : "2 listens used";
+
+      playIcon.innerHTML =
+        `<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>`;
+
+      playButton.classList.remove(
+        "play-pulse"
+      );
+
+      audioInterval = setInterval(() => {
+
+        audioSeconds++;
+
+        audioTime.textContent =
+          `00:${String(audioSeconds).padStart(2, "0")}`;
+
+        const percentage =
+          (audioSeconds / AUDIO_DURATION) * 100;
+
+        audioProgress.style.width =
+          `${percentage}%`;
+
+        if (audioSeconds >= AUDIO_DURATION) {
+
+          finishAudio();
+
+        }
+
+      }, 1000);
+
+    }
+
+    function finishAudio() {
+
+      clearInterval(audioInterval);
+
+      audioPlaying = false;
+      audioFinished = true;
+
+      audioTime.textContent = "00:15";
+
+      audioProgress.style.width = "100%";
+
+      playIcon.innerHTML =
+        `<path d="M8 5v14l11-7z"/>`;
+
+      audioStatus.textContent =
+        "Conversation finished";
+
+      if (listenCount >= 2) {
+
+        replayButton.textContent =
+          "No listens remaining";
+
+        replayButton.classList.add(
+          "text-[#9AA19C]",
+          "cursor-not-allowed"
+        );
+
+      }
+
+      enableQuestion();
+
+    }
+
+    /* ==========================================
+       Enable Question
+    ========================================== */
+
+    const questionSection =
+      document.getElementById("questionSection");
+
+    const questionReady =
+      document.getElementById("questionReady");
+
+    function enableQuestion() {
+
+      questionSection.classList.remove(
+        "opacity-50",
+        "pointer-events-none"
+      );
+
+      questionReady.classList.remove("hidden");
+
+      questionReady.classList.add("flex");
+
+      document.getElementById("bottomHint").textContent =
+        "Select the response that best completes the conversation.";
+
+    }
+
+    /* ==========================================
+       Answer Selection
+    ========================================== */
+
+    let selectedAnswer = null;
+
+    const continueButton =
+      document.getElementById("continueButton");
+
+    function selectOption(answer, element) {
+
+      if (!audioFinished) return;
+
+      selectedAnswer = answer;
+
+      const options =
+        document.querySelectorAll(".option");
+
+      options.forEach(option => {
+
+        option.classList.remove(
+          "border-[#1F6B4F]",
+          "bg-[#F2F7F3]"
+        );
+
+        option.classList.add(
+          "border-[#E3E8DF]",
+          "bg-white"
+        );
+
+        const letter =
+          option.querySelector(".option-letter");
+
+        letter.classList.remove(
+          "bg-[#1F6B4F]",
+          "text-white"
+        );
+
+        letter.classList.add(
+          "bg-[#F2F5E8]",
+          "text-[#1F6B4F]"
+        );
+
+      });
+
+      element.classList.remove(
+        "border-[#E3E8DF]",
+        "bg-white"
+      );
+
+      element.classList.add(
+        "border-[#1F6B4F]",
+        "bg-[#F2F7F3]"
+      );
+
+      const selectedLetter =
+        element.querySelector(".option-letter");
+
+      selectedLetter.classList.remove(
+        "bg-[#F2F5E8]",
+        "text-[#1F6B4F]"
+      );
+
+      selectedLetter.classList.add(
+        "bg-[#1F6B4F]",
+        "text-white"
+      );
+
+      enableContinue();
+
+    }
+
+    /* ==========================================
+       Continue
+    ========================================== */
+
+    function enableContinue() {
+
+      continueButton.disabled = false;
+
+      continueButton.classList.remove(
+        "bg-[#DCEBDD]",
+        "text-[#9BA59E]",
+        "cursor-not-allowed"
+      );
+
+      continueButton.classList.add(
+        "bg-[#1F6B4F]",
+        "text-white",
+        "hover:bg-[#18583F]",
+        "cursor-pointer"
+      );
+
+      document.getElementById("bottomHint").textContent =
+        "Your answer is selected. Continue when you're ready.";
+
+    }
+
+    function continueAssessment() {
+
+      if (!selectedAnswer) return;
+
+      clearInterval(assessmentTimer);
+
+      /*
+        Replace this with your actual routing.
+
+        Example:
+
+        window.location.href =
+          "/assessment/listening/passage";
+      */
+
+      alert(
+        "Next: Listening — Passage"
+      );
+
+    }
+
+    /* ==========================================
+       Back
+    ========================================== */
+
+    function goBack() {
+
+      clearInterval(assessmentTimer);
+
+      /*
+        Replace with:
+
+        window.location.href =
+          "/assessment/speaking/open-question";
+      */
+
+      alert(
+        "Back to Speaking — Open Question"
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>

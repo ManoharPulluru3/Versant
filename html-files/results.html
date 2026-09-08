@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Results — ElytEdu</title>
+
+  <!-- Nunito Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['Nunito Sans', 'sans-serif']
+          },
+          colors: {
+            brand: '#1F6B4F',
+            'brand-light': '#DCEBDD',
+            orange: '#E58A45',
+            ink: '#17221D',
+            muted: '#7A837D',
+            cream: '#F2F5E8',
+            surface: '#FCFBF8'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-screen bg-[#F2F5E8] font-nunito text-[#17221D]">
+
+  <!-- Background decoration -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+
+    <div
+      class="absolute -top-24 -left-24 w-80 h-80
+             rounded-full bg-[#DCEBDD]
+             opacity-70 blur-3xl">
+    </div>
+
+    <div
+      class="absolute top-1/3 -right-32 w-96 h-96
+             rounded-full bg-[#F5DCC7]
+             opacity-45 blur-3xl">
+    </div>
+
+    <div
+      class="absolute -bottom-40 left-1/3 w-80 h-80
+             rounded-full bg-[#DCEBDD]
+             opacity-50 blur-3xl">
+    </div>
+
+  </div>
+
+  <!-- App frame -->
+  <main class="relative min-h-screen flex items-center justify-center p-0 sm:p-6">
+
+    <div
+      class="w-full max-w-[1180px]
+             min-h-screen sm:min-h-[calc(100vh-48px)]
+             bg-[#FCFBF8]
+             sm:rounded-[40px]
+             border border-[#E8ECE6]
+             shadow-[0_24px_80px_rgba(23,34,29,0.08)]
+             overflow-hidden
+             flex flex-col"
+    >
+
+      <!-- Header -->
+      <header
+        class="h-[76px] shrink-0
+               px-5 sm:px-8
+               border-b border-[#ECEFE9]
+               flex items-center justify-between"
+      >
+
+        <!-- Left -->
+        <div class="flex items-center gap-3">
+
+          <button
+            onclick="goHome()"
+            class="h-10 w-10 rounded-xl
+                   border border-[#E1E6DF]
+                   bg-white
+                   flex items-center justify-center
+                   hover:bg-[#F6F8F4]
+                   transition"
+            aria-label="Go back"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              class="w-5 h-5 text-[#17221D]"
+            >
+              <path
+                d="M15 18 9 12l6-6"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+
+          <div class="hidden sm:block">
+
+            <p class="text-[10px] uppercase tracking-[1.5px]
+                      font-extrabold text-[#7A837D]">
+              Assessment
+            </p>
+
+            <p class="text-[15px] font-extrabold mt-0.5">
+              Results
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- ElytEdu -->
+        <div class="flex items-center gap-2.5">
+
+          <div
+            class="relative h-9 w-9 rounded-xl
+                   bg-[#1F6B4F]
+                   flex items-center justify-center"
+          >
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              class="w-[18px] h-[18px] text-white"
+            >
+              <path
+                d="M5 6.5C5 5.12 6.12 4 7.5 4h9C17.88 4 19 5.12 19 6.5v6c0 1.38-1.12 2.5-2.5 2.5H12l-4.5 3v-3H7.5C6.12 15 5 13.88 5 12.5v-6Z"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linejoin="round"
+              />
+
+              <path
+                d="M9 9h6M9 12h4"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <span
+              class="absolute -right-1 -top-1
+                     w-2.5 h-2.5 rounded-full
+                     bg-[#E58A45]
+                     border-2 border-[#FCFBF8]"
+            ></span>
+
+          </div>
+
+          <span class="font-extrabold text-[16px]">
+            ElytEdu
+          </span>
+
+        </div>
+
+      </header>
+
+      <!-- Content -->
+      <section class="flex-1 overflow-y-auto">
+
+        <div class="max-w-[850px] mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10">
+
+          <!-- Top heading -->
+          <div class="text-center">
+
+            <div
+              class="inline-flex items-center gap-2
+                     px-3 py-1.5 rounded-full
+                     bg-[#DCEBDD]
+                     border border-[#CFE2D2]
+                     text-[#1F6B4F]
+                     text-[10px] sm:text-[11px]
+                     font-extrabold uppercase
+                     tracking-[1.2px]"
+            >
+
+              <span class="w-1.5 h-1.5 rounded-full bg-[#1F6B4F]"></span>
+
+              Assessment complete
+
+            </div>
+
+            <h1
+              class="mt-4 text-[30px] sm:text-[40px]
+                     font-extrabold tracking-[-1.3px]"
+            >
+              Your results are ready.
+            </h1>
+
+            <p
+              class="mt-3 max-w-[560px] mx-auto
+                     text-[14px] sm:text-[16px]
+                     leading-6 text-[#7A837D]"
+            >
+              Here's how you performed in the English Communication Test.
+              Use your results to understand your strengths and what to improve next.
+            </p>
+
+          </div>
+
+          <!-- Overall Score -->
+          <div
+            class="relative mt-8
+                   rounded-[28px]
+                   bg-[#1F6B4F]
+                   text-white
+                   overflow-hidden
+                   shadow-[0_18px_45px_rgba(31,107,79,0.16)]"
+          >
+
+            <!-- subtle decoration -->
+            <div
+              class="absolute -right-20 -top-24
+                     w-64 h-64 rounded-full
+                     border-[35px] border-white/5"
+            ></div>
+
+            <div
+              class="absolute -left-20 -bottom-28
+                     w-56 h-56 rounded-full
+                     bg-white/5"
+            ></div>
+
+            <div
+              class="relative px-6 sm:px-10 py-7 sm:py-9
+                     flex flex-col sm:flex-row
+                     items-center justify-between
+                     gap-7"
+            >
+
+              <!-- Score -->
+              <div class="text-center sm:text-left">
+
+                <p
+                  class="text-[11px] uppercase
+                         tracking-[1.5px]
+                         font-extrabold text-white/65"
+                >
+                  Overall score
+                </p>
+
+                <div class="mt-2 flex items-end gap-2">
+
+                  <span
+                    class="text-[64px] sm:text-[76px]
+                           leading-none
+                           font-extrabold tracking-[-3px]"
+                  >
+                    82
+                  </span>
+
+                  <span
+                    class="text-[18px] sm:text-[20px]
+                           font-bold text-white/55
+                           mb-2"
+                  >
+                    / 100
+                  </span>
+
+                </div>
+
+                <div class="mt-3 flex items-center gap-2">
+
+                  <span
+                    class="inline-flex items-center
+                           px-2.5 py-1 rounded-lg
+                           bg-white/12
+                           text-[12px] font-extrabold"
+                  >
+                    B2
+                  </span>
+
+                  <span class="text-[13px] text-white/75 font-semibold">
+                    Upper Intermediate
+                  </span>
+
+                </div>
+
+              </div>
+
+              <!-- Performance -->
+              <div
+                class="w-full sm:w-[270px]
+                       rounded-2xl
+                       bg-white/10
+                       border border-white/10
+                       px-5 py-4"
+              >
+
+                <div class="flex items-center justify-between">
+
+                  <span
+                    class="text-[11px] uppercase
+                           tracking-[1px]
+                           font-extrabold text-white/60"
+                  >
+                    Performance
+                  </span>
+
+                  <span class="text-[12px] font-extrabold">
+                    Strong
+                  </span>
+
+                </div>
+
+                <div class="mt-3 h-2 rounded-full bg-white/15 overflow-hidden">
+
+                  <div
+                    class="h-full rounded-full bg-white"
+                    style="width:82%"
+                  ></div>
+
+                </div>
+
+                <p
+                  class="mt-3 text-[11px]
+                         leading-5 text-white/60"
+                >
+                  You demonstrated strong overall English
+                  communication skills.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Skill Scores -->
+          <div class="mt-7">
+
+            <div class="flex items-end justify-between mb-4">
+
+              <div>
+
+                <p
+                  class="text-[11px] uppercase
+                         tracking-[1.2px]
+                         font-extrabold text-[#7A837D]"
+                >
+                  Skill performance
+                </p>
+
+                <h2
+                  class="mt-1 text-[19px]
+                         font-extrabold"
+                >
+                  Your English skills
+                </h2>
+
+              </div>
+
+              <span
+                class="hidden sm:block
+                       text-[11px] font-bold
+                       text-[#9AA19C]"
+              >
+                4 skills assessed
+              </span>
+
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+              <!-- Speaking -->
+              <div
+                class="rounded-[20px]
+                       bg-white
+                       border border-[#E6EBE5]
+                       p-5"
+              >
+
+                <div class="flex items-start justify-between">
+
+                  <div class="flex items-center gap-3">
+
+                    <div
+                      class="h-10 w-10 rounded-xl
+                             bg-[#DCEBDD]
+                             flex items-center justify-center"
+                    >
+
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        class="w-5 h-5 text-[#1F6B4F]"
+                      >
+                        <rect
+                          x="8"
+                          y="3"
+                          width="8"
+                          height="13"
+                          rx="4"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                        />
+
+                        <path
+                          d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+
+                    </div>
+
+                    <div>
+
+                      <p class="text-[14px] font-extrabold">
+                        Speaking
+                      </p>
+
+                      <p class="text-[11px] text-[#7A837D]">
+                        Fluency & pronunciation
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="text-right">
+
+                    <p class="text-[22px] font-extrabold">
+                      86
+                    </p>
+
+                    <p
+                      class="text-[10px]
+                             font-extrabold
+                             text-[#1F6B4F]"
+                    >
+                      Strong
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <div class="mt-5 h-2 rounded-full bg-[#EEF1EC] overflow-hidden">
+
+                  <div
+                    class="h-full rounded-full bg-[#1F6B4F]"
+                    style="width:86%"
+                  ></div>
+
+                </div>
+
+              </div>
+
+              <!-- Listening -->
+              <div
+                class="rounded-[20px]
+                       bg-white
+                       border border-[#E6EBE5]
+                       p-5"
+              >
+
+                <div class="flex items-start justify-between">
+
+                  <div class="flex items-center gap-3">
+
+                    <div
+                      class="h-10 w-10 rounded-xl
+                             bg-[#F8E7D9]
+                             flex items-center justify-center"
+                    >
+
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        class="w-5 h-5 text-[#E58A45]"
+                      >
+                        <path
+                          d="M4 13a8 8 0 0 1 16 0"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                          stroke-linecap="round"
+                        />
+
+                        <path
+                          d="M4 13v3a2 2 0 0 0 2 2h1v-7H6a2 2 0 0 0-2 2ZM20 13v3a2 2 0 0 1-2 2h-1v-7h1a2 2 0 0 1 2 2Z"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                        />
+
+                        <path
+                          d="M17 18c-.7 1.5-2 2.5-4 2.5h-1"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+
+                    </div>
+
+                    <div>
+
+                      <p class="text-[14px] font-extrabold">
+                        Listening
+                      </p>
+
+                      <p class="text-[11px] text-[#7A837D]">
+                        Understanding spoken English
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="text-right">
+
+                    <p class="text-[22px] font-extrabold">
+                      79
+                    </p>
+
+                    <p
+                      class="text-[10px]
+                             font-extrabold
+                             text-[#E58A45]"
+                    >
+                      Good
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <div class="mt-5 h-2 rounded-full bg-[#EEF1EC] overflow-hidden">
+
+                  <div
+                    class="h-full rounded-full bg-[#E58A45]"
+                    style="width:79%"
+                  ></div>
+
+                </div>
+
+              </div>
+
+              <!-- Reading -->
+              <div
+                class="rounded-[20px]
+                       bg-white
+                       border border-[#E6EBE5]
+                       p-5"
+              >
+
+                <div class="flex items-start justify-between">
+
+                  <div class="flex items-center gap-3">
+
+                    <div
+                      class="h-10 w-10 rounded-xl
+                             bg-[#DCEBDD]
+                             flex items-center justify-center"
+                    >
+
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        class="w-5 h-5 text-[#1F6B4F]"
+                      >
+                        <path
+                          d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 20.5v-15Z"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                          stroke-linejoin="round"
+                        />
+
+                        <path
+                          d="M5 20.5A2.5 2.5 0 0 1 7.5 18H19"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                        />
+
+                        <path
+                          d="M9 7h6M9 10h6"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+
+                    </div>
+
+                    <div>
+
+                      <p class="text-[14px] font-extrabold">
+                        Reading
+                      </p>
+
+                      <p class="text-[11px] text-[#7A837D]">
+                        Comprehension & vocabulary
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="text-right">
+
+                    <p class="text-[22px] font-extrabold">
+                      84
+                    </p>
+
+                    <p
+                      class="text-[10px]
+                             font-extrabold
+                             text-[#1F6B4F]"
+                    >
+                      Strong
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <div class="mt-5 h-2 rounded-full bg-[#EEF1EC] overflow-hidden">
+
+                  <div
+                    class="h-full rounded-full bg-[#1F6B4F]"
+                    style="width:84%"
+                  ></div>
+
+                </div>
+
+              </div>
+
+              <!-- Writing -->
+              <div
+                class="rounded-[20px]
+                       bg-white
+                       border border-[#E6EBE5]
+                       p-5"
+              >
+
+                <div class="flex items-start justify-between">
+
+                  <div class="flex items-center gap-3">
+
+                    <div
+                      class="h-10 w-10 rounded-xl
+                             bg-[#F8E7D9]
+                             flex items-center justify-center"
+                    >
+
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        class="w-5 h-5 text-[#E58A45]"
+                      >
+                        <path
+                          d="m14 5 5 5M4 20l3.5-.8L18.5 8.2a2.1 2.1 0 0 0-3-3L4.5 16.2 4 20Z"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                          stroke-linejoin="round"
+                        />
+
+                        <path
+                          d="M13 6.5 17.5 11"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                        />
+                      </svg>
+
+                    </div>
+
+                    <div>
+
+                      <p class="text-[14px] font-extrabold">
+                        Writing
+                      </p>
+
+                      <p class="text-[11px] text-[#7A837D]">
+                        Grammar & written communication
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="text-right">
+
+                    <p class="text-[22px] font-extrabold">
+                      78
+                    </p>
+
+                    <p
+                      class="text-[10px]
+                             font-extrabold
+                             text-[#E58A45]"
+                    >
+                      Good
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <div class="mt-5 h-2 rounded-full bg-[#EEF1EC] overflow-hidden">
+
+                  <div
+                    class="h-full rounded-full bg-[#E58A45]"
+                    style="width:78%"
+                  ></div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Key insight -->
+          <div
+            class="mt-7
+                   rounded-[22px]
+                   bg-[#F5F7F2]
+                   border border-[#E4EAE2]
+                   p-5 sm:p-6"
+          >
+
+            <div class="flex items-start gap-4">
+
+              <div
+                class="shrink-0
+                       h-10 w-10 rounded-xl
+                       bg-[#DCEBDD]
+                       flex items-center justify-center"
+              >
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  class="w-5 h-5 text-[#1F6B4F]"
+                >
+                  <path
+                    d="M9 18h6M10 21h4"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                  />
+
+                  <path
+                    d="M8 15.5c-1.2-1-2-2.5-2-4.2a6 6 0 1 1 12 0c0 1.7-.8 3.2-2 4.2-.7.6-1 1.2-1 2H9c0-.8-.3-1.4-1-2Z"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linejoin="round"
+                  />
+
+                </svg>
+
+              </div>
+
+              <div>
+
+                <p class="text-[13px] font-extrabold">
+                  Your strongest skill is Speaking
+                </p>
+
+                <p
+                  class="mt-1 text-[12px]
+                         leading-5 text-[#7A837D]"
+                >
+                  You showed strong pronunciation, fluency and confidence
+                  while speaking. Writing is your biggest opportunity for
+                  improvement.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Actions -->
+          <div
+            class="mt-7
+                   flex flex-col sm:flex-row
+                   gap-3"
+          >
+
+            <button
+              onclick="viewReport()"
+              class="flex-1 h-12
+                     rounded-xl
+                     bg-[#1F6B4F]
+                     text-white
+                     text-[13px] sm:text-[14px]
+                     font-extrabold
+                     shadow-[0_8px_20px_rgba(31,107,79,0.14)]
+                     hover:bg-[#195A42]
+                     active:scale-[0.98]
+                     transition"
+            >
+              View Detailed Report
+            </button>
+
+            <button
+              onclick="viewImprovement()"
+              class="flex-1 h-12
+                     rounded-xl
+                     bg-white
+                     border border-[#DDE3DC]
+                     text-[#17221D]
+                     text-[13px] sm:text-[14px]
+                     font-extrabold
+                     hover:bg-[#F7F8F5]
+                     active:scale-[0.98]
+                     transition"
+            >
+              View Improvement Plan
+            </button>
+
+          </div>
+
+          <!-- Back -->
+          <button
+            onclick="goHome()"
+            class="mt-5
+                   text-[12px]
+                   font-bold
+                   text-[#7A837D]
+                   hover:text-[#1F6B4F]
+                   transition"
+          >
+            Back to Dashboard
+          </button>
+
+          <!-- Footer -->
+          <div class="mt-9 pb-2 text-center">
+
+            <p
+              class="text-[10px]
+                     font-bold
+                     tracking-[1.4px]
+                     text-[#A0A7A2]"
+            >
+              ELYTEDU · ENGLISH ASSESSMENT
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <script>
+
+    function goHome() {
+      window.location.href = "/home";
+    }
+
+    function viewReport() {
+      window.location.href = "/assessment/detailed-report";
+    }
+
+    function viewImprovement() {
+      window.location.href = "/assessment/improvement-plan";
+    }
+
+  </script>
+
+</body>
+</html>

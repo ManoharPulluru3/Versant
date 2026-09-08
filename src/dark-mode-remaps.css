@@ -1,0 +1,503 @@
+/* Generated dark-mode remaps for hardcoded Tailwind arbitrary colors */
+html[data-theme='dark'] .bg-\[\#DDE5DA\],
+.app-canvas[data-theme='dark'] .bg-\[\#DDE5DA\],
+html[data-theme='dark'] .bg-\[\#E2E7DF\],
+.app-canvas[data-theme='dark'] .bg-\[\#E2E7DF\],
+html[data-theme='dark'] .bg-\[\#E3E6E0\],
+.app-canvas[data-theme='dark'] .bg-\[\#E3E6E0\],
+html[data-theme='dark'] .bg-\[\#E3E7E1\],
+.app-canvas[data-theme='dark'] .bg-\[\#E3E7E1\],
+html[data-theme='dark'] .bg-\[\#E3E8DF\],
+.app-canvas[data-theme='dark'] .bg-\[\#E3E8DF\],
+html[data-theme='dark'] .bg-\[\#E4E7E0\],
+.app-canvas[data-theme='dark'] .bg-\[\#E4E7E0\],
+html[data-theme='dark'] .bg-\[\#E5EBD9\],
+.app-canvas[data-theme='dark'] .bg-\[\#E5EBD9\],
+html[data-theme='dark'] .bg-\[\#E7EBE2\],
+.app-canvas[data-theme='dark'] .bg-\[\#E7EBE2\],
+html[data-theme='dark'] .bg-\[\#E8ECE4\],
+.app-canvas[data-theme='dark'] .bg-\[\#E8ECE4\],
+html[data-theme='dark'] .bg-\[\#E9ECE5\],
+.app-canvas[data-theme='dark'] .bg-\[\#E9ECE5\],
+html[data-theme='dark'] .bg-\[\#E9ECE6\],
+.app-canvas[data-theme='dark'] .bg-\[\#E9ECE6\],
+html[data-theme='dark'] .bg-\[\#E9EDE5\],
+.app-canvas[data-theme='dark'] .bg-\[\#E9EDE5\],
+html[data-theme='dark'] .bg-\[\#EAEDE7\],
+.app-canvas[data-theme='dark'] .bg-\[\#EAEDE7\],
+html[data-theme='dark'] .bg-\[\#EEF0E9\],
+.app-canvas[data-theme='dark'] .bg-\[\#EEF0E9\],
+html[data-theme='dark'] .bg-\[\#EEF0EB\],
+.app-canvas[data-theme='dark'] .bg-\[\#EEF0EB\],
+html[data-theme='dark'] .bg-\[\#EEF1EB\],
+.app-canvas[data-theme='dark'] .bg-\[\#EEF1EB\],
+html[data-theme='dark'] .bg-\[\#EEF1EC\],
+.app-canvas[data-theme='dark'] .bg-\[\#EEF1EC\],
+html[data-theme='dark'] .bg-\[\#F1F3EC\],
+.app-canvas[data-theme='dark'] .bg-\[\#F1F3EC\],
+html[data-theme='dark'] .bg-\[\#F1F3ED\],
+.app-canvas[data-theme='dark'] .bg-\[\#F1F3ED\],
+html[data-theme='dark'] .bg-\[\#F1F4EB\],
+.app-canvas[data-theme='dark'] .bg-\[\#F1F4EB\],
+html[data-theme='dark'] .bg-\[\#F1F5ED\],
+.app-canvas[data-theme='dark'] .bg-\[\#F1F5ED\],
+html[data-theme='dark'] .bg-\[\#F1F5F0\],
+.app-canvas[data-theme='dark'] .bg-\[\#F1F5F0\],
+html[data-theme='dark'] .bg-\[\#F2F7EF\],
+.app-canvas[data-theme='dark'] .bg-\[\#F2F7EF\],
+html[data-theme='dark'] .bg-\[\#F2F7F3\],
+.app-canvas[data-theme='dark'] .bg-\[\#F2F7F3\],
+html[data-theme='dark'] .bg-\[\#F4F5F0\],
+.app-canvas[data-theme='dark'] .bg-\[\#F4F5F0\],
+html[data-theme='dark'] .bg-\[\#F4F6F0\],
+.app-canvas[data-theme='dark'] .bg-\[\#F4F6F0\],
+html[data-theme='dark'] .bg-\[\#F4F7F1\],
+.app-canvas[data-theme='dark'] .bg-\[\#F4F7F1\],
+html[data-theme='dark'] .bg-\[\#F5F2EC\],
+.app-canvas[data-theme='dark'] .bg-\[\#F5F2EC\],
+html[data-theme='dark'] .bg-\[\#F5F6F2\],
+.app-canvas[data-theme='dark'] .bg-\[\#F5F6F2\],
+html[data-theme='dark'] .bg-\[\#F5F7F1\],
+.app-canvas[data-theme='dark'] .bg-\[\#F5F7F1\],
+html[data-theme='dark'] .bg-\[\#F5F7F2\],
+.app-canvas[data-theme='dark'] .bg-\[\#F5F7F2\],
+html[data-theme='dark'] .bg-\[\#F5F8F2\],
+.app-canvas[data-theme='dark'] .bg-\[\#F5F8F2\],
+html[data-theme='dark'] .bg-\[\#F6F7F3\],
+.app-canvas[data-theme='dark'] .bg-\[\#F6F7F3\],
+html[data-theme='dark'] .bg-\[\#F6F8F3\],
+.app-canvas[data-theme='dark'] .bg-\[\#F6F8F3\],
+html[data-theme='dark'] .bg-\[\#F6F8F4\],
+.app-canvas[data-theme='dark'] .bg-\[\#F6F8F4\],
+html[data-theme='dark'] .bg-\[\#F7F4EE\],
+.app-canvas[data-theme='dark'] .bg-\[\#F7F4EE\],
+html[data-theme='dark'] .bg-\[\#F7F7F2\],
+.app-canvas[data-theme='dark'] .bg-\[\#F7F7F2\],
+html[data-theme='dark'] .bg-\[\#F7F8F2\],
+.app-canvas[data-theme='dark'] .bg-\[\#F7F8F2\],
+html[data-theme='dark'] .bg-\[\#F7F8F3\],
+.app-canvas[data-theme='dark'] .bg-\[\#F7F8F3\],
+html[data-theme='dark'] .bg-\[\#F7F8F4\],
+.app-canvas[data-theme='dark'] .bg-\[\#F7F8F4\],
+html[data-theme='dark'] .bg-\[\#F7F8F5\],
+.app-canvas[data-theme='dark'] .bg-\[\#F7F8F5\],
+html[data-theme='dark'] .bg-\[\#F7FAF6\],
+.app-canvas[data-theme='dark'] .bg-\[\#F7FAF6\],
+html[data-theme='dark'] .bg-\[\#F8F9F5\],
+.app-canvas[data-theme='dark'] .bg-\[\#F8F9F5\],
+html[data-theme='dark'] .bg-\[\#FFF7ED\],
+.app-canvas[data-theme='dark'] .bg-\[\#FFF7ED\],
+html[data-theme='dark'] .bg-\[\#FFF9F5\],
+.app-canvas[data-theme='dark'] .bg-\[\#FFF9F5\] {
+  background-color: var(--panel) !important;
+}
+
+html[data-theme='dark'] .bg-\[\#AFC6B7\],
+.app-canvas[data-theme='dark'] .bg-\[\#AFC6B7\],
+html[data-theme='dark'] .bg-\[\#B7C8BA\],
+.app-canvas[data-theme='dark'] .bg-\[\#B7C8BA\],
+html[data-theme='dark'] .bg-\[\#B8CDBE\],
+.app-canvas[data-theme='dark'] .bg-\[\#B8CDBE\],
+html[data-theme='dark'] .bg-\[\#C5CBC5\],
+.app-canvas[data-theme='dark'] .bg-\[\#C5CBC5\],
+html[data-theme='dark'] .bg-\[\#D6DBD4\],
+.app-canvas[data-theme='dark'] .bg-\[\#D6DBD4\],
+html[data-theme='dark'] .bg-\[\#D8DED2\],
+.app-canvas[data-theme='dark'] .bg-\[\#D8DED2\],
+html[data-theme='dark'] .bg-\[\#DDE1DA\],
+.app-canvas[data-theme='dark'] .bg-\[\#DDE1DA\] {
+  background-color: var(--panel-2) !important;
+}
+
+html[data-theme='dark'] .bg-\[\#F4D7BE\],
+.app-canvas[data-theme='dark'] .bg-\[\#F4D7BE\],
+html[data-theme='dark'] .bg-\[\#F5DCC7\],
+.app-canvas[data-theme='dark'] .bg-\[\#F5DCC7\],
+html[data-theme='dark'] .bg-\[\#F8E7D9\],
+.app-canvas[data-theme='dark'] .bg-\[\#F8E7D9\],
+html[data-theme='dark'] .bg-\[\#F8E8DA\],
+.app-canvas[data-theme='dark'] .bg-\[\#F8E8DA\],
+html[data-theme='dark'] .bg-\[\#FBE9DC\],
+.app-canvas[data-theme='dark'] .bg-\[\#FBE9DC\],
+html[data-theme='dark'] .bg-\[\#FCE2CC\],
+.app-canvas[data-theme='dark'] .bg-\[\#FCE2CC\],
+html[data-theme='dark'] .bg-\[\#FCE5D2\],
+.app-canvas[data-theme='dark'] .bg-\[\#FCE5D2\],
+html[data-theme='dark'] .bg-\[\#FDEBDD\],
+.app-canvas[data-theme='dark'] .bg-\[\#FDEBDD\],
+html[data-theme='dark'] .bg-\[\#FDEFE7\],
+.app-canvas[data-theme='dark'] .bg-\[\#FDEFE7\],
+html[data-theme='dark'] .bg-\[\#FFF0DF\],
+.app-canvas[data-theme='dark'] .bg-\[\#FFF0DF\],
+html[data-theme='dark'] .bg-\[\#FFF0E2\],
+.app-canvas[data-theme='dark'] .bg-\[\#FFF0E2\],
+html[data-theme='dark'] .bg-\[\#FFF1E7\],
+.app-canvas[data-theme='dark'] .bg-\[\#FFF1E7\],
+html[data-theme='dark'] .bg-\[\#FFF1E8\],
+.app-canvas[data-theme='dark'] .bg-\[\#FFF1E8\],
+html[data-theme='dark'] .bg-\[\#FFF2E4\],
+.app-canvas[data-theme='dark'] .bg-\[\#FFF2E4\],
+html[data-theme='dark'] .bg-\[\#FFF2E9\],
+.app-canvas[data-theme='dark'] .bg-\[\#FFF2E9\],
+html[data-theme='dark'] .bg-\[\#FFF3EC\],
+.app-canvas[data-theme='dark'] .bg-\[\#FFF3EC\],
+html[data-theme='dark'] .bg-\[\#FFF4E9\],
+.app-canvas[data-theme='dark'] .bg-\[\#FFF4E9\] {
+  background-color: var(--warm-panel) !important;
+}
+
+html[data-theme='dark'] .bg-\[\#E8EAF7\],
+.app-canvas[data-theme='dark'] .bg-\[\#E8EAF7\],
+html[data-theme='dark'] .bg-\[\#EEEFFA\],
+.app-canvas[data-theme='dark'] .bg-\[\#EEEFFA\],
+html[data-theme='dark'] .bg-\[\#F2E5F1\],
+.app-canvas[data-theme='dark'] .bg-\[\#F2E5F1\] {
+  background-color: var(--cool-panel) !important;
+}
+
+html[data-theme='dark'] .border-\[\#B9CFC1\],
+.app-canvas[data-theme='dark'] .border-\[\#B9CFC1\],
+html[data-theme='dark'] .border-\[\#CFE2D2\],
+.app-canvas[data-theme='dark'] .border-\[\#CFE2D2\],
+html[data-theme='dark'] .border-\[\#D7DED5\],
+.app-canvas[data-theme='dark'] .border-\[\#D7DED5\],
+html[data-theme='dark'] .border-\[\#D8E6D9\],
+.app-canvas[data-theme='dark'] .border-\[\#D8E6D9\],
+html[data-theme='dark'] .border-\[\#DDE2DA\],
+.app-canvas[data-theme='dark'] .border-\[\#DDE2DA\],
+html[data-theme='dark'] .border-\[\#DDE3DC\],
+.app-canvas[data-theme='dark'] .border-\[\#DDE3DC\],
+html[data-theme='dark'] .border-\[\#DDE4DB\],
+.app-canvas[data-theme='dark'] .border-\[\#DDE4DB\],
+html[data-theme='dark'] .border-\[\#DDE7DB\],
+.app-canvas[data-theme='dark'] .border-\[\#DDE7DB\],
+html[data-theme='dark'] .border-\[\#DDE9DE\],
+.app-canvas[data-theme='dark'] .border-\[\#DDE9DE\],
+html[data-theme='dark'] .border-\[\#E0E6DF\],
+.app-canvas[data-theme='dark'] .border-\[\#E0E6DF\],
+html[data-theme='dark'] .border-\[\#E1E6DF\],
+.app-canvas[data-theme='dark'] .border-\[\#E1E6DF\],
+html[data-theme='dark'] .border-\[\#E1E8DD\],
+.app-canvas[data-theme='dark'] .border-\[\#E1E8DD\],
+html[data-theme='dark'] .border-\[\#E2E6DF\],
+.app-canvas[data-theme='dark'] .border-\[\#E2E6DF\],
+html[data-theme='dark'] .border-\[\#E2EAE3\],
+.app-canvas[data-theme='dark'] .border-\[\#E2EAE3\],
+html[data-theme='dark'] .border-\[\#E3E8DF\],
+.app-canvas[data-theme='dark'] .border-\[\#E3E8DF\],
+html[data-theme='dark'] .border-\[\#E3E8E1\],
+.app-canvas[data-theme='dark'] .border-\[\#E3E8E1\],
+html[data-theme='dark'] .border-\[\#E4E8E0\],
+.app-canvas[data-theme='dark'] .border-\[\#E4E8E0\],
+html[data-theme='dark'] .border-\[\#E4E9E1\],
+.app-canvas[data-theme='dark'] .border-\[\#E4E9E1\],
+html[data-theme='dark'] .border-\[\#E4EAE2\],
+.app-canvas[data-theme='dark'] .border-\[\#E4EAE2\],
+html[data-theme='dark'] .border-\[\#E5E8E2\],
+.app-canvas[data-theme='dark'] .border-\[\#E5E8E2\],
+html[data-theme='dark'] .border-\[\#E5E9E0\],
+.app-canvas[data-theme='dark'] .border-\[\#E5E9E0\],
+html[data-theme='dark'] .border-\[\#E5E9E1\],
+.app-canvas[data-theme='dark'] .border-\[\#E5E9E1\],
+html[data-theme='dark'] .border-\[\#E5EAE2\],
+.app-canvas[data-theme='dark'] .border-\[\#E5EAE2\],
+html[data-theme='dark'] .border-\[\#E5EAE4\],
+.app-canvas[data-theme='dark'] .border-\[\#E5EAE4\],
+html[data-theme='dark'] .border-\[\#E6E8E2\],
+.app-canvas[data-theme='dark'] .border-\[\#E6E8E2\],
+html[data-theme='dark'] .border-\[\#E6EAE2\],
+.app-canvas[data-theme='dark'] .border-\[\#E6EAE2\],
+html[data-theme='dark'] .border-\[\#E6EBE5\],
+.app-canvas[data-theme='dark'] .border-\[\#E6EBE5\],
+html[data-theme='dark'] .border-\[\#E7E9E1\],
+.app-canvas[data-theme='dark'] .border-\[\#E7E9E1\],
+html[data-theme='dark'] .border-\[\#E7E9E3\],
+.app-canvas[data-theme='dark'] .border-\[\#E7E9E3\],
+html[data-theme='dark'] .border-\[\#E7EAE3\],
+.app-canvas[data-theme='dark'] .border-\[\#E7EAE3\],
+html[data-theme='dark'] .border-\[\#E7EAE4\],
+.app-canvas[data-theme='dark'] .border-\[\#E7EAE4\],
+html[data-theme='dark'] .border-\[\#E7EBE3\],
+.app-canvas[data-theme='dark'] .border-\[\#E7EBE3\],
+html[data-theme='dark'] .border-\[\#E7EBE5\],
+.app-canvas[data-theme='dark'] .border-\[\#E7EBE5\],
+html[data-theme='dark'] .border-\[\#E7ECE4\],
+.app-canvas[data-theme='dark'] .border-\[\#E7ECE4\],
+html[data-theme='dark'] .border-\[\#E8EAE4\],
+.app-canvas[data-theme='dark'] .border-\[\#E8EAE4\],
+html[data-theme='dark'] .border-\[\#E8EBE4\],
+.app-canvas[data-theme='dark'] .border-\[\#E8EBE4\],
+html[data-theme='dark'] .border-\[\#E8ECE4\],
+.app-canvas[data-theme='dark'] .border-\[\#E8ECE4\],
+html[data-theme='dark'] .border-\[\#E9D8CF\],
+.app-canvas[data-theme='dark'] .border-\[\#E9D8CF\],
+html[data-theme='dark'] .border-\[\#E9E5DD\],
+.app-canvas[data-theme='dark'] .border-\[\#E9E5DD\],
+html[data-theme='dark'] .border-\[\#E9EDE5\],
+.app-canvas[data-theme='dark'] .border-\[\#E9EDE5\],
+html[data-theme='dark'] .border-\[\#E9EDE6\],
+.app-canvas[data-theme='dark'] .border-\[\#E9EDE6\],
+html[data-theme='dark'] .border-\[\#ECEDE8\],
+.app-canvas[data-theme='dark'] .border-\[\#ECEDE8\],
+html[data-theme='dark'] .border-\[\#ECEEE9\],
+.app-canvas[data-theme='dark'] .border-\[\#ECEEE9\],
+html[data-theme='dark'] .border-\[\#ECEFE9\],
+.app-canvas[data-theme='dark'] .border-\[\#ECEFE9\],
+html[data-theme='dark'] .border-\[\#EDF0EA\],
+.app-canvas[data-theme='dark'] .border-\[\#EDF0EA\],
+html[data-theme='dark'] .border-\[\#EEF0E9\],
+.app-canvas[data-theme='dark'] .border-\[\#EEF0E9\],
+html[data-theme='dark'] .border-\[\#EEF1EB\],
+.app-canvas[data-theme='dark'] .border-\[\#EEF1EB\],
+html[data-theme='dark'] .border-\[\#F1E0D3\],
+.app-canvas[data-theme='dark'] .border-\[\#F1E0D3\],
+html[data-theme='dark'] .border-\[\#F4DEC9\],
+.app-canvas[data-theme='dark'] .border-\[\#F4DEC9\],
+html[data-theme='dark'] .border-\[\#F5D5C0\],
+.app-canvas[data-theme='dark'] .border-\[\#F5D5C0\] {
+  border-color: var(--panel-border) !important;
+}
+
+html[data-theme='dark'] .hover\:bg-\[\#F4F6F0\]:hover,
+.app-canvas[data-theme='dark'] .hover\:bg-\[\#F4F6F0\]:hover,
+html[data-theme='dark'] .hover\:bg-\[\#F5F7F1\]:hover,
+.app-canvas[data-theme='dark'] .hover\:bg-\[\#F5F7F1\]:hover,
+html[data-theme='dark'] .hover\:bg-\[\#F6F7F3\]:hover,
+.app-canvas[data-theme='dark'] .hover\:bg-\[\#F6F7F3\]:hover,
+html[data-theme='dark'] .hover\:bg-\[\#F6F8F3\]:hover,
+.app-canvas[data-theme='dark'] .hover\:bg-\[\#F6F8F3\]:hover,
+html[data-theme='dark'] .hover\:bg-\[\#F6F8F4\]:hover,
+.app-canvas[data-theme='dark'] .hover\:bg-\[\#F6F8F4\]:hover,
+html[data-theme='dark'] .hover\:bg-\[\#F7F8F2\]:hover,
+.app-canvas[data-theme='dark'] .hover\:bg-\[\#F7F8F2\]:hover,
+html[data-theme='dark'] .hover\:bg-\[\#F7F8F4\]:hover,
+.app-canvas[data-theme='dark'] .hover\:bg-\[\#F7F8F4\]:hover,
+html[data-theme='dark'] .hover\:bg-\[\#F7F8F5\]:hover,
+.app-canvas[data-theme='dark'] .hover\:bg-\[\#F7F8F5\]:hover,
+html[data-theme='dark'] .hover\:bg-\[\#F8F9F5\]:hover,
+.app-canvas[data-theme='dark'] .hover\:bg-\[\#F8F9F5\]:hover,
+html[data-theme='dark'] .hover\:bg-\[\#FFF3EC\]:hover,
+.app-canvas[data-theme='dark'] .hover\:bg-\[\#FFF3EC\]:hover {
+  background-color: var(--hover-row) !important;
+}
+
+html[data-theme='dark'] .text-\[\#26342D\],
+.app-canvas[data-theme='dark'] .text-\[\#26342D\],
+html[data-theme='dark'] .text-\[\#39443D\],
+.app-canvas[data-theme='dark'] .text-\[\#39443D\],
+html[data-theme='dark'] .text-\[\#39443E\],
+.app-canvas[data-theme='dark'] .text-\[\#39443E\],
+html[data-theme='dark'] .text-\[\#526057\],
+.app-canvas[data-theme='dark'] .text-\[\#526057\],
+html[data-theme='dark'] .text-\[\#59483B\],
+.app-canvas[data-theme='dark'] .text-\[\#59483B\] {
+  color: var(--color-dark) !important;
+}
+
+html[data-theme='dark'] .text-\[\#617067\],
+.app-canvas[data-theme='dark'] .text-\[\#617067\],
+html[data-theme='dark'] .text-\[\#667068\],
+.app-canvas[data-theme='dark'] .text-\[\#667068\],
+html[data-theme='dark'] .text-\[\#66706A\],
+.app-canvas[data-theme='dark'] .text-\[\#66706A\],
+html[data-theme='dark'] .text-\[\#68716B\],
+.app-canvas[data-theme='dark'] .text-\[\#68716B\],
+html[data-theme='dark'] .text-\[\#68736C\],
+.app-canvas[data-theme='dark'] .text-\[\#68736C\],
+html[data-theme='dark'] .text-\[\#6F7772\],
+.app-canvas[data-theme='dark'] .text-\[\#6F7772\],
+html[data-theme='dark'] .text-\[\#756B63\],
+.app-canvas[data-theme='dark'] .text-\[\#756B63\],
+html[data-theme='dark'] .text-\[\#8A7767\],
+.app-canvas[data-theme='dark'] .text-\[\#8A7767\],
+html[data-theme='dark'] .text-\[\#8A918B\],
+.app-canvas[data-theme='dark'] .text-\[\#8A918B\],
+html[data-theme='dark'] .text-\[\#8A918C\],
+.app-canvas[data-theme='dark'] .text-\[\#8A918C\],
+html[data-theme='dark'] .text-\[\#8A928C\],
+.app-canvas[data-theme='dark'] .text-\[\#8A928C\],
+html[data-theme='dark'] .text-\[\#8A928D\],
+.app-canvas[data-theme='dark'] .text-\[\#8A928D\],
+html[data-theme='dark'] .text-\[\#8E9790\],
+.app-canvas[data-theme='dark'] .text-\[\#8E9790\],
+html[data-theme='dark'] .text-\[\#929A95\],
+.app-canvas[data-theme='dark'] .text-\[\#929A95\],
+html[data-theme='dark'] .text-\[\#9AA19B\],
+.app-canvas[data-theme='dark'] .text-\[\#9AA19B\],
+html[data-theme='dark'] .text-\[\#9AA19C\],
+.app-canvas[data-theme='dark'] .text-\[\#9AA19C\],
+html[data-theme='dark'] .text-\[\#9AA29C\],
+.app-canvas[data-theme='dark'] .text-\[\#9AA29C\],
+html[data-theme='dark'] .text-\[\#9BA39C\],
+.app-canvas[data-theme='dark'] .text-\[\#9BA39C\],
+html[data-theme='dark'] .text-\[\#9BA59E\],
+.app-canvas[data-theme='dark'] .text-\[\#9BA59E\],
+html[data-theme='dark'] .text-\[\#A0A69F\],
+.app-canvas[data-theme='dark'] .text-\[\#A0A69F\],
+html[data-theme='dark'] .text-\[\#A0A7A2\],
+.app-canvas[data-theme='dark'] .text-\[\#A0A7A2\],
+html[data-theme='dark'] .text-\[\#A1A7A2\],
+.app-canvas[data-theme='dark'] .text-\[\#A1A7A2\],
+html[data-theme='dark'] .text-\[\#A1A8A2\],
+.app-canvas[data-theme='dark'] .text-\[\#A1A8A2\],
+html[data-theme='dark'] .text-\[\#A2AAA4\],
+.app-canvas[data-theme='dark'] .text-\[\#A2AAA4\],
+html[data-theme='dark'] .text-\[\#B0B6B1\],
+.app-canvas[data-theme='dark'] .text-\[\#B0B6B1\],
+html[data-theme='dark'] .text-\[\#D8DDD7\],
+.app-canvas[data-theme='dark'] .text-\[\#D8DDD7\] {
+  color: var(--color-muted) !important;
+}
+
+
+html[data-theme='dark'] .bg-white,
+.app-canvas[data-theme='dark'] .bg-white {
+  background-color: var(--panel) !important;
+}
+
+html[data-theme='dark'] .bg-white\/70,
+.app-canvas[data-theme='dark'] .bg-white\/70 {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html[data-theme='dark'] .bg-white\/95,
+.app-canvas[data-theme='dark'] .bg-white\/95 {
+  background-color: rgba(26, 35, 31, 0.95) !important;
+}
+
+html[data-theme='dark'] .bg-surface\/95,
+.app-canvas[data-theme='dark'] .bg-surface\/95 {
+  background-color: rgba(18, 25, 22, 0.94) !important;
+}
+
+html[data-theme='dark'] .bg-cream,
+.app-canvas[data-theme='dark'] .bg-cream {
+  background-color: #2d453a !important;
+}
+
+html[data-theme='dark'] .text-brand,
+.app-canvas[data-theme='dark'] .text-brand {
+  color: #6bc49a !important;
+}
+
+html[data-theme='dark'] .border-brand,
+.app-canvas[data-theme='dark'] .border-brand {
+  border-color: #4fa87a !important;
+}
+
+html[data-theme='dark'] .bg-brand-light,
+.app-canvas[data-theme='dark'] .bg-brand-light {
+  background-color: #2a4638 !important;
+}
+
+html[data-theme='dark'] .shadow-sm,
+.app-canvas[data-theme='dark'] .shadow-sm,
+html[data-theme='dark'] .soft-shadow,
+.app-canvas[data-theme='dark'] .soft-shadow {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35) !important;
+}
+
+html[data-theme='dark'] input,
+html[data-theme='dark'] textarea,
+.app-canvas[data-theme='dark'] input,
+.app-canvas[data-theme='dark'] textarea {
+  background-color: var(--panel-2);
+  color: var(--color-dark);
+  border-color: var(--panel-border);
+}
+
+html[data-theme='dark'] input::placeholder,
+html[data-theme='dark'] textarea::placeholder,
+.app-canvas[data-theme='dark'] input::placeholder,
+.app-canvas[data-theme='dark'] textarea::placeholder {
+  color: var(--color-muted);
+}
+
+/* Keep translucent / solid white correctly on brand surfaces */
+html[data-theme='dark'] .bg-brand .bg-white,
+.app-canvas[data-theme='dark'] .bg-brand .bg-white,
+html[data-theme='dark'] .bg-\[\#18583F\] .bg-white,
+.app-canvas[data-theme='dark'] .bg-\[\#18583F\] .bg-white,
+html[data-theme='dark'] .bg-\[\#195A42\] .bg-white,
+.app-canvas[data-theme='dark'] .bg-\[\#195A42\] .bg-white,
+html[data-theme='dark'] .bg-\[\#195C44\] .bg-white,
+.app-canvas[data-theme='dark'] .bg-\[\#195C44\] .bg-white {
+  background-color: #ffffff !important;
+}
+
+html[data-theme='dark'] .bg-brand .bg-white\/10,
+.app-canvas[data-theme='dark'] .bg-brand .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+html[data-theme='dark'] .bg-brand .bg-white\/15,
+.app-canvas[data-theme='dark'] .bg-brand .bg-white\/15 {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+html[data-theme='dark'] .bg-brand .bg-white\/70,
+.app-canvas[data-theme='dark'] .bg-brand .bg-white\/70 {
+  background-color: rgba(255, 255, 255, 0.72) !important;
+}
+
+html[data-theme='dark'] .bg-brand .bg-white\/95,
+.app-canvas[data-theme='dark'] .bg-brand .bg-white\/95 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+html[data-theme='dark'] .bg-brand .border-white\/10,
+.app-canvas[data-theme='dark'] .bg-brand .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+html[data-theme='dark'] .bg-brand .text-brand,
+.app-canvas[data-theme='dark'] .bg-brand .text-brand {
+  color: #1f6b4f !important;
+}
+
+html[data-theme='dark'] .bg-brand .text-white\/60,
+html[data-theme='dark'] .bg-brand .text-white\/65,
+html[data-theme='dark'] .bg-brand .text-white\/70,
+.app-canvas[data-theme='dark'] .bg-brand .text-white\/60,
+.app-canvas[data-theme='dark'] .bg-brand .text-white\/65,
+.app-canvas[data-theme='dark'] .bg-brand .text-white\/70 {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+/* Toggle knobs stay white */
+html[data-theme='dark'] button .bg-white.shadow-sm,
+.app-canvas[data-theme='dark'] button .bg-white.shadow-sm,
+html[data-theme='dark'] button > .bg-white,
+.app-canvas[data-theme='dark'] button > .bg-white {
+  background-color: #ffffff !important;
+}
+
+/* Chart / progress tracks */
+html[data-theme='dark'] .bg-\[\#EEF1EB\],
+.app-canvas[data-theme='dark'] .bg-\[\#EEF1EB\],
+html[data-theme='dark'] .bg-\[\#D6DBD4\],
+.app-canvas[data-theme='dark'] .bg-\[\#D6DBD4\] {
+  background-color: #2a3530 !important;
+}
+
+/* Sticky footers / bars */
+html[data-theme='dark'] .backdrop-blur-md,
+html[data-theme='dark'] .backdrop-blur-xl,
+html[data-theme='dark'] .backdrop-blur-lg,
+.app-canvas[data-theme='dark'] .backdrop-blur-md,
+.app-canvas[data-theme='dark'] .backdrop-blur-xl,
+.app-canvas[data-theme='dark'] .backdrop-blur-lg {
+  background-color: rgba(16, 23, 20, 0.88);
+}
+
+/* SVG strokes that use currentColor inherit; force light icons on light-only wrappers */
+html[data-theme='dark'] .text-dark,
+.app-canvas[data-theme='dark'] .text-dark {
+  color: var(--color-dark) !important;
+}
+
+html[data-theme='dark'] .text-muted,
+.app-canvas[data-theme='dark'] .text-muted {
+  color: var(--color-muted) !important;
+}
+
