@@ -1,0 +1,33 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { ListeningResultScreen } from '../screens/listening/ListeningResultScreen'
+import { ListeningSessionScreen } from '../screens/listening/ListeningSessionScreen'
+import { LoginScreen } from '../screens/LoginScreen'
+import { SplashScreen } from '../screens/SplashScreen'
+import {
+  AssessmentDetailsScreen,
+  DeviceCheckScreen,
+  NotificationsScreen,
+  PracticeSkillScreen,
+} from '../screens/StackScreens'
+import { MainTabs } from './MainTabs'
+import type { RootStackParamList } from './types'
+
+const Stack = createNativeStackNavigator<RootStackParamList>()
+
+export function RootNavigator() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Splash">
+      <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'none' }} />
+      <Stack.Screen name="Login" component={LoginScreen} options={{ animation: 'fade' }} />
+      <Stack.Screen name="Main" component={MainTabs} options={{ animation: 'fade' }} />
+      <Stack.Screen name="Notifications" component={NotificationsScreen} />
+      <Stack.Screen name="PracticeSkill" component={PracticeSkillScreen} />
+      <Stack.Screen name="ListeningSession" component={ListeningSessionScreen} />
+      <Stack.Screen name="ListeningResult" component={ListeningResultScreen} />
+      <Stack.Screen name="AssessmentDetails" component={AssessmentDetailsScreen} />
+      <Stack.Screen name="DeviceCheck" component={DeviceCheckScreen} />
+    </Stack.Navigator>
+  )
+}
+
+export type { RootStackParamList } from './types'

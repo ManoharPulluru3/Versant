@@ -1,0 +1,55 @@
+import { Pressable, Text, View } from 'react-native'
+import { CommonActions, useNavigation, useRoute } from '@react-navigation/native'
+import type { RouteProp } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useTheme } from '../../context/ThemeContext'
+import type { RootStackParamList } from '../../navigation/types'
+
+export function ListeningResultScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+  const route = useRoute<RouteProp<RootStackParamList, 'ListeningResult'>>()
+  const { colors } = useTheme()
+  const { title, correct, total, mode } = route.params
+  const score = total === 0 ? 0 : Math.round((correct / total) * 100)
+
+  function done() {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Main', params: { screen: mode === 'assessment' ? 'Tests' : 'Practice' } }],
+      }),
+    )
+  }
+
+  return (
+    <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.canvas }}>
+      <View className="flex-1 justify-center px-6">
+        <Text className="text-center text-[11px] font-bold uppercase tracking-[1px]" style={{ color: colors.accent }}>
+          Listening
+        </Text>
+        <Text className="mt-2 text-center text-[28px] font-black tracking-tight" style={{ color: colors.text }}>
+          {title}
+        </Text>
+        <View className="mt-8 items-center rounded-[28px] px-6 py-8" style={{ backgroundColor: colors.brand }}>
+          <Text className="text-xs font-bold uppercase tracking-[1px] text-white/70">Your score</Text>
+          <Text className="mt-2 text-[56px] font-black leading-none text-white">{score}</Text>
+          <Text className="mt-2 text-sm font-semibold text-white/80">
+            {correct} of {total} correct
+          </Text>
+        </View>
+        <Text className="mt-6 text-center text-sm leading-6" style={{ color: colors.muted }}>
+          Listen for the main idea and the details that matter, then choose the answer that fits.
+        </Text>
+      </View>
+      <View className="px-6 pb-4">
+        <Pressable
+          onPress={done}
+          className="h-12 items-center justify-center rounded-2xl"
+          style={{ backgroundColor: colors.brand }}>
+          <Text className="text-[15px] font-extrabold text-white">Done</Text>
+        </Pressable>
+      </View>
+    </SafeAreaView>
+  )
+}

@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>ElytEdu — Trainers & Experts</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Kalam:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            handwritten: ["Kalam", "cursive"],
+          },
+
+          colors: {
+            elyt: {
+              navy: "#063B73",
+              dark: "#032B56",
+              blue: "#0B5CAD",
+              cyan: "#25D9B8",
+              light: "#EAF6FF",
+              pale: "#F5FAFF",
+            }
+          },
+
+          boxShadow: {
+            soft: "0 15px 50px rgba(3, 43, 86, 0.08)",
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background: #f7fbff;
+      color: #063b73;
+    }
+
+    /* --------------------------------
+       LOGO
+    -------------------------------- */
+
+    .logo-mark {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #0b5cad, #063b73);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 25px;
+      font-weight: 800;
+      position: relative;
+      box-shadow: 0 8px 20px rgba(6, 59, 115, 0.18);
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 5px;
+      background: #25d9b8;
+      border-radius: 10px;
+      bottom: 7px;
+      right: 7px;
+      transform: rotate(-12deg);
+    }
+
+    /* --------------------------------
+       HERO
+    -------------------------------- */
+
+    .hero {
+      background:
+        radial-gradient(
+          circle at 90% 15%,
+          rgba(37, 217, 184, 0.16),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 10% 90%,
+          rgba(11, 92, 173, 0.10),
+          transparent 30%
+        ),
+        #ffffff;
+    }
+
+    .hero-card {
+      background:
+        radial-gradient(
+          circle at 90% 0%,
+          rgba(37, 217, 184, 0.10),
+          transparent 25%
+        ),
+        linear-gradient(
+          135deg,
+          #063b73 0%,
+          #032b56 100%
+        );
+    }
+
+    .hero-title span {
+      color: #25d9b8;
+    }
+
+    /* --------------------------------
+       DECORATIVE SHAPES
+    -------------------------------- */
+
+    .circle-decoration {
+      position: absolute;
+      border-radius: 9999px;
+      pointer-events: none;
+    }
+
+    /* --------------------------------
+       ICON BOX
+    -------------------------------- */
+
+    .icon-box {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: #eaf6ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0b5cad;
+      flex-shrink: 0;
+    }
+
+    /* --------------------------------
+       COURSE CARD
+    -------------------------------- */
+
+    .course-column {
+      border-right: 1px solid #dcebf5;
+    }
+
+    .course-column:last-child {
+      border-right: none;
+    }
+
+    .course-pill {
+      background: #f3f9fd;
+      border: 1px solid #e2eff7;
+      transition: all 0.2s ease;
+    }
+
+    .course-pill:hover {
+      background: #eaf6ff;
+      border-color: #bfe4f7;
+      transform: translateY(-1px);
+    }
+
+    /* --------------------------------
+       REQUIREMENT CARD
+    -------------------------------- */
+
+    .check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      background: #25d9b8;
+      color: #063b73;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* --------------------------------
+       BENEFITS
+    -------------------------------- */
+
+    .benefit-item {
+      position: relative;
+    }
+
+    .benefit-item:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: -25px;
+      top: 50%;
+      width: 1px;
+      height: 45px;
+      background: #d6e7f2;
+      transform: translateY(-50%);
+    }
+
+    /* --------------------------------
+       CTA
+    -------------------------------- */
+
+    .cta {
+      background:
+        radial-gradient(
+          circle at 95% 10%,
+          rgba(37, 217, 184, 0.12),
+          transparent 22%
+        ),
+        linear-gradient(
+          135deg,
+          #063b73,
+          #032b56
+        );
+    }
+
+    /* --------------------------------
+       HANDWRITTEN TEXT
+    -------------------------------- */
+
+    .handwritten {
+      font-family: "Kalam", cursive;
+    }
+
+    /* --------------------------------
+       RESPONSIVE
+    -------------------------------- */
+
+    @media (max-width: 900px) {
+      .course-column {
+        border-right: none;
+        border-bottom: 1px solid #dcebf5;
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+      }
+
+      .course-column:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+
+      .benefit-item:not(:last-child)::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-title {
+        font-size: 42px !important;
+        line-height: 1.05;
+      }
+
+      .hero-card {
+        border-radius: 28px !important;
+      }
+    }
+
+    /* --------------------------------
+       PRINT
+    -------------------------------- */
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .poster {
+        max-width: 100%;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================
+       MAIN POSTER
+  ============================================= -->
+
+  <main class="poster max-w-[1200px] mx-auto bg-white shadow-soft">
+
+    <!-- ==========================================
+         HEADER
+    =========================================== -->
+
+    <header class="px-6 sm:px-10 lg:px-14 py-7 bg-white">
+
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+
+        <!-- Logo -->
+
+        <div class="flex items-center gap-4">
+
+          <div class="logo-mark">
+            E
+          </div>
+
+          <div>
+            <div class="text-[30px] leading-none font-extrabold tracking-tight text-elyt-navy">
+              Elyt<span class="text-elyt-blue">Edu</span>
+            </div>
+
+            <div class="mt-1 text-[13px] tracking-[0.18em] text-slate-500 font-medium">
+              LEARN &nbsp;|&nbsp; GROW &nbsp;|&nbsp; BUILD TOMORROW
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- Header Message -->
+
+        <div class="flex items-start gap-4 max-w-md">
+
+          <div class="w-1 h-14 bg-elyt-cyan rounded-full"></div>
+
+          <div>
+            <p class="font-semibold text-elyt-navy text-lg leading-snug">
+              Empowering Colleges with
+              Expert Faculty &
+              Industry-Relevant
+              Learning Programs.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- ==========================================
+         HERO
+    =========================================== -->
+
+    <section class="px-5 sm:px-8 lg:px-12 pb-8">
+
+      <div class="hero-card rounded-[34px] overflow-hidden relative">
+
+        <!-- Decorative circles -->
+
+        <div
+          class="circle-decoration w-72 h-72 bg-white/5 -right-24 -top-32">
+        </div>
+
+        <div
+          class="circle-decoration w-40 h-40 border border-white/10 right-24 top-20">
+        </div>
+
+        <div
+          class="circle-decoration w-28 h-28 border border-elyt-cyan/20 right-40 top-36">
+        </div>
+
+
+        <div class="relative z-10 grid lg:grid-cols-[1.4fr_0.8fr]">
+
+          <!-- Hero Content -->
+
+          <div class="px-7 sm:px-10 lg:px-14 py-12 lg:py-14">
+
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 text-white/80 text-sm font-medium mb-6">
+              <span class="w-2 h-2 rounded-full bg-elyt-cyan"></span>
+              Faculty Network
+            </div>
+
+            <h1
+              class="hero-title text-white font-extrabold tracking-tight text-[58px] leading-[0.98] max-w-2xl"
+            >
+              We're Hiring
+              <br />
+              <span>Trainers & Experts!</span>
+            </h1>
+
+            <p class="text-white/80 text-lg sm:text-xl leading-relaxed max-w-xl mt-7">
+              Join ElytEdu's Faculty Network and
+              help college students build
+              practical, industry-relevant skills.
+            </p>
+
+            <div class="mt-8 flex flex-wrap gap-3">
+
+              <div class="px-4 py-2.5 rounded-xl bg-white/10 border border-white/10 text-white text-sm">
+                Expert Faculty
+              </div>
+
+              <div class="px-4 py-2.5 rounded-xl bg-white/10 border border-white/10 text-white text-sm">
+                College Students
+              </div>
+
+              <div class="px-4 py-2.5 rounded-xl bg-white/10 border border-white/10 text-white text-sm">
+                Flexible Engagement
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Hero Illustration -->
+
+          <div class="hidden lg:flex items-center justify-center relative min-h-[330px]">
+
+            <div class="absolute w-64 h-64 rounded-full bg-white/5"></div>
+
+            <div class="relative">
+
+              <!-- Instructor Card -->
+
+              <div class="w-64 rounded-3xl bg-white p-5 shadow-2xl">
+
+                <div class="flex items-center gap-3 mb-5">
+
+                  <div class="w-12 h-12 rounded-2xl bg-elyt-light flex items-center justify-center text-elyt-blue text-xl">
+                    👨‍🏫
+                  </div>
+
+                  <div>
+                    <div class="font-bold text-elyt-navy">
+                      Expert Trainer
+                    </div>
+
+                    <div class="text-xs text-slate-400">
+                      ElytEdu Faculty
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="h-24 rounded-2xl bg-gradient-to-br from-elyt-light to-white border border-slate-100 flex items-center justify-center">
+
+                  <div class="text-center">
+
+                    <div class="text-4xl mb-2">
+                      🎓
+                    </div>
+
+                    <div class="text-xs font-semibold text-elyt-navy">
+                      Teaching the Next Generation
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="flex items-center justify-between mt-4">
+
+                  <div class="text-xs text-slate-400">
+                    College Training
+                  </div>
+
+                  <div class="w-8 h-8 rounded-full bg-elyt-cyan/20 flex items-center justify-center">
+                    ✓
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         INTRODUCTION
+    =========================================== -->
+
+    <section class="px-6 sm:px-10 lg:px-14 pb-9">
+
+      <p class="text-slate-600 text-[16px] sm:text-[17px] leading-8 max-w-5xl">
+        ElytEdu is building a network of skilled and experienced
+        trainers to deliver high-quality learning programs for
+        engineering colleges. We are looking for passionate
+        professionals who can <strong class="text-elyt-navy">
+        teach, mentor and inspire the next generation.</strong>
+      </p>
+
+    </section>
+
+
+    <!-- ==========================================
+         COURSES + REQUIREMENTS
+    =========================================== -->
+
+    <section class="px-6 sm:px-10 lg:px-14 pb-10">
+
+      <div class="grid lg:grid-cols-[1fr_300px] gap-7">
+
+        <!-- COURSES -->
+
+        <div class="rounded-[28px] border border-slate-200 bg-white shadow-sm overflow-hidden">
+
+          <div class="px-6 py-5 border-b border-slate-100 flex items-center gap-4">
+
+            <div class="icon-box">
+              📚
+            </div>
+
+            <div>
+              <h2 class="text-xl font-bold text-elyt-navy">
+                Courses We Need
+              </h2>
+
+              <p class="text-sm text-slate-400 mt-0.5">
+                Trainers across technology & engineering domains
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="p-6 grid md:grid-cols-3 gap-6">
+
+            <!-- CSE -->
+
+            <div class="course-column pr-6">
+
+              <div class="inline-flex px-3 py-1.5 rounded-lg bg-sky-100 text-elyt-blue text-sm font-bold mb-4">
+                CSE / Allied
+              </div>
+
+              <div class="space-y-2">
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  Quantum Technologies
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  Python Programming
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  Artificial Intelligence
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  Web Development
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  Design Thinking
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  Advanced Data Structures
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  Java
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  DMS
+                  <span class="text-slate-400">
+                    (Discrete Mathematical Structures)
+                  </span>
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  Agile Methodologies
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  Deep Learning
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- ECE -->
+
+            <div class="course-column pr-6">
+
+              <div class="inline-flex px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 text-sm font-bold mb-4">
+                ECE
+              </div>
+
+              <div class="space-y-2">
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  AWP
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  CAO
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  MANET
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- OTHER -->
+
+            <div>
+
+              <div class="inline-flex px-3 py-1.5 rounded-lg bg-violet-50 text-violet-700 text-sm font-bold mb-4">
+                Other Domains
+              </div>
+
+              <div class="space-y-2">
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  AutoCAD
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  Electrical Engineering
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  PLC / SCADA
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  MATLAB
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  Embedded Systems
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  IoT
+                </div>
+
+                <div class="course-pill rounded-xl px-3 py-2.5 text-sm">
+                  And more...
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- REQUIREMENTS -->
+
+        <div class="rounded-[28px] bg-elyt-pale border border-sky-100 p-6">
+
+          <div class="flex items-center gap-4 mb-7">
+
+            <div class="icon-box">
+              🎯
+            </div>
+
+            <div>
+              <h2 class="text-xl font-bold text-elyt-navy">
+                What We're Looking For
+              </h2>
+            </div>
+
+          </div>
+
+
+          <div class="space-y-5">
+
+            <div class="flex gap-3">
+
+              <div class="check-icon">
+                ✓
+              </div>
+
+              <p class="text-sm text-slate-600 leading-6">
+                Strong subject expertise and practical experience
+              </p>
+
+            </div>
+
+
+            <div class="flex gap-3">
+
+              <div class="check-icon">
+                ✓
+              </div>
+
+              <p class="text-sm text-slate-600 leading-6">
+                Good communication and presentation skills
+              </p>
+
+            </div>
+
+
+            <div class="flex gap-3">
+
+              <div class="check-icon">
+                ✓
+              </div>
+
+              <p class="text-sm text-slate-600 leading-6">
+                Ability to engage and mentor college students
+              </p>
+
+            </div>
+
+
+            <div class="flex gap-3">
+
+              <div class="check-icon">
+                ✓
+              </div>
+
+              <p class="text-sm text-slate-600 leading-6">
+                Practical, project-oriented teaching approach
+              </p>
+
+            </div>
+
+
+            <div class="flex gap-3">
+
+              <div class="check-icon">
+                ✓
+              </div>
+
+              <p class="text-sm text-slate-600 leading-6">
+                Flexibility to take online/offline sessions
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="mt-8 pt-6 border-t border-sky-100">
+
+            <p class="text-xs uppercase tracking-widest text-slate-400 font-semibold">
+              Experience
+            </p>
+
+            <p class="text-sm font-semibold text-elyt-navy mt-1">
+              Trainers, Faculty, Industry Professionals & Subject Experts
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         BENEFITS
+    =========================================== -->
+
+    <section class="px-6 sm:px-10 lg:px-14 pb-11">
+
+      <div class="rounded-[25px] border border-slate-200 bg-white px-6 py-7">
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-7">
+
+          <!-- Benefit -->
+
+          <div class="benefit-item flex items-center gap-4">
+
+            <div class="w-12 h-12 rounded-2xl bg-elyt-light flex items-center justify-center text-xl">
+              🏫
+            </div>
+
+            <div>
+
+              <p class="text-sm font-bold text-elyt-navy">
+                Work with Colleges
+              </p>
+
+              <p class="text-xs text-slate-400 mt-1">
+                Engage with reputed institutions
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- Benefit -->
+
+          <div class="benefit-item flex items-center gap-4">
+
+            <div class="w-12 h-12 rounded-2xl bg-elyt-light flex items-center justify-center text-xl">
+              📚
+            </div>
+
+            <div>
+
+              <p class="text-sm font-bold text-elyt-navy">
+                Flexible Engagement
+              </p>
+
+              <p class="text-xs text-slate-400 mt-1">
+                Sessions based on requirements
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- Benefit -->
+
+          <div class="benefit-item flex items-center gap-4">
+
+            <div class="w-12 h-12 rounded-2xl bg-elyt-light flex items-center justify-center text-xl">
+              👍
+            </div>
+
+            <div>
+
+              <p class="text-sm font-bold text-elyt-navy">
+                Competitive Rates
+              </p>
+
+              <p class="text-xs text-slate-400 mt-1">
+                Attractive trainer engagements
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- Benefit -->
+
+          <div class="benefit-item flex items-center gap-4">
+
+            <div class="w-12 h-12 rounded-2xl bg-elyt-light flex items-center justify-center text-xl">
+              📈
+            </div>
+
+            <div>
+
+              <p class="text-sm font-bold text-elyt-navy">
+                Growing Network
+              </p>
+
+              <p class="text-xs text-slate-400 mt-1">
+                Join a growing EdTech ecosystem
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         CTA
+    =========================================== -->
+
+    <section class="cta px-7 sm:px-12 lg:px-14 py-10 relative overflow-hidden">
+
+      <div class="absolute w-52 h-52 rounded-full border border-white/5 -left-20 -bottom-24"></div>
+
+      <div class="absolute w-36 h-36 rounded-full bg-white/5 -right-16 -top-16"></div>
+
+
+      <div class="relative z-10 grid md:grid-cols-[1fr_auto] gap-8 items-center">
+
+        <!-- Left -->
+
+        <div>
+
+          <div class="flex items-center gap-4">
+
+            <div class="w-14 h-14 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center text-2xl">
+              📝
+            </div>
+
+            <div>
+
+              <h2 class="text-white text-2xl sm:text-3xl font-bold">
+                Interested?
+              </h2>
+
+              <p class="text-white/60 text-sm mt-1">
+                Join the ElytEdu Faculty Network
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="mt-6">
+
+            <p class="text-white/60 text-sm">
+              Send your profile / resume to
+            </p>
+
+            <a
+              href="mailto:careers@elytedu.com"
+              class="inline-flex items-center gap-3 mt-3 px-5 py-3 rounded-xl bg-elyt-cyan text-elyt-dark font-bold hover:opacity-90 transition"
+            >
+              ✉
+              careers@elytedu.com
+            </a>
+
+            <p class="text-white/40 text-xs mt-3">
+              Subject: Trainer Application – [Your Name]
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- Right -->
+
+        <div class="md:text-right">
+
+          <p class="handwritten text-3xl sm:text-4xl text-white/90 leading-tight">
+            Let's build
+            <br />
+            better learners
+            <br />
+            together!
+          </p>
+
+          <div class="mt-4 h-1 w-24 bg-elyt-cyan rounded-full md:ml-auto"></div>
+
+          <div class="mt-7">
+
+            <div class="text-white text-2xl font-extrabold">
+              Elyt<span class="text-elyt-cyan">Edu</span>
+            </div>
+
+            <div class="text-white/40 text-xs mt-1">
+              Learn | Grow | Build Tomorrow
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ============================================
+       OPTIONAL PRINT BUTTON
+  ============================================= -->
+
+  <div class="no-print fixed bottom-6 right-6">
+
+    <button
+      onclick="window.print()"
+      class="px-5 py-3 rounded-xl bg-elyt-navy text-white font-semibold shadow-xl hover:bg-elyt-dark transition"
+    >
+      Print / Save PDF
+    </button>
+
+  </div>
+
+
+</body>
+</html>
