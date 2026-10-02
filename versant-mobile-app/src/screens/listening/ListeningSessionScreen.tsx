@@ -1,14 +1,15 @@
-import { useEffect, useRef, useState } from 'react'
-import { ActivityIndicator, NativeEventEmitter, NativeModules, Pressable, ScrollView, Text, View } from 'react-native'
+import { useCallback, useEffect, useRef, useState, type ReactElement } from 'react'
+import { ActivityIndicator, Animated, NativeEventEmitter, NativeModules, Pressable, ScrollView, Text, View } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import type { RouteProp } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import Svg, { Circle, Path } from 'react-native-svg'
+import Svg, { Path } from 'react-native-svg'
 import { BackButton } from '../../components/BackButton'
 import { useTheme } from '../../context/ThemeContext'
 import { formatSeconds } from '../../listening/content'
 import { ENV } from '../../config/env'
+import { usePullToRefresh } from '../../hooks/usePullToRefresh'
 import { api } from '../../services/client'
 import type { RootStackParamList } from '../../navigation/types'
 
@@ -21,6 +22,8 @@ type VersantAudio = {
   stop: () => void
   seek: (positionMs: number) => Promise<number>
   position: () => Promise<number>
+  addListener: (eventName: string) => void
+  removeListeners: (count: number) => void
 }
 
 type RemoteActivity = {
@@ -37,64 +40,62 @@ type RemoteActivity = {
   questions: { id: string; prompt: string; options: { id: string; text: string }[] }[]
 }
 
-type AttemptResponse = {
-  correct: number
-  total: number
-  score: number
-  testCorrect?: number
-  testTotal?: number
-  testCompleted?: boolean
-  nextActivityId?: string | null
-}
-
 export function ListeningSessionScreen() {
   const route = useRoute<RouteProp<RootStackParamList, 'ListeningSession'>>()
   const { colors } = useTheme()
   const [activity, setActivity] = useState<RemoteActivity | null>(null)
   const [error, setError] = useState('')
 
+  const reload = useCallback(async () => {
+    const data = await api<{ activity: RemoteActivity }>(`/practice/listening/${route.params.activityId}`)
+    setActivity(data.activity)
+    setError('')
+  }, [route.params.activityId])
+  const refreshControl = usePullToRefresh(reload)
+
   useEffect(() => {
     let active = true
     setActivity(null)
-    api<{ activity: RemoteActivity }>(`/practice/listening/${route.params.activityId}`)
-      .then(data => {
-        if (active) setActivity(data.activity)
-      })
+    reload()
       .catch(err => {
         if (active) setError(err instanceof Error ? err.message : 'Could not load this activity')
       })
     return () => {
       active = false
     }
-  }, [route.params.activityId])
+  }, [reload])
 
   if (!activity) {
     return (
       <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.canvas }}>
-        <View className="flex-1 items-center justify-center px-6">
-          {error ? (
-            <Text className="text-center text-sm font-semibold text-[#B65F39]">{error}</Text>
-          ) : (
-            <ActivityIndicator color={colors.brand} />
-          )}
-        </View>
+        <ScrollView
+          className="flex-1"
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+          alwaysBounceVertical
+          refreshControl={refreshControl}>
+          <View className="items-center justify-center px-6">
+            {error ? (
+              <Text className="text-center text-sm font-semibold text-[#B65F39]">{error}</Text>
+            ) : (
+              <ActivityIndicator color={colors.brand} />
+            )}
+          </View>
+        </ScrollView>
       </SafeAreaView>
     )
   }
 
-  return <SessionPlayer key={activity.id} activity={activity} />
+  return <SessionPlayer key={activity.id} activity={activity} refreshControl={refreshControl} />
 }
 
-function SessionPlayer({ activity }: { activity: RemoteActivity }) {
+function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity; refreshControl: ReactElement }) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const route = useRoute<RouteProp<RootStackParamList, 'ListeningSession'>>()
   const { colors } = useTheme()
   const mode = route.params.mode
   const testId = route.params.testId
+  const exam = mode === 'assessment'
 
-  const [questionIndex, setQuestionIndex] = useState(0)
-  const [answers, setAnswers] = useState<{ questionId: string; optionId: string }[]>([])
-  const [timeLeft, setTimeLeft] = useState(activity.questionSeconds)
   const [isPlaying, setIsPlaying] = useState(false)
   const [paused, setPaused] = useState(false)
   const [loaded, setLoaded] = useState(false)
@@ -104,28 +105,19 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
   const [audioFinished, setAudioFinished] = useState(false)
   const [playError, setPlayError] = useState('')
   const seekAt = useRef(0)
-  const [selected, setSelected] = useState<string | null>(null)
-  const [submitting, setSubmitting] = useState(false)
-  const [submitError, setSubmitError] = useState('')
-
-  const question = activity.questions[questionIndex]
+  const question = activity.questions[0]
   const total = activity.questions.length
-  const progress = total ? Math.round(((questionIndex + 1) / total) * 100) : 0
-  const urgent = timeLeft <= 10
   const player = NativeModules.VersantAudio as VersantAudio | undefined
   const hasAudio = Boolean(activity.audioUrl && player)
   const atEnd = audioFinished && audioSeconds >= Math.max(clipSeconds - 0.4, 0)
-  const canStart = hasAudio && listenCount < activity.maxListens
+  const unlimited = !exam
+  const playsAllowed = unlimited ? Number.POSITIVE_INFINITY : Math.max(1, Number(activity.maxListens) || 1)
+  const canStart = hasAudio && listenCount < playsAllowed
   const canResume = Boolean(paused && loaded && !atEnd)
+  const replaysAllowed = unlimited ? Number.POSITIVE_INFINITY : Math.max(0, playsAllowed - 1)
+  const canReplay = unlimited ? listenCount > 0 && !isPlaying && !paused : listenCount > 0 && listenCount < playsAllowed && !isPlaying && !paused
   const playDisabled = isPlaying ? false : !(canStart || canResume)
   const audioProgress = Math.min(audioSeconds / Math.max(clipSeconds, 1), 1)
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => (prev <= 1 ? 0 : prev - 1))
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [questionIndex, activity.id])
 
   useEffect(() => {
     if (!player) return undefined
@@ -159,6 +151,7 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
     if (!canStart || !activity.audioUrl || !player) return
     setPlayError('')
     setPaused(false)
+    setAudioFinished(false)
     setAudioSeconds(0)
     setListenCount(count => count + 1)
     setIsPlaying(true)
@@ -232,61 +225,20 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
     startFresh()
   }
 
-  function resetClip() {
-    stopPlayback()
-    setTimeLeft(activity.questionSeconds)
-    setListenCount(0)
-    setAudioFinished(false)
-    setPlayError('')
-    setSelected(null)
-  }
-
-  async function continueNext() {
-    if (!selected || submitting) return
-    const nextAnswers = [...answers, { questionId: question.id, optionId: selected }]
-    const isLast = questionIndex >= total - 1
-
-    if (!isLast) {
-      setAnswers(nextAnswers)
-      setQuestionIndex(index => index + 1)
-      resetClip()
-      return
-    }
-
-    setSubmitting(true)
-    setSubmitError('')
-    try {
-      const path =
-        mode === 'assessment' && testId
-          ? `/tests/${testId}/attempts`
-          : `/practice/listening/${activity.id}/attempts`
-      const body =
-        mode === 'assessment' && testId
-          ? { activityId: activity.id, answers: nextAnswers }
-          : { answers: nextAnswers }
-      const result = await api<AttemptResponse>(path, { method: 'POST', body: JSON.stringify(body) })
-
-      if (mode === 'assessment' && result.nextActivityId && testId) {
-        navigation.replace('ListeningSession', {
-          activityId: result.nextActivityId,
-          mode: 'assessment',
-          testId,
-          carryCorrect: result.testCorrect,
-          carryTotal: result.testTotal,
-        })
-        return
-      }
-
-      navigation.replace('ListeningResult', {
-        title: mode === 'assessment' ? 'Listening assessment' : activity.title,
-        correct: mode === 'assessment' ? result.testCorrect ?? result.correct : result.correct,
-        total: mode === 'assessment' ? result.testTotal ?? result.total : result.total,
-        mode,
-      })
-    } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Could not save answers')
-      setSubmitting(false)
-    }
+  function startQuestions() {
+    if (!question || !audioFinished) return
+    player?.stop()
+    const openQuestions = exam ? navigation.replace : navigation.navigate
+    openQuestions('ListeningQuestions', {
+      activityId: activity.id,
+      title: activity.title,
+      headline: activity.headline,
+      questionSeconds: activity.questionSeconds,
+      questions: activity.questions,
+      testId,
+      carryCorrect: route.params.carryCorrect,
+      carryTotal: route.params.carryTotal,
+    })
   }
 
   const status = playError
@@ -301,18 +253,17 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
           ? 'Paused. Press play to continue, or stop to go back to the start.'
         : audioFinished
           ? `${activity.audioLabel} finished`
-          : listenCount >= activity.maxListens
-            ? 'You have used both listens.'
-            : 'Listen carefully before answering'
+          : listenCount >= playsAllowed
+            ? 'This clip has already been played.'
+            : 'Listen once, then start the questions when you are ready'
 
-  const listenBadge =
-    listenCount === 0 ? '2 listens' : listenCount === 1 ? '1 listen used' : '2 listens used'
-
-  const hint = selected
-    ? 'Your answer is selected. Continue when you’re ready.'
-    : audioFinished
-      ? 'Select the answer that best matches what you heard.'
-      : `Listen to the ${activity.audioLabel.toLowerCase()} to continue`
+  const listenBadge = unlimited
+    ? 'Unlimited'
+    : replaysAllowed === 0
+      ? 'No replay'
+      : listenCount === 0
+        ? `${replaysAllowed} ${replaysAllowed === 1 ? 'replay' : 'replays'}`
+        : `${Math.max(0, playsAllowed - listenCount)} left`
 
   if (!question) {
     return (
@@ -344,52 +295,17 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
             </View>
             <View className="items-end">
               <Text className="text-[11px]" style={{ color: colors.muted }}>
-                Question
+                This section
               </Text>
               <Text className="text-sm font-extrabold" style={{ color: colors.text }}>
-                {questionIndex + 1} of {total}
+                {total} questions
               </Text>
-            </View>
-          </View>
-          <View className="mt-4">
-            <View className="mb-2 flex-row items-center justify-between">
-              <Text className="text-[11px] font-semibold" style={{ color: colors.muted }}>
-                {mode === 'assessment' ? 'Assessment progress' : 'Practice progress'}
-              </Text>
-              <Text className="text-[11px] font-bold" style={{ color: colors.brand }}>
-                {progress}%
-              </Text>
-            </View>
-            <View className="h-1.5 overflow-hidden rounded-full" style={{ backgroundColor: colors.divider }}>
-              <View className="h-full rounded-full" style={{ width: `${progress}%`, backgroundColor: colors.brand }} />
             </View>
           </View>
         </View>
 
-        <ScrollView className="flex-1" contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 24 }}>
-          <View className="mb-5 mt-6 items-center">
-            <View
-              className="flex-row items-center gap-2 rounded-full border px-4 py-2"
-              style={{
-                backgroundColor: urgent ? '#FDEFE7' : colors.cream,
-                borderColor: urgent ? '#F5D5C0' : colors.cardBorder,
-              }}>
-              <Svg width={16} height={16} viewBox="0 0 24 24" fill="none">
-                <Circle cx={12} cy={12} r={9} stroke={urgent ? '#C96D2F' : colors.brand} strokeWidth={1.8} />
-                <Path
-                  d="M12 7v5l3 2"
-                  stroke={urgent ? '#C96D2F' : colors.brand}
-                  strokeWidth={1.8}
-                  strokeLinecap="round"
-                />
-              </Svg>
-              <Text className="text-xs font-bold" style={{ color: urgent ? '#C96D2F' : colors.brand }}>
-                {formatSeconds(timeLeft)}
-              </Text>
-            </View>
-          </View>
-
-          <Text className="text-center text-[11px] font-bold uppercase tracking-[1px]" style={{ color: colors.accent }}>
+        <ScrollView className="flex-1" contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 24, flexGrow: 1 }} alwaysBounceVertical refreshControl={refreshControl}>
+          <Text className="mt-6 text-center text-[11px] font-bold uppercase tracking-[1px]" style={{ color: colors.accent }}>
             Listening · {activity.audioLabel}
           </Text>
           <Text className="mt-2 text-center text-[22px] font-black tracking-tight" style={{ color: colors.text }}>
@@ -470,25 +386,18 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
                     />
                   </View>
                 </View>
-                <View className="mt-4 h-10 flex-row items-center justify-center gap-1">
-                  {WAVE.map((height, index) => (
-                    <View
-                      key={index}
-                      className="w-1 rounded-full"
-                      style={{
-                        height: isPlaying ? height : Math.max(10, height - 8),
-                        backgroundColor: isPlaying ? colors.brand : '#AFC6B7',
-                      }}
-                    />
-                  ))}
-                </View>
+                <WaveBars playing={isPlaying} color={colors.brand} />
                 <View className="mt-4 flex-row items-center justify-between border-t pt-4" style={{ borderColor: colors.divider }}>
                   <Text className="flex-1 pr-3 text-xs" style={{ color: colors.muted }}>
-                    Drag the bar to move through the clip. You can listen twice.
+                    {unlimited
+                      ? 'You can replay this clip as many times as you want.'
+                      : replaysAllowed === 0
+                        ? 'This clip plays once for this test.'
+                        : `You can replay this clip ${replaysAllowed} ${replaysAllowed === 1 ? 'time' : 'times'}.`}
                   </Text>
-                  <Pressable onPress={startFresh} disabled={!canStart || isPlaying || paused}>
-                    <Text className="text-xs font-bold" style={{ color: canStart && !isPlaying && !paused ? colors.brand : colors.label }}>
-                      {listenCount >= activity.maxListens ? 'No listens left' : 'Replay'}
+                  <Pressable onPress={startFresh} disabled={!canReplay}>
+                    <Text className="text-xs font-bold" style={{ color: canReplay ? colors.brand : colors.label }}>
+                      {canReplay ? 'Replay' : 'No replay'}
                     </Text>
                   </Pressable>
                 </View>
@@ -496,81 +405,78 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
             </View>
           </View>
 
-          <View
-            className="mt-4 overflow-hidden rounded-[28px] border"
-            style={{
-              backgroundColor: colors.card,
-              borderColor: colors.cardBorder,
-              opacity: audioFinished ? 1 : 0.5,
-            }}>
-            <View className="px-5 pt-5">
-              <Text className="text-[11px] font-bold uppercase tracking-[1px]" style={{ color: colors.label }}>
-                Question
-              </Text>
-              <Text className="mt-1 text-sm font-extrabold" style={{ color: colors.text }}>
-                Choose the best answer
-              </Text>
-            </View>
-            <View className="px-5 py-5">
-              <View className="rounded-2xl border p-4" style={{ backgroundColor: colors.canvas, borderColor: colors.divider }}>
-                <Text className="text-[16px] font-bold leading-6" style={{ color: colors.text }}>
-                  {question.prompt}
-                </Text>
-              </View>
-              <View className="mt-4 gap-3">
-                {question.options.map(option => {
-                  const active = selected === option.id
-                  return (
-                    <Pressable
-                      key={option.id}
-                      disabled={!audioFinished}
-                      onPress={() => setSelected(option.id)}
-                      className="flex-row items-start gap-3 rounded-2xl border p-4"
-                      style={{
-                        backgroundColor: active ? colors.brandLight : colors.card,
-                        borderColor: active ? colors.brand : colors.cardBorder,
-                      }}>
-                      <View
-                        className="h-9 w-9 items-center justify-center rounded-xl"
-                        style={{ backgroundColor: active ? colors.brand : colors.cream }}>
-                        <Text className="text-sm font-extrabold" style={{ color: active ? '#FFFFFF' : colors.brand }}>
-                          {option.id}
-                        </Text>
-                      </View>
-                      <Text className="flex-1 pt-1 text-sm font-semibold leading-5" style={{ color: colors.text }}>
-                        {option.text}
-                      </Text>
-                    </Pressable>
-                  )
-                })}
-              </View>
-            </View>
-          </View>
-
-          <Text className="mt-4 px-1 text-xs leading-5" style={{ color: colors.muted }}>
-            {activity.tip}
-          </Text>
         </ScrollView>
 
         <View className="border-t px-5 py-4" style={{ borderColor: colors.divider, backgroundColor: colors.canvas }}>
-          {submitError ? (
-            <Text className="mb-2 text-center text-xs font-semibold text-[#B65F39]">{submitError}</Text>
-          ) : null}
           <Pressable
-            disabled={!selected || submitting}
-            onPress={continueNext}
+            accessibilityRole="button"
+            disabled={!question || !audioFinished}
+            onPress={startQuestions}
             className="h-12 items-center justify-center rounded-2xl"
-            style={{ backgroundColor: selected && !submitting ? colors.brand : colors.brandLight }}>
-            <Text className="text-[15px] font-extrabold" style={{ color: selected && !submitting ? '#FFFFFF' : colors.label }}>
-              {submitting ? 'Saving…' : 'Continue'}
+            style={{ backgroundColor: audioFinished ? colors.brand : colors.brandLight }}>
+            <Text className="text-[15px] font-extrabold" style={{ color: audioFinished ? '#FFFFFF' : colors.label }}>
+              Start questions
             </Text>
           </Pressable>
-          <Text className="mt-2 text-center text-xs font-semibold" style={{ color: selected ? colors.brand : colors.muted }}>
-            {hint}
+          <Text className="mt-2 text-center text-xs font-semibold leading-5" style={{ color: colors.muted }}>
+            {audioFinished
+              ? exam
+                ? 'The clip is finished. You cannot come back to it after you start.'
+                : 'The clip is finished. You can still go back and listen again from the questions.'
+              : 'Finish the clip, then start the questions.'}
           </Text>
         </View>
       </View>
     </SafeAreaView>
+  )
+}
+
+function WaveBars({ playing, color }: { playing: boolean; color: string }) {
+  const bars = useRef(WAVE.map(() => new Animated.Value(0.35))).current
+
+  useEffect(() => {
+    if (!playing) {
+      bars.forEach(bar => bar.setValue(0.35))
+      return undefined
+    }
+    const loops = bars.map((bar, index) =>
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(bar, {
+            toValue: 1,
+            duration: 260 + (index % 4) * 50,
+            useNativeDriver: true,
+          }),
+          Animated.timing(bar, {
+            toValue: 0.28,
+            duration: 260 + (index % 3) * 40,
+            useNativeDriver: true,
+          }),
+        ]),
+      ),
+    )
+    const timers = loops.map((loop, index) => setTimeout(() => loop.start(), index * 70))
+    return () => {
+      timers.forEach(clearTimeout)
+      loops.forEach(loop => loop.stop())
+    }
+  }, [playing, bars])
+
+  return (
+    <View className="mt-4 h-10 flex-row items-center justify-center gap-1">
+      {WAVE.map((height, index) => (
+        <Animated.View
+          key={index}
+          style={{
+            width: 4,
+            height,
+            borderRadius: 4,
+            backgroundColor: playing ? color : '#AFC6B7',
+            transform: [{ scaleY: bars[index] }],
+          }}
+        />
+      ))}
+    </View>
   )
 }
 

@@ -8,6 +8,7 @@ import { BackButton } from '../components/BackButton'
 import { useTheme } from '../context/ThemeContext'
 import { ListeningPracticeScreen } from './listening/ListeningPracticeScreen'
 import { StaticSkillScreen } from './StaticSkillScreen'
+import { noReload, usePullToRefresh } from '../hooks/usePullToRefresh'
 import { api } from '../services/client'
 import type { RootStackParamList } from '../navigation/types'
 
@@ -17,23 +18,23 @@ export function NotificationsScreen() {
   const { colors } = useTheme()
   const [items, setItems] = useState<Note[]>([])
 
+  const load = useCallback(async () => {
+    const data = await api<{ items: Note[] }>('/notifications')
+    setItems(data.items)
+    await Promise.all(
+      data.items
+        .filter(item => !item.read)
+        .map(item => api(`/notifications/${item.id}/read`, { method: 'POST' }).catch(() => undefined)),
+    )
+  }, [])
+
   useFocusEffect(
     useCallback(() => {
-      let active = true
-      api<{ items: Note[] }>('/notifications')
-        .then(data => {
-          if (!active) return
-          setItems(data.items)
-          data.items.filter(item => !item.read).forEach(item => {
-            api(`/notifications/${item.id}/read`, { method: 'POST' }).catch(() => undefined)
-          })
-        })
-        .catch(() => undefined)
-      return () => {
-        active = false
-      }
-    }, []),
+      load().catch(() => undefined)
+    }, [load]),
   )
+
+  const refreshControl = usePullToRefresh(load)
 
   return (
     <SafeAreaView className="flex-1" edges={['top', 'bottom']} style={{ backgroundColor: colors.canvas }}>
@@ -43,7 +44,7 @@ export function NotificationsScreen() {
           Notifications
         </Text>
       </View>
-      <ScrollView className="mt-4 flex-1" contentContainerClassName="px-5 pb-8">
+      <ScrollView className="mt-4 flex-1" contentContainerClassName="grow px-5 pb-8" alwaysBounceVertical refreshControl={refreshControl}>
         {items.length === 0 ? (
           <Text className="text-sm" style={{ color: colors.muted }}>
             No notifications yet.
@@ -72,9 +73,11 @@ export function PracticeSkillScreen() {
 
 export function DeviceCheckScreen() {
   const { colors } = useTheme()
+  const refreshControl = usePullToRefresh(noReload)
 
   return (
     <SafeAreaView className="flex-1" edges={['top', 'bottom']} style={{ backgroundColor: colors.canvas }}>
+      <ScrollView className="flex-1" contentContainerClassName="grow" alwaysBounceVertical refreshControl={refreshControl}>
       <View className="px-5 pt-3">
         <BackButton />
         <Text className="mt-4 text-[28px] font-black tracking-tight text-dark dark:text-[#EEF3EF]">Device check</Text>
@@ -82,6 +85,7 @@ export function DeviceCheckScreen() {
           Microphone and headphones will be tested before an assessment.
         </Text>
       </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -103,28 +107,30 @@ export function AssessmentDetailsScreen() {
   const [test, setTest] = useState<TestDetail | null>(null)
   const [error, setError] = useState('')
 
+  const load = useCallback(async () => {
+    try {
+      const data = await api<TestDetail>(`/tests/${route.params.testId}`)
+      setTest(data)
+      setError('')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not load this test')
+    }
+  }, [route.params.testId])
+
   useFocusEffect(
     useCallback(() => {
-      let active = true
-      api<TestDetail>(`/tests/${route.params.testId}`)
-        .then(data => {
-          if (active) setTest(data)
-        })
-        .catch(err => {
-          if (active) setError(err instanceof Error ? err.message : 'Could not load this test')
-        })
-      return () => {
-        active = false
-      }
-    }, [route.params.testId]),
+      load()
+    }, [load]),
   )
+
+  const refreshControl = usePullToRefresh(load)
 
   const next = test?.sections.find(section => !section.completed)
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.canvas }}>
       <View style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 24, flexGrow: 1 }} alwaysBounceVertical refreshControl={refreshControl}>
           <View className="px-5 pt-3">
             <BackButton />
             <Text className="mt-4 text-[11px] font-bold uppercase tracking-[1px]" style={{ color: colors.muted }}>

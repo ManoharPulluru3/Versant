@@ -1,11 +1,10 @@
 /**
- * Set true to hit production API while Metro is in dev mode.
- * Default false: the deployed versant-api.
+ * Set true to hit https://api.elytedu.com while Metro is in dev mode.
+ * Default false: the shared API at 13.207.57.80.
  */
 export const USE_PRODUCTION_API_IN_DEV = false
 
-// The phone reaches this computer through adb reverse. Clips are served by that API.
-const API_HOST = '127.0.0.1'
+const API_HOST = '13.207.57.80'
 
 const PRODUCTION = {
   API_URL: 'https://api.elytedu.com/api',

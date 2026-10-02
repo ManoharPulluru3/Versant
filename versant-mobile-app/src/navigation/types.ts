@@ -14,12 +14,23 @@ export type MainTabParamList = {
 export type RootStackParamList = {
   Splash: undefined
   Login: undefined
+  ForgotPassword: { identifier?: string } | undefined
   Main: NavigatorScreenParams<MainTabParamList> | undefined
   Notifications: undefined
   PracticeSkill: { skill: PracticeSkill }
   ListeningSession: {
     activityId: string
     mode: ListeningMode
+    testId?: string
+    carryCorrect?: number
+    carryTotal?: number
+  }
+  ListeningQuestions: {
+    activityId: string
+    title: string
+    headline: string
+    questionSeconds: number
+    questions: { id: string; prompt: string; options: { id: string; text: string }[] }[]
     testId?: string
     carryCorrect?: number
     carryTotal?: number

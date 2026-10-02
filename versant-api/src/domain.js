@@ -95,6 +95,30 @@ export function listeningScore(db, studentId) {
   return Math.round(sum / attempts.length)
 }
 
+export function passMark(db) {
+  const mark = Number(db.settings?.passMark)
+  return Number.isFinite(mark) ? mark : 60
+}
+
+export function attemptPassed(attempt, mark) {
+  if (typeof attempt.passed === 'boolean') return attempt.passed
+  return Number(attempt.score) >= mark
+}
+
+export function reviewStats(attempts, mark) {
+  const total = attempts.length
+  const successes = attempts.filter((item) => attemptPassed(item, mark)).length
+  const failures = total - successes
+  return {
+    attempts: total,
+    successes,
+    failures,
+    successRate: total ? Math.round((successes / total) * 100) : 0,
+    failureRate: total ? Math.round((failures / total) * 100) : 0,
+    passMark: mark,
+  }
+}
+
 export function assessmentScores(db, studentId) {
   return db.attempts
     .filter((item) => item.studentId === studentId && item.kind === 'assessment')

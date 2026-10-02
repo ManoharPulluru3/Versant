@@ -1,9 +1,10 @@
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, ScrollView, Text, View } from 'react-native'
 import { CommonActions, useNavigation, useRoute } from '@react-navigation/native'
 import type { RouteProp } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTheme } from '../../context/ThemeContext'
+import { noReload, usePullToRefresh } from '../../hooks/usePullToRefresh'
 import type { RootStackParamList } from '../../navigation/types'
 
 export function ListeningResultScreen() {
@@ -12,6 +13,7 @@ export function ListeningResultScreen() {
   const { colors } = useTheme()
   const { title, correct, total, mode } = route.params
   const score = total === 0 ? 0 : Math.round((correct / total) * 100)
+  const refreshControl = usePullToRefresh(noReload)
 
   function done() {
     navigation.dispatch(
@@ -24,7 +26,12 @@ export function ListeningResultScreen() {
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.canvas }}>
-      <View className="flex-1 justify-center px-6">
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        alwaysBounceVertical
+        refreshControl={refreshControl}>
+      <View className="justify-center px-6">
         <Text className="text-center text-[11px] font-bold uppercase tracking-[1px]" style={{ color: colors.accent }}>
           Listening
         </Text>
@@ -38,10 +45,8 @@ export function ListeningResultScreen() {
             {correct} of {total} correct
           </Text>
         </View>
-        <Text className="mt-6 text-center text-sm leading-6" style={{ color: colors.muted }}>
-          Listen for the main idea and the details that matter, then choose the answer that fits.
-        </Text>
       </View>
+      </ScrollView>
       <View className="px-6 pb-4">
         <Pressable
           onPress={done}

@@ -6,6 +6,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Svg, { Circle, Path, Rect } from 'react-native-svg'
 import { useTheme } from '../context/ThemeContext'
+import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import type { MainTabParamList, RootStackParamList } from '../navigation/types'
 import { api } from '../services/client'
 
@@ -179,23 +180,23 @@ export function HomeScreen() {
   const [home, setHome] = useState<HomeData | null>(null)
   const [error, setError] = useState('')
 
+  const load = useCallback(async () => {
+    try {
+      const data = await api<HomeData>('/home')
+      setHome(data)
+      setError('')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not load home')
+    }
+  }, [])
+
   useFocusEffect(
     useCallback(() => {
-      let active = true
-      api<HomeData>('/home')
-        .then(data => {
-          if (!active) return
-          setHome(data)
-          setError('')
-        })
-        .catch(err => {
-          if (active) setError(err instanceof Error ? err.message : 'Could not load home')
-        })
-      return () => {
-        active = false
-      }
-    }, []),
+      load()
+    }, [load]),
   )
+
+  const refreshControl = usePullToRefresh(load)
 
   const score = home?.score ?? 0
   const ring = 264 * (1 - score / 100)
@@ -206,7 +207,7 @@ export function HomeScreen() {
 
   return (
     <SafeAreaView className="flex-1" edges={['top']} style={{ backgroundColor: colors.canvas }}>
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false} alwaysBounceVertical refreshControl={refreshControl}>
         <View className="flex-row items-center justify-between px-5 pt-4">
           <View className="flex-row items-center gap-3">
             <View className="h-12 w-12 items-center justify-center rounded-full bg-[#E5EBD9]">
@@ -352,17 +353,31 @@ export function HomeScreen() {
                     style={{ backgroundColor: skill.chip }}>
                     <SkillGlyph name={skill.name} color={skill.color} />
                   </View>
-                  <Text className="text-[15px] font-extrabold" style={{ color: skill.color }}>
-                    {skill.score ?? '—'}
-                  </Text>
+                  {skill.name === 'Listening' ? (
+                    <Text className="text-[15px] font-extrabold" style={{ color: skill.color }}>
+                      {skill.score ?? '—'}
+                    </Text>
+                  ) : (
+                    <View className="rounded-full px-2 py-1" style={{ backgroundColor: '#F4F1EA' }}>
+                      <Text className="text-[10px] font-extrabold uppercase tracking-[0.3px]" style={{ color: '#8A7760' }}>
+                        Soon
+                      </Text>
+                    </View>
+                  )}
                 </View>
                 <Text className="mt-3 text-[13px] font-extrabold text-dark dark:text-[#EEF3EF]">{skill.name}</Text>
-                <View className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#E9ECE6]">
-                  <View
-                    className="h-full rounded-full"
-                    style={{ width: `${skill.score ?? 0}%`, backgroundColor: skill.color }}
-                  />
-                </View>
+                {skill.name === 'Listening' ? (
+                  <View className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#E9ECE6]">
+                    <View
+                      className="h-full rounded-full"
+                      style={{ width: `${skill.score ?? 0}%`, backgroundColor: skill.color }}
+                    />
+                  </View>
+                ) : (
+                  <Text className="mt-2 text-[11px] font-semibold" style={{ color: '#8A7760' }}>
+                    Coming soon
+                  </Text>
+                )}
               </View>
             ))}
           </View>

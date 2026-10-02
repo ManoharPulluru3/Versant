@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import multer from 'multer'
 import { hashPassword, requireUser } from '../auth.js'
-import { id, now, presentActivity, questionsFor, requireString } from '../domain.js'
+import { id, now, passMark, presentActivity, questionsFor, requireString, reviewStats } from '../domain.js'
 import { generateQuestions, generateScript } from '../ai.js'
 import { describeAudio, limitScript, resolveVoice, synthesizeSpeech, transcribeAudio, VOICES } from '../speech.js'
 import { load, putMedia, save } from '../store.js'
@@ -96,9 +96,9 @@ function activityFields(body, current = {}) {
     audioSource: current.audioSource ?? null,
     audioUpdatedAt: current.audioUpdatedAt ?? null,
     voice: resolveVoice(body.voice ?? current.voice).id,
-    maxListens: 2,
+    maxListens: Math.min(21, Math.max(1, Math.round(Number(body.maxListens ?? current.maxListens ?? 2)) || 1)),
     questionSeconds: Math.min(180, Math.max(10, Number(body.questionSeconds ?? current.questionSeconds ?? 45))),
-    tip: requireString(body.tip ?? current.tip ?? 'Listen for the main idea, then choose the best answer.', 'Tip', 280),
+    tip: String(body.tip ?? current.tip ?? '').trim().slice(0, 280),
     published: body.published == null ? current.published !== false : Boolean(body.published),
   }
 }
@@ -131,7 +131,10 @@ adminRouter.get('/students', async (_req, res, next) => {
         college: student.college,
         program: student.program,
         assignments: db.assignments.filter((item) => item.studentId === student.id).length,
-        attempts: db.attempts.filter((item) => item.studentId === student.id).length,
+        ...reviewStats(
+          db.attempts.filter((item) => item.studentId === student.id),
+          passMark(db),
+        ),
       })),
   })
 })

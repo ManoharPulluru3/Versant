@@ -1,11 +1,12 @@
 import { useCallback, useState } from 'react'
-import { Pressable, ScrollView, Text, View } from 'react-native'
+import { ActivityIndicator, Pressable, ScrollView, Text, View } from 'react-native'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Svg, { Circle, Path } from 'react-native-svg'
 import { BackButton } from '../../components/BackButton'
 import { useTheme } from '../../context/ThemeContext'
+import { usePullToRefresh } from '../../hooks/usePullToRefresh'
 import { api } from '../../services/client'
 import type { RootStackParamList } from '../../navigation/types'
 
@@ -77,26 +78,28 @@ export function ListeningPracticeScreen() {
   const [activities, setActivities] = useState<ActivityCard[]>([])
   const [today, setToday] = useState({ done: 0, goal: 15 })
   const [error, setError] = useState('')
-  const quick = activities[0]
+  const [loading, setLoading] = useState(true)
+
+  const load = useCallback(async () => {
+    try {
+      const data = await api<{ todayMinutes: number; goalMinutes: number; activities: ActivityCard[] }>('/practice/listening')
+      setActivities(data.activities)
+      setToday({ done: data.todayMinutes, goal: data.goalMinutes })
+      setError('')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not load listening')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   useFocusEffect(
     useCallback(() => {
-      let active = true
-      api<{ todayMinutes: number; goalMinutes: number; activities: ActivityCard[] }>('/practice/listening')
-        .then(data => {
-          if (!active) return
-          setActivities(data.activities)
-          setToday({ done: data.todayMinutes, goal: data.goalMinutes })
-          setError('')
-        })
-        .catch(err => {
-          if (active) setError(err instanceof Error ? err.message : 'Could not load listening')
-        })
-      return () => {
-        active = false
-      }
-    }, []),
+      load()
+    }, [load]),
   )
+
+  const refreshControl = usePullToRefresh(load)
 
   function openActivity(activityId: string) {
     navigation.navigate('ListeningSession', { activityId, mode: 'practice' })
@@ -104,7 +107,7 @@ export function ListeningPracticeScreen() {
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.canvas }}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 28 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 28, flexGrow: 1 }} alwaysBounceVertical refreshControl={refreshControl}>
         <View className="flex-row items-center justify-between px-5 pt-3">
           <BackButton />
           <View className="items-center">
@@ -149,111 +152,66 @@ export function ListeningPracticeScreen() {
         </View>
 
         <View className="mt-7 px-5">
-          <View className="flex-row items-end justify-between">
-            <View>
-              <Text className="text-lg font-extrabold" style={{ color: colors.text }}>
-                Quick practice
-              </Text>
-              <Text className="mt-1 text-xs" style={{ color: colors.muted }}>
-                Start with a short listening activity
-              </Text>
-            </View>
-            <Text className="text-xs font-bold" style={{ color: colors.accent }}>
-              3–5 min
-            </Text>
-          </View>
-
-          {error ? (
-            <Text className="mt-4 text-sm font-semibold text-[#B65F39]">{error}</Text>
-          ) : null}
-          {quick ? (
-          <Pressable
-            onPress={() => openActivity(quick.id)}
-            className="mt-4 rounded-[24px] border p-4"
-            style={{ backgroundColor: colors.card, borderColor: colors.cardBorder }}>
-            <View className="flex-row items-center gap-4">
-              <View
-                className="h-12 w-12 items-center justify-center rounded-2xl"
-                style={{ backgroundColor: quick.iconBg }}>
-                <ActivityIcon id={quick.id} color={quick.iconColor} />
-              </View>
-              <View className="min-w-0 flex-1">
-                <Text className="text-[15px] font-extrabold" style={{ color: colors.text }}>
-                  {quick.title}
-                </Text>
-                <Text className="mt-1 text-xs" style={{ color: colors.muted }}>
-                  {quick.description}
-                </Text>
-                <Text className="mt-2 text-xs" style={{ color: colors.muted }}>
-                  {quick.level} · {quick.duration}
-                </Text>
-              </View>
-              <View
-                className="h-9 w-9 items-center justify-center rounded-full"
-                style={{ backgroundColor: colors.brand }}>
-                <Svg width={16} height={16} viewBox="0 0 24 24" fill="none">
-                  <Path
-                    d="M9 18l6-6-6-6"
-                    stroke="#FFFFFF"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </Svg>
-              </View>
-            </View>
-          </Pressable>
-          ) : null}
-        </View>
-
-        <View className="mt-7 px-5">
           <Text className="text-lg font-extrabold" style={{ color: colors.text }}>
-            Listening activities
+            Activities
           </Text>
           <Text className="mt-1 text-xs" style={{ color: colors.muted }}>
-            Choose what you want to practice
+            Pick one and answer the questions after the clip.
           </Text>
-
+          {error ? <Text className="mt-4 text-sm font-semibold text-[#B65F39]">{error}</Text> : null}
+          {loading && activities.length === 0 ? (
+            <View className="mt-8 items-center py-10">
+              <ActivityIndicator size="large" color={colors.brand} />
+              <Text className="mt-3 text-sm font-semibold" style={{ color: colors.muted }}>
+                Loading practice
+              </Text>
+            </View>
+          ) : null}
+          {!loading && !error && activities.length === 0 ? (
+            <View className="mt-4 items-center rounded-[24px] px-6 py-10" style={{ backgroundColor: colors.card }}>
+              <Text className="text-[16px] font-extrabold" style={{ color: colors.text }}>
+                Nothing to practice yet
+              </Text>
+              <Text className="mt-1 text-center text-sm leading-5" style={{ color: colors.muted }}>
+                Listening activities will show up here when they are published.
+              </Text>
+            </View>
+          ) : null}
           <View className="mt-4 gap-3">
-            {activities.map(item => (
+            {activities.map((item, index) => (
               <Pressable
                 key={item.id}
+                accessibilityRole="button"
                 onPress={() => openActivity(item.id)}
-                className="rounded-[22px] border p-4"
-                style={{ backgroundColor: colors.card, borderColor: colors.cardBorder }}>
-                <View className="flex-row items-center gap-4">
+                className="rounded-[24px] p-4"
+                style={{ backgroundColor: index === 0 ? colors.brand : colors.card }}>
+                <View className="flex-row items-center gap-3">
                   <View
-                    className="h-11 w-11 items-center justify-center rounded-xl"
-                    style={{ backgroundColor: item.iconBg }}>
-                    <ActivityIcon id={item.id} color={item.iconColor} />
+                    className="h-12 w-12 items-center justify-center rounded-2xl"
+                    style={{ backgroundColor: index === 0 ? 'rgba(255,255,255,0.16)' : item.iconBg }}>
+                    <ActivityIcon id={item.id} color={index === 0 ? '#FFFFFF' : item.iconColor} />
                   </View>
                   <View className="min-w-0 flex-1">
-                    <Text className="text-[15px] font-extrabold" style={{ color: colors.text }}>
+                    <Text className="text-[16px] font-extrabold" style={{ color: index === 0 ? '#FFFFFF' : colors.text }}>
                       {item.title}
                     </Text>
-                    <Text className="mt-0.5 text-xs" style={{ color: colors.muted }}>
+                    <Text className="mt-1 text-[13px] leading-5" style={{ color: index === 0 ? 'rgba(255,255,255,0.75)' : colors.muted }} numberOfLines={2}>
                       {item.description}
                     </Text>
+                    <Text className="mt-2 text-[12px] font-bold" style={{ color: index === 0 ? 'rgba(255,255,255,0.8)' : colors.muted }}>
+                      {[item.level, item.duration].filter(Boolean).join(' · ')}
+                    </Text>
                   </View>
-                  <Text className="text-xs font-bold" style={{ color: colors.muted }}>
-                    {item.duration}
+                </View>
+                <View
+                  className="mt-4 h-11 items-center justify-center rounded-2xl"
+                  style={{ backgroundColor: index === 0 ? '#FFFFFF' : colors.brand }}>
+                  <Text className="text-[14px] font-extrabold" style={{ color: index === 0 ? colors.brand : '#FFFFFF' }}>
+                    Start
                   </Text>
                 </View>
               </Pressable>
             ))}
-          </View>
-
-          <View className="mt-5 flex-row gap-3 rounded-2xl p-4" style={{ backgroundColor: colors.cream }}>
-            <Text className="text-sm">💡</Text>
-            <View className="flex-1">
-              <Text className="text-xs font-extrabold" style={{ color: colors.text }}>
-                Listening tip
-              </Text>
-              <Text className="mt-1 text-xs leading-5" style={{ color: colors.muted }}>
-                Don’t try to understand every word. Focus on the main idea, important details, and the
-                speaker’s intent.
-              </Text>
-            </View>
           </View>
         </View>
       </ScrollView>

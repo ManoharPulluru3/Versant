@@ -73,6 +73,10 @@ export default function Students() {
                 <th>Email</th>
                 <th>Tests</th>
                 <th>Attempts</th>
+                <th>Passed</th>
+                <th>Failed</th>
+                <th>Success</th>
+                <th>Failure</th>
                 <th />
               </tr>
             </thead>
@@ -83,7 +87,11 @@ export default function Students() {
                   <td>{student.studentId}</td>
                   <td>{student.email}</td>
                   <td>{student.assignments}</td>
-                  <td>{student.attempts}</td>
+                  <td>{student.attempts ?? 0}</td>
+                  <td>{student.successes == null ? '—' : student.successes}</td>
+                  <td>{student.failures == null ? '—' : student.failures}</td>
+                  <td>{student.successRate == null ? '—' : `${student.successRate}%`}</td>
+                  <td>{student.failureRate == null ? '—' : `${student.failureRate}%`}</td>
                   <td className="text-right">
                     <Button tone="danger" onClick={() => remove(student)}>
                       Remove

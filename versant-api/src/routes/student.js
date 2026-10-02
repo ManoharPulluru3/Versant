@@ -6,6 +6,8 @@ import {
   grade,
   levelFor,
   listeningScore,
+  passMark,
+  reviewStats,
   now,
   presentActivity,
   publicUser,
@@ -26,6 +28,31 @@ function greeting() {
   return 'Good evening'
 }
 
+function assignmentResult(db, assignment) {
+  const linked = db.attempts.filter((item) => item.assignmentId === assignment.id && item.kind === 'assessment')
+  const attempts = linked.length
+    ? linked
+    : db.attempts.filter(
+        (item) => item.studentId === assignment.studentId && item.testId === assignment.testId && item.kind === 'assessment',
+      )
+  const correct = attempts.reduce((sum, item) => sum + Number(item.correct || 0), 0)
+  const total = attempts.reduce((sum, item) => sum + Number(item.total || 0), 0)
+  const completedAt = attempts.map((item) => item.createdAt).filter(Boolean).sort().at(-1) ?? null
+  return {
+    score: total ? Math.round((correct / total) * 100) : null,
+    correct: attempts.length ? correct : null,
+    total: attempts.length ? total : null,
+    completedAt,
+  }
+}
+
+function stampAssignment(assignment, result) {
+  assignment.score = result.score
+  assignment.correct = result.correct
+  assignment.total = result.total
+  assignment.completedAt = result.completedAt
+}
+
 function recordAttempt(db, user, { kind, activity, test, assignment, answers }) {
   const questions = questionsFor(db, activity.id)
   const graded = grade(questions, Array.isArray(answers) ? answers : [])
@@ -44,6 +71,9 @@ function recordAttempt(db, user, { kind, activity, test, assignment, answers }) 
     correct: graded.correct,
     total: graded.total,
     score: graded.score,
+    passed: graded.score >= passMark(db),
+    attemptNumber:
+      db.attempts.filter((item) => item.studentId === user.id && item.activityId === activity.id && item.kind === kind).length + 1,
     createdAt: now(),
   }
   db.attempts.push(attempt)
@@ -158,6 +188,8 @@ studentRouter.get('/tests', async (req, res, next) => {
       const test = db.tests.find((item) => item.id === assignment.testId)
       if (!test) return null
       const questionCount = test.activityIds.reduce((sum, activityId) => sum + questionsFor(db, activityId).length, 0)
+      const result = assignment.status === 'completed' ? assignmentResult(db, assignment) : null
+      const completedOn = result?.completedAt ? new Date(result.completedAt) : null
       return {
         assignmentId: assignment.id,
         testId: test.id,
@@ -168,6 +200,13 @@ studentRouter.get('/tests', async (req, res, next) => {
         dueLabel: `Due ${formatDue(test.dueDate)}`,
         status: assignment.status,
         questionCount,
+        score: result?.score ?? null,
+        correct: result?.correct ?? null,
+        total: result?.total ?? null,
+        completedLabel:
+          completedOn && !Number.isNaN(completedOn.getTime())
+            ? `Completed ${completedOn.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+            : null,
       }
     })
     .filter(Boolean)
@@ -240,6 +279,7 @@ studentRouter.post('/tests/:testId/attempts', async (req, res, next) => {
   const nextActivityId = test.activityIds.find((activityId) => !doneIds.has(activityId)) ?? null
   assignment.status = nextActivityId ? 'in_progress' : 'completed'
   if (!nextActivityId) {
+    stampAssignment(assignment, assignmentResult(db, assignment))
     db.notifications.unshift({
       id: `note_done_${attempt.id}`,
       studentId: req.user.id,
@@ -289,14 +329,21 @@ studentRouter.get('/progress', async (req, res, next) => {
         score: item.score,
         level: levelFor(item.score).code,
         kind: item.kind,
+        testId: item.testId ?? null,
+        correct: item.correct,
+        total: item.total,
+        passed: item.passed === true || (item.passed == null && item.score >= passMark(db)),
+        attemptNumber: item.attemptNumber ?? null,
       }
     })
+  const mine = db.attempts.filter((item) => item.studentId === req.user.id)
 
   res.json({
     score,
     level,
     delta: latest != null && previous != null ? latest - previous : null,
     attempts: history.length,
+    review: reviewStats(mine, passMark(db)),
     history,
   })
 })

@@ -1,4 +1,4 @@
-import { useCallback, useState, type ReactNode } from 'react'
+import { useCallback, useRef, useState, type ReactNode } from 'react'
 import { Alert, Pressable, ScrollView, Text, TextInput, View } from 'react-native'
 import { useFocusEffect, useNavigation, type CompositeNavigationProp } from '@react-navigation/native'
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
@@ -8,6 +8,7 @@ import Svg, { Circle, Path, Rect } from 'react-native-svg'
 import { BG_OPTIONS, useTheme, type BackgroundId } from '../context/ThemeContext'
 import { resetToLogin } from '../navigation/navigationRef'
 import type { MainTabParamList, RootStackParamList } from '../navigation/types'
+import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import { api } from '../services/client'
 import { clearSession } from '../services/session'
 
@@ -109,33 +110,33 @@ export function ProfileScreen() {
   const [currentPassword, setCurrentPassword] = useState('')
   const [nextPassword, setNextPassword] = useState('')
   const [notice, setNotice] = useState('')
+  const editingRef = useRef(false)
+  editingRef.current = editing
+
+  const load = useCallback(async () => {
+    const [me, notes, support] = await Promise.allSettled([
+      api<{ user: ProfileUser }>('/auth/me'),
+      api<{ unread: number }>('/notifications'),
+      api<{ supportEmail: string }>('/support'),
+    ])
+    if (me.status === 'fulfilled') {
+      setUser(me.value.user)
+      if (!editingRef.current) {
+        setDraftName(me.value.user.name)
+        setDraftEmail(me.value.user.email)
+      }
+    }
+    if (notes.status === 'fulfilled') setUnread(notes.value.unread)
+    if (support.status === 'fulfilled') setSupportEmail(support.value.supportEmail)
+  }, [])
 
   useFocusEffect(
     useCallback(() => {
-      let active = true
-      api<{ user: ProfileUser }>('/auth/me')
-        .then(data => {
-          if (!active) return
-          setUser(data.user)
-          setDraftName(data.user.name)
-          setDraftEmail(data.user.email)
-        })
-        .catch(() => undefined)
-      api<{ unread: number }>('/notifications')
-        .then(data => {
-          if (active) setUnread(data.unread)
-        })
-        .catch(() => undefined)
-      api<{ supportEmail: string }>('/support')
-        .then(data => {
-          if (active) setSupportEmail(data.supportEmail)
-        })
-        .catch(() => undefined)
-      return () => {
-        active = false
-      }
-    }, []),
+      load()
+    }, [load]),
   )
+
+  const refreshControl = usePullToRefresh(load)
 
   const rememberDevice = Boolean(user?.settings.rememberDevice)
   const autoPlayAudio = Boolean(user?.settings.autoPlayAudio)
@@ -209,7 +210,7 @@ export function ProfileScreen() {
 
   return (
     <SafeAreaView className="flex-1" edges={['top']} style={{ backgroundColor: colors.canvas }}>
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false} alwaysBounceVertical refreshControl={refreshControl}>
         <View className="flex-row items-center justify-between px-5 pb-2 pt-4">
           <View>
             <Text className="text-xs font-bold uppercase tracking-[1px]" style={{ color: colors.label }}>

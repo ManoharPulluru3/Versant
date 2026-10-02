@@ -15,6 +15,7 @@ import Svg, { Circle, Path, Rect } from 'react-native-svg'
 import { LogoMark } from '../components/LogoMark'
 import { useTheme } from '../context/ThemeContext'
 import type { RootStackParamList } from '../navigation/RootNavigator'
+import { noReload, usePullToRefresh } from '../hooks/usePullToRefresh'
 import { api } from '../services/client'
 import { setSession } from '../services/session'
 
@@ -71,6 +72,7 @@ export function LoginScreen() {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const { colors } = useTheme()
+  const refreshControl = usePullToRefresh(noReload)
 
   async function goHome() {
     setBusy(true)
@@ -101,7 +103,9 @@ export function LoginScreen() {
           className="flex-1"
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
-          showsVerticalScrollIndicator={false}>
+          showsVerticalScrollIndicator={false}
+          alwaysBounceVertical
+          refreshControl={refreshControl}>
           <View className="w-full px-6 py-8">
             <View className="flex-row items-center gap-3">
               <View className="h-12 w-12 items-center justify-center rounded-2xl bg-brand">
@@ -143,7 +147,9 @@ export function LoginScreen() {
             <View className="mt-5">
               <View className="mb-2 flex-row items-center justify-between">
                 <Text className="text-[13px] font-semibold text-[#39443E]">Password</Text>
-                <Pressable accessibilityRole="button">
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => navigation.navigate('ForgotPassword', { identifier: studentId.trim() })}>
                   <Text className="text-[13px] font-bold text-brand">Forgot password?</Text>
                 </Pressable>
               </View>
@@ -183,7 +189,7 @@ export function LoginScreen() {
                 className={`h-4 w-4 items-center justify-center rounded border ${
                   remember ? 'border-brand bg-brand' : 'border-[#D7DED5] bg-white'
                 }`}>
-                {remember ? <Text className="text-[10px] font-bold text-white">✓</Text> : null}
+                {remember ? <Text className="text-[10px] font-bold text-white">?</Text> : null}
               </View>
               <Text className="text-xs font-semibold text-muted dark:text-[#B4BFB8]">Keep me signed in</Text>
             </Pressable>
@@ -204,7 +210,7 @@ export function LoginScreen() {
                 shadowOffset: { width: 0, height: 8 },
                 elevation: 4,
               }}>
-              <Text className="text-sm font-extrabold text-white">{busy ? 'Signing in…' : 'Sign In'}</Text>
+              <Text className="text-sm font-extrabold text-white">{busy ? 'Signing in�' : 'Sign In'}</Text>
               <ArrowRightIcon />
             </Pressable>
           </View>

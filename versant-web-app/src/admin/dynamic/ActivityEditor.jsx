@@ -34,7 +34,8 @@ const blank = {
   subtitle: '',
   audioSeconds: 15,
   questionSeconds: 45,
-  tip: 'Listen for the main idea, then choose the best answer.',
+  maxListens: 2,
+  tip: '',
   published: true,
   questions: [],
 }
@@ -761,8 +762,16 @@ export default function ActivityEditor() {
             <Field label="Clip length (seconds)">
               <input className={`${inputClass} mt-3`} type="number" value={form.audioSeconds} onChange={(event) => set('audioSeconds', Number(event.target.value))} />
             </Field>
-            <Field label="Tip">
-              <textarea className={`${inputClass} mt-3 h-20 py-3`} value={form.tip} onChange={(event) => set('tip', event.target.value)} />
+            <Field label="Replays">
+              <input
+                className={`${inputClass} mt-3`}
+                type="number"
+                min={0}
+                max={20}
+                value={Math.max(0, Number(form.maxListens ?? 2) - 1)}
+                onChange={(event) => set('maxListens', Math.min(20, Math.max(0, Number(event.target.value) || 0)) + 1)}
+              />
+              <p className="mt-2 text-[12px] font-semibold text-muted">0 means students hear the clip once. Any higher number is how many times they can replay it.</p>
             </Field>
             <button
               type="button"
