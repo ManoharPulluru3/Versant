@@ -113,6 +113,41 @@ export function resetMemory() {
   memory = null
 }
 
+export async function putMedia(filename, buffer, contentType) {
+  if (usesMongo()) {
+    if (!mongoDb) {
+      const error = new Error('Database is not loaded')
+      error.status = 500
+      throw error
+    }
+    await mongoDb.collection('media').replaceOne(
+      { _id: filename },
+      { _id: filename, contentType, data: buffer },
+      { upsert: true },
+    )
+    return
+  }
+  const dir = path.join(path.dirname(file), 'audio')
+  fs.mkdirSync(dir, { recursive: true })
+  fs.writeFileSync(path.join(dir, filename), buffer)
+  fs.writeFileSync(path.join(dir, `${filename}.type`), contentType)
+}
+
+export async function getMedia(filename) {
+  if (usesMongo()) {
+    if (!mongoDb) return null
+    const doc = await mongoDb.collection('media').findOne({ _id: filename })
+    if (!doc?.data) return null
+    const data = Buffer.isBuffer(doc.data) ? doc.data : Buffer.from(doc.data.buffer)
+    return { contentType: doc.contentType || 'audio/mpeg', data }
+  }
+  const mediaPath = path.join(path.dirname(file), 'audio', filename)
+  if (!fs.existsSync(mediaPath)) return null
+  const typePath = `${mediaPath}.type`
+  const contentType = fs.existsSync(typePath) ? fs.readFileSync(typePath, 'utf8') : 'audio/mpeg'
+  return { contentType, data: fs.readFileSync(mediaPath) }
+}
+
 export async function closeStore() {
   await writeQueue
   if (client) {

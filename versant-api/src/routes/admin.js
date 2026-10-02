@@ -1,7 +1,45 @@
 import { Router } from 'express'
+import multer from 'multer'
 import { hashPassword, requireUser } from '../auth.js'
 import { id, now, presentActivity, questionsFor, requireString } from '../domain.js'
-import { load, save } from '../store.js'
+import { generateQuestions, generateScript } from '../ai.js'
+import { describeAudio, limitScript, resolveVoice, synthesizeSpeech, transcribeAudio, VOICES } from '../speech.js'
+import { load, putMedia, save } from '../store.js'
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 15 * 1024 * 1024 },
+})
+
+const AUDIO_TYPES = {
+  'audio/mpeg': '.mp3',
+  'audio/mp3': '.mp3',
+  'audio/wav': '.wav',
+  'audio/x-wav': '.wav',
+  'audio/wave': '.wav',
+  'audio/mp4': '.m4a',
+  'audio/m4a': '.m4a',
+  'audio/x-m4a': '.m4a',
+  'audio/aac': '.aac',
+  'audio/webm': '.webm',
+  'audio/ogg': '.ogg',
+  'audio/flac': '.flac',
+  'audio/opus': '.opus',
+}
+
+function audioExtension(file) {
+  if (AUDIO_TYPES[file.mimetype]) return AUDIO_TYPES[file.mimetype]
+  const match = String(file.originalname ?? '').toLowerCase().match(/\.(mp3|wav|m4a|aac|webm|ogg|flac|opus|mp4)$/)
+  if (!match) return null
+  if (match[1] === 'mp4') return '.m4a'
+  return `.${match[1]}`
+}
+
+function safeAudioName(file, extension) {
+  const base = String(file.originalname ?? 'recording').replace(/[^a-zA-Z0-9._-]/g, '')
+  if (base.toLowerCase().endsWith(extension)) return base.slice(0, 80)
+  return `${base.slice(0, 70) || 'recording'}${extension}`
+}
 
 export const adminRouter = Router()
 
@@ -52,7 +90,12 @@ function activityFields(body, current = {}) {
     audioLabel: requireString(body.audioLabel ?? current.audioLabel ?? 'Audio', 'Audio label', 40),
     headline: requireString(body.headline ?? current.headline ?? body.title, 'Headline', 140),
     subtitle: requireString(body.subtitle ?? current.subtitle ?? body.description, 'Subtitle', 280),
-    audioSeconds: Math.min(180, Math.max(5, Number(body.audioSeconds ?? current.audioSeconds ?? 15))),
+    audioSeconds: Math.min(600, Math.max(1, Number(body.audioSeconds ?? current.audioSeconds ?? 15))),
+    script: limitScript(body.script ?? current.script ?? '').script,
+    audioFile: current.audioFile ?? null,
+    audioSource: current.audioSource ?? null,
+    audioUpdatedAt: current.audioUpdatedAt ?? null,
+    voice: resolveVoice(body.voice ?? current.voice).id,
     maxListens: 2,
     questionSeconds: Math.min(180, Math.max(10, Number(body.questionSeconds ?? current.questionSeconds ?? 45))),
     tip: requireString(body.tip ?? current.tip ?? 'Listen for the main idea, then choose the best answer.', 'Tip', 280),
@@ -139,6 +182,10 @@ adminRouter.delete('/students/:id', async (req, res, next) => {
   res.json({ ok: true })
 })
 
+adminRouter.get('/voices', async (_req, res) => {
+  res.json({ voices: VOICES })
+})
+
 adminRouter.get('/activities', async (_req, res, next) => {
   const db = load()
   res.json({
@@ -162,6 +209,109 @@ adminRouter.post('/activities', async (req, res, next) => {
     return next(error)
   }
   res.status(201).json({ activity: presentActivity(db, activity, { includeAnswers: true }) })
+})
+
+adminRouter.post('/ai/script', async (req, res, next) => {
+  try {
+    const draft = await generateScript({
+      brief: req.body?.brief,
+      kind: req.body?.kind === 'conversation' ? 'conversation' : 'passage',
+      level: req.body?.level,
+    })
+    res.json(draft)
+  } catch (error) {
+    return next(error)
+  }
+})
+
+adminRouter.post('/ai/questions', async (req, res, next) => {
+  try {
+    const draft = await generateQuestions({
+      script: req.body?.script,
+      instruction: req.body?.instruction,
+      count: req.body?.count,
+      level: req.body?.level,
+    })
+    res.json(draft)
+  } catch (error) {
+    return next(error)
+  }
+})
+
+adminRouter.post('/speech/preview', async (req, res, next) => {
+  try {
+    const script = requireString(req.body?.script, 'Script', 4000)
+    const voice = resolveVoice(req.body?.voice)
+    const speech = await synthesizeSpeech(script, voice.id)
+    res.setHeader('Content-Type', speech.contentType)
+    res.setHeader('Cache-Control', 'no-store')
+    res.send(speech.data)
+  } catch (error) {
+    return next(error)
+  }
+})
+
+adminRouter.post('/activities/:id/speech', async (req, res, next) => {
+  const db = load()
+  const activity = db.activities.find((item) => item.id === req.params.id)
+  if (!activity) return res.status(404).json({ error: 'Activity not found' })
+  try {
+    const script = requireString(req.body?.script ?? activity.script, 'Script', 4000)
+    const voice = resolveVoice(req.body?.voice ?? activity.voice)
+    const speech = await synthesizeSpeech(script, voice.id)
+    const filename = `${activity.id}.mp3`
+    await putMedia(filename, speech.data, speech.contentType)
+    activity.script = script
+    activity.voice = voice.id
+    activity.audioSource = 'tts'
+    activity.audioFile = filename
+    activity.audioSeconds = speech.seconds
+    activity.audioUpdatedAt = now()
+    await save()
+    res.json({ activity: presentActivity(db, activity, { includeAnswers: true }) })
+  } catch (error) {
+    return next(error)
+  }
+})
+
+adminRouter.post('/speech/transcribe', upload.single('audio'), async (req, res, next) => {
+  if (!req.file) return res.status(400).json({ error: 'Choose an audio file' })
+  const extension = audioExtension(req.file)
+  if (!extension) return res.status(400).json({ error: 'Upload an mp3, wav, m4a, or webm recording' })
+  try {
+    const transcript = await transcribeAudio(req.file.buffer, safeAudioName(req.file, extension), req.file.mimetype)
+    res.json({ script: transcript.script, seconds: transcript.seconds, trimmed: transcript.trimmed })
+  } catch (error) {
+    return next(error)
+  }
+})
+
+adminRouter.post('/activities/:id/audio', upload.single('audio'), async (req, res, next) => {
+  const db = load()
+  const activity = db.activities.find((item) => item.id === req.params.id)
+  if (!activity) return res.status(404).json({ error: 'Activity not found' })
+  if (!req.file) return res.status(400).json({ error: 'Choose an audio file' })
+  const extension = audioExtension(req.file)
+  if (!extension) return res.status(400).json({ error: 'Upload an mp3, wav, m4a, or webm recording' })
+  try {
+    const described = await describeAudio(req.file.buffer, req.file.mimetype)
+    const filename = `${activity.id}${extension}`
+    await putMedia(filename, req.file.buffer, req.file.mimetype)
+    let script = limitScript(req.body?.script ?? '').script
+    if (!script) {
+      const transcript = await transcribeAudio(req.file.buffer, safeAudioName(req.file, extension), req.file.mimetype)
+      script = transcript.script
+    }
+    activity.script = script
+    activity.audioSource = 'upload'
+    activity.audioFile = filename
+    activity.audioSeconds = described.seconds
+    activity.audioUpdatedAt = now()
+    await save()
+    res.json({ activity: presentActivity(db, activity, { includeAnswers: true }) })
+  } catch (error) {
+    return next(error)
+  }
 })
 
 adminRouter.put('/activities/:id', async (req, res, next) => {

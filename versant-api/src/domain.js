@@ -48,6 +48,16 @@ export function presentActivity(db, activity, { includeAnswers = false } = {}) {
     headline: activity.headline,
     subtitle: activity.subtitle,
     audioSeconds: activity.audioSeconds,
+    audioUrl: activity.audioFile
+      ? `/media/${activity.audioFile}?v=${encodeURIComponent(activity.audioUpdatedAt || activity.voice || '1')}`
+      : null,
+    ...(includeAnswers
+      ? {
+          script: activity.script ?? '',
+          audioSource: activity.audioSource ?? null,
+          voice: activity.voice ?? 'en-IN-NeerjaNeural',
+        }
+      : {}),
     maxListens: activity.maxListens,
     questionSeconds: activity.questionSeconds,
     tip: activity.tip,

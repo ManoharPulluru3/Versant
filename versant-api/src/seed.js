@@ -73,6 +73,8 @@ export function buildSeed() {
       iconBg: '#FFF0E2',
       iconColor: '#E58A45',
       audioLabel: 'Short clip',
+      script:
+        'Could you tell me where the library is? I missed the bus and arrived late. I have an interview tomorrow and I’m a little nervous.',
       headline: 'Listen and choose the best response',
       subtitle: 'Listen to the short clip, then select the reply that sounds most natural.',
       audioSeconds: 8,
@@ -91,6 +93,8 @@ export function buildSeed() {
       iconBg: '#DCEBDD',
       iconColor: '#1F6B4F',
       audioLabel: 'Conversation',
+      script:
+        'A classmate says: I missed the bus this morning and arrived late for class. A coworker says: I’m not sure I understand this part of the report. A friend says: I have an interview tomorrow and I’m a little nervous.',
       headline: 'Listen and choose the best response',
       subtitle: 'Listen to the short conversation, then select the response that best completes it.',
       audioSeconds: 15,
@@ -109,6 +113,8 @@ export function buildSeed() {
       iconBg: '#F2F5E8',
       iconColor: '#1F6B4F',
       audioLabel: 'Passage',
+      script:
+        'The community decided to create a new public garden so residents would have a shared outdoor space. One benefit was that neighbors spent more time outdoors together. People should join a local event and help maintain the garden.',
       headline: 'Listen and understand',
       subtitle: 'Listen to the passage carefully, then answer the question based on what you heard.',
       audioSeconds: 30,
@@ -127,6 +133,8 @@ export function buildSeed() {
       iconBg: '#FFF0E2',
       iconColor: '#E58A45',
       audioLabel: 'Audio',
+      script:
+        'The campus workshop is scheduled for Thursday afternoon at 3. Students should meet in the seminar room on the second floor. Please bring a notebook and your student ID.',
       headline: 'Listen for the key details',
       subtitle: 'Play the audio, then choose the option that matches what you heard.',
       audioSeconds: 20,

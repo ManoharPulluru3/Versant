@@ -19,7 +19,7 @@ const NAV = [
     items: [
       { to: '/admin/assessments', label: 'Assessments', icon: 'book' },
       { to: '/admin/assessments/assign', label: 'Assign Assessment', icon: 'book' },
-      { to: '/admin/question-bank', label: 'Question Bank', icon: 'bank' },
+      { to: '/admin/question-bank', label: 'Question Bank', icon: 'bank', end: true },
       { to: '/admin/question-bank/editor', label: 'Question Editor', icon: 'bank' },
       { to: '/admin/monitoring', label: 'Live Monitoring', icon: 'pulse' },
       { to: '/admin/results', label: 'Results', icon: 'chart' },

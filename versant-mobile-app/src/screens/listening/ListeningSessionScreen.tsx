@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from 'react-native'
+import { useEffect, useRef, useState } from 'react'
+import { ActivityIndicator, NativeEventEmitter, NativeModules, Pressable, ScrollView, Text, View } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import type { RouteProp } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -8,10 +8,20 @@ import Svg, { Circle, Path } from 'react-native-svg'
 import { BackButton } from '../../components/BackButton'
 import { useTheme } from '../../context/ThemeContext'
 import { formatSeconds } from '../../listening/content'
+import { ENV } from '../../config/env'
 import { api } from '../../services/client'
 import type { RootStackParamList } from '../../navigation/types'
 
 const WAVE = [16, 28, 20, 36, 24, 32, 20, 28, 18, 30]
+
+type VersantAudio = {
+  play: (url: string) => Promise<number>
+  pause: () => void
+  resume: () => Promise<number>
+  stop: () => void
+  seek: (positionMs: number) => Promise<number>
+  position: () => Promise<number>
+}
 
 type RemoteActivity = {
   id: string
@@ -20,6 +30,7 @@ type RemoteActivity = {
   headline: string
   subtitle: string
   audioSeconds: number
+  audioUrl: string | null
   maxListens: number
   questionSeconds: number
   tip: string
@@ -85,19 +96,29 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
   const [answers, setAnswers] = useState<{ questionId: string; optionId: string }[]>([])
   const [timeLeft, setTimeLeft] = useState(activity.questionSeconds)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [paused, setPaused] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const [audioSeconds, setAudioSeconds] = useState(0)
+  const [clipSeconds, setClipSeconds] = useState(activity.audioSeconds)
   const [listenCount, setListenCount] = useState(0)
   const [audioFinished, setAudioFinished] = useState(false)
+  const [playError, setPlayError] = useState('')
+  const seekAt = useRef(0)
   const [selected, setSelected] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
 
   const question = activity.questions[questionIndex]
   const total = activity.questions.length
-  const progress = Math.round(((questionIndex + 1) / total) * 100)
+  const progress = total ? Math.round(((questionIndex + 1) / total) * 100) : 0
   const urgent = timeLeft <= 10
-  const canPlay = !isPlaying && listenCount < activity.maxListens
-  const audioProgress = Math.min(audioSeconds / activity.audioSeconds, 1)
+  const player = NativeModules.VersantAudio as VersantAudio | undefined
+  const hasAudio = Boolean(activity.audioUrl && player)
+  const atEnd = audioFinished && audioSeconds >= Math.max(clipSeconds - 0.4, 0)
+  const canStart = hasAudio && listenCount < activity.maxListens
+  const canResume = Boolean(paused && loaded && !atEnd)
+  const playDisabled = isPlaying ? false : !(canStart || canResume)
+  const audioProgress = Math.min(audioSeconds / Math.max(clipSeconds, 1), 1)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -107,33 +128,116 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
   }, [questionIndex, activity.id])
 
   useEffect(() => {
-    if (!isPlaying) return undefined
-    const timer = setInterval(() => {
-      setAudioSeconds(prev => {
-        if (prev + 1 >= activity.audioSeconds) {
-          setIsPlaying(false)
-          setAudioFinished(true)
-          return activity.audioSeconds
-        }
-        return prev + 1
-      })
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [activity.audioSeconds, isPlaying])
+    if (!player) return undefined
+    const emitter = new NativeEventEmitter(player)
+    const ended = emitter.addListener('versantAudioEnded', () => {
+      setIsPlaying(false)
+      setPaused(true)
+      setAudioFinished(true)
+      player.position().then((ms: number) => setAudioSeconds(ms / 1000))
+    })
+    const failed = emitter.addListener('versantAudioError', () => {
+      setIsPlaying(false)
+      setPlayError('The recording stopped unexpectedly.')
+    })
+    return () => {
+      ended.remove()
+      failed.remove()
+      player.stop()
+    }
+  }, [player])
 
-  function play() {
-    if (!canPlay) return
+  useEffect(() => {
+    if (!isPlaying || !player) return undefined
+    const timer = setInterval(() => {
+      player.position().then((ms: number) => setAudioSeconds(ms / 1000))
+    }, 250)
+    return () => clearInterval(timer)
+  }, [isPlaying, player])
+
+  async function startFresh() {
+    if (!canStart || !activity.audioUrl || !player) return
+    setPlayError('')
+    setPaused(false)
     setAudioSeconds(0)
     setListenCount(count => count + 1)
     setIsPlaying(true)
+    try {
+      const duration = await player.play(`${ENV.API_ROOT}${activity.audioUrl}`)
+      if (typeof duration === 'number' && duration > 0) setClipSeconds(duration / 1000)
+      setLoaded(true)
+    } catch (err) {
+      setIsPlaying(false)
+      setLoaded(false)
+      setListenCount(count => Math.max(0, count - 1))
+      setPlayError(err instanceof Error ? err.message : 'Could not play the recording')
+    }
+  }
+
+  function pause() {
+    if (!isPlaying || !player) return
+    player.pause?.()
+    player.position().then(ms => setAudioSeconds(ms / 1000))
+    setIsPlaying(false)
+    setPaused(true)
+  }
+
+  async function resume() {
+    if (!player) return
+    setPlayError('')
+    setPaused(false)
+    setIsPlaying(true)
+    try {
+      if (typeof player.resume !== 'function') {
+        setLoaded(false)
+        setIsPlaying(false)
+        await startFresh()
+        return
+      }
+      await player.resume()
+    } catch (err) {
+      setIsPlaying(false)
+      setPaused(true)
+      setPlayError(err instanceof Error ? err.message : 'Could not resume the recording')
+    }
+  }
+
+  function stopPlayback() {
+    player?.stop()
+    setIsPlaying(false)
+    setPaused(false)
+    setLoaded(false)
+    setAudioSeconds(0)
+  }
+
+  function seek(ratio: number, force = false) {
+    if (!loaded || !player || typeof player.seek !== 'function') return
+    const ms = Math.round(ratio * clipSeconds * 1000)
+    setAudioSeconds(ms / 1000)
+    const now = Date.now()
+    if (!force && now - seekAt.current < 80) return
+    seekAt.current = now
+    player.seek(ms).catch(() => {})
+  }
+
+  function onPlayPress() {
+    if (isPlaying) {
+      pause()
+      return
+    }
+    if (canResume) {
+      resume()
+      return
+    }
+    startFresh()
   }
 
   function resetClip() {
+    stopPlayback()
     setTimeLeft(activity.questionSeconds)
-    setIsPlaying(false)
-    setAudioSeconds(0)
     setListenCount(0)
     setAudioFinished(false)
+    setPlayError('')
     setSelected(null)
   }
 
@@ -185,13 +289,21 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
     }
   }
 
-  const status = isPlaying
-    ? `Playing ${activity.audioLabel.toLowerCase()}...`
-    : audioFinished
-      ? `${activity.audioLabel} finished`
-      : listenCount >= activity.maxListens
-        ? 'You have used both listens.'
-        : 'Listen carefully before answering'
+  const status = playError
+    ? playError
+    : !activity.audioUrl
+      ? 'No recording has been added for this activity yet.'
+      : !player
+        ? 'This app build cannot play audio yet.'
+      : isPlaying
+        ? `Playing ${activity.audioLabel.toLowerCase()}...`
+        : paused
+          ? 'Paused. Press play to continue, or stop to go back to the start.'
+        : audioFinished
+          ? `${activity.audioLabel} finished`
+          : listenCount >= activity.maxListens
+            ? 'You have used both listens.'
+            : 'Listen carefully before answering'
 
   const listenBadge =
     listenCount === 0 ? '2 listens' : listenCount === 1 ? '1 listen used' : '2 listens used'
@@ -201,6 +313,18 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
     : audioFinished
       ? 'Select the answer that best matches what you heard.'
       : `Listen to the ${activity.audioLabel.toLowerCase()} to continue`
+
+  if (!question) {
+    return (
+      <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.canvas }}>
+        <View className="flex-1 items-center justify-center px-6">
+          <Text className="text-center text-sm font-semibold" style={{ color: colors.muted }}>
+            This activity has no questions yet.
+          </Text>
+        </View>
+      </SafeAreaView>
+    )
+  }
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.canvas }}>
@@ -296,14 +420,14 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
 
             <View className="px-5 py-5">
               <View className="rounded-[24px] border p-5" style={{ backgroundColor: colors.canvas, borderColor: colors.divider }}>
-                <View className="flex-row items-center gap-4">
+                <View className="flex-row items-center gap-3">
                   <Pressable
                     accessibilityRole="button"
-                    accessibilityLabel={isPlaying ? 'Playing' : 'Play'}
-                    onPress={play}
-                    disabled={!canPlay}
+                    accessibilityLabel={isPlaying ? 'Pause' : 'Play'}
+                    onPress={onPlayPress}
+                    disabled={playDisabled}
                     className="h-16 w-16 items-center justify-center rounded-full"
-                    style={{ backgroundColor: colors.brand, opacity: canPlay || isPlaying ? 1 : 0.55 }}>
+                    style={{ backgroundColor: colors.brand, opacity: playDisabled ? 0.55 : 1 }}>
                     {isPlaying ? (
                       <Svg width={26} height={26} viewBox="0 0 24 24">
                         <Path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="#FFFFFF" />
@@ -314,41 +438,56 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
                       </Svg>
                     )}
                   </Pressable>
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel="Stop"
+                    onPress={stopPlayback}
+                    disabled={!loaded && !isPlaying}
+                    className="h-12 w-12 items-center justify-center rounded-2xl"
+                    style={{
+                      backgroundColor: colors.cream,
+                      opacity: loaded || isPlaying ? 1 : 0.45,
+                    }}>
+                    <Svg width={16} height={16} viewBox="0 0 16 16">
+                      <Path d="M3 3h10v10H3z" fill={colors.brand} />
+                    </Svg>
+                  </Pressable>
                   <View className="flex-1">
-                    <View className="mb-2 flex-row items-center justify-between">
+                    <View className="mb-1 flex-row items-center justify-between">
                       <Text className="text-xs font-bold" style={{ color: colors.muted }}>
                         {formatSeconds(audioSeconds)}
                       </Text>
                       <Text className="text-xs" style={{ color: colors.label }}>
-                        {formatSeconds(activity.audioSeconds)}
+                        {formatSeconds(Math.round(clipSeconds))}
                       </Text>
                     </View>
-                    <View className="h-2 overflow-hidden rounded-full" style={{ backgroundColor: colors.divider }}>
-                      <View
-                        className="h-full rounded-full"
-                        style={{ width: `${audioProgress * 100}%`, backgroundColor: colors.brand }}
-                      />
-                    </View>
-                    <View className="mt-4 h-10 flex-row items-center justify-center gap-1">
-                      {WAVE.map((height, index) => (
-                        <View
-                          key={index}
-                          className="w-1 rounded-full"
-                          style={{
-                            height: isPlaying ? height : Math.max(10, height - 8),
-                            backgroundColor: isPlaying ? colors.brand : '#AFC6B7',
-                          }}
-                        />
-                      ))}
-                    </View>
+                    <ClipBar
+                      progress={audioProgress}
+                      enabled={loaded}
+                      color={colors.brand}
+                      track={colors.divider}
+                      onSeek={seek}
+                    />
                   </View>
                 </View>
-                <View className="mt-5 flex-row items-center justify-between border-t pt-4" style={{ borderColor: colors.divider }}>
+                <View className="mt-4 h-10 flex-row items-center justify-center gap-1">
+                  {WAVE.map((height, index) => (
+                    <View
+                      key={index}
+                      className="w-1 rounded-full"
+                      style={{
+                        height: isPlaying ? height : Math.max(10, height - 8),
+                        backgroundColor: isPlaying ? colors.brand : '#AFC6B7',
+                      }}
+                    />
+                  ))}
+                </View>
+                <View className="mt-4 flex-row items-center justify-between border-t pt-4" style={{ borderColor: colors.divider }}>
                   <Text className="flex-1 pr-3 text-xs" style={{ color: colors.muted }}>
-                    You can listen twice.
+                    Drag the bar to move through the clip. You can listen twice.
                   </Text>
-                  <Pressable onPress={play} disabled={!canPlay}>
-                    <Text className="text-xs font-bold" style={{ color: canPlay ? colors.brand : colors.label }}>
+                  <Pressable onPress={startFresh} disabled={!canStart || isPlaying || paused}>
+                    <Text className="text-xs font-bold" style={{ color: canStart && !isPlaying && !paused ? colors.brand : colors.label }}>
                       {listenCount >= activity.maxListens ? 'No listens left' : 'Replay'}
                     </Text>
                   </Pressable>
@@ -432,5 +571,45 @@ function SessionPlayer({ activity }: { activity: RemoteActivity }) {
         </View>
       </View>
     </SafeAreaView>
+  )
+}
+
+function ClipBar({
+  progress,
+  enabled,
+  color,
+  track,
+  onSeek,
+}: {
+  progress: number
+  enabled: boolean
+  color: string
+  track: string
+  onSeek: (ratio: number, force?: boolean) => void
+}) {
+  const width = useRef(0)
+
+  function seekAt(locationX: number, force = false) {
+    if (!enabled || width.current <= 0) return
+    onSeek(Math.min(1, Math.max(0, locationX / width.current)), force)
+  }
+
+  return (
+    <View
+      accessibilityRole="adjustable"
+      accessibilityLabel="Audio position"
+      onLayout={event => {
+        width.current = event.nativeEvent.layout.width
+      }}
+      onStartShouldSetResponder={() => enabled}
+      onMoveShouldSetResponder={() => enabled}
+      onResponderGrant={event => seekAt(event.nativeEvent.locationX)}
+      onResponderMove={event => seekAt(event.nativeEvent.locationX)}
+      onResponderRelease={event => seekAt(event.nativeEvent.locationX, true)}
+      className="h-8 justify-center">
+      <View className="h-2 overflow-hidden rounded-full" style={{ backgroundColor: track }}>
+        <View className="h-full rounded-full" style={{ width: `${Math.min(progress, 1) * 100}%`, backgroundColor: color }} />
+      </View>
+    </View>
   )
 }
