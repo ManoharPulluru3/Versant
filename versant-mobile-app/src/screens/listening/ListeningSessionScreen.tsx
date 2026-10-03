@@ -55,7 +55,6 @@ export function ListeningSessionScreen() {
 
   useEffect(() => {
     let active = true
-    setActivity(null)
     reload()
       .catch(err => {
         if (active) setError(err instanceof Error ? err.message : 'Could not load this activity')
@@ -68,19 +67,24 @@ export function ListeningSessionScreen() {
   if (!activity) {
     return (
       <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.canvas }}>
-        <ScrollView
-          className="flex-1"
-          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
-          alwaysBounceVertical
-          refreshControl={refreshControl}>
-          <View className="items-center justify-center px-6">
-            {error ? (
-              <Text className="text-center text-sm font-semibold text-[#B65F39]">{error}</Text>
-            ) : (
-              <ActivityIndicator color={colors.brand} />
-            )}
+        <View className="flex-row items-center gap-3 px-5 pt-3">
+          <BackButton />
+          <View>
+            <Text className="text-[11px] font-semibold" style={{ color: colors.muted }}>
+              Listening
+            </Text>
+            <Text className="text-sm font-extrabold" style={{ color: colors.text }}>
+              {error ? 'Could not open' : 'Loading'}
+            </Text>
           </View>
-        </ScrollView>
+        </View>
+        <View className="flex-1 items-center justify-center px-6">
+          {error ? (
+            <Text className="text-center text-sm font-semibold text-[#B65F39]">{error}</Text>
+          ) : (
+            <ActivityIndicator color={colors.brand} />
+          )}
+        </View>
       </SafeAreaView>
     )
   }
@@ -105,6 +109,7 @@ function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity;
   const [audioFinished, setAudioFinished] = useState(false)
   const [playError, setPlayError] = useState('')
   const seekAt = useRef(0)
+  const playback = useRef<'idle' | 'playing'>('idle')
   const question = activity.questions[0]
   const total = activity.questions.length
   const player = NativeModules.VersantAudio as VersantAudio | undefined
@@ -115,7 +120,6 @@ function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity;
   const canStart = hasAudio && listenCount < playsAllowed
   const canResume = Boolean(paused && loaded && !atEnd)
   const replaysAllowed = unlimited ? Number.POSITIVE_INFINITY : Math.max(0, playsAllowed - 1)
-  const canReplay = unlimited ? listenCount > 0 && !isPlaying && !paused : listenCount > 0 && listenCount < playsAllowed && !isPlaying && !paused
   const playDisabled = isPlaying ? false : !(canStart || canResume)
   const audioProgress = Math.min(audioSeconds / Math.max(clipSeconds, 1), 1)
 
@@ -123,6 +127,8 @@ function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity;
     if (!player) return undefined
     const emitter = new NativeEventEmitter(player)
     const ended = emitter.addListener('versantAudioEnded', () => {
+      if (playback.current !== 'playing') return
+      playback.current = 'idle'
       setIsPlaying(false)
       setPaused(true)
       setAudioFinished(true)
@@ -154,12 +160,14 @@ function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity;
     setAudioFinished(false)
     setAudioSeconds(0)
     setListenCount(count => count + 1)
+    playback.current = 'playing'
     setIsPlaying(true)
     try {
       const duration = await player.play(`${ENV.API_ROOT}${activity.audioUrl}`)
       if (typeof duration === 'number' && duration > 0) setClipSeconds(duration / 1000)
       setLoaded(true)
     } catch (err) {
+      playback.current = 'idle'
       setIsPlaying(false)
       setLoaded(false)
       setListenCount(count => Math.max(0, count - 1))
@@ -196,6 +204,7 @@ function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity;
   }
 
   function stopPlayback() {
+    playback.current = 'idle'
     player?.stop()
     setIsPlaying(false)
     setPaused(false)
@@ -250,20 +259,14 @@ function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity;
       : isPlaying
         ? `Playing ${activity.audioLabel.toLowerCase()}...`
         : paused
-          ? 'Paused. Press play to continue, or stop to go back to the start.'
+          ? 'Paused'
         : audioFinished
           ? `${activity.audioLabel} finished`
           : listenCount >= playsAllowed
             ? 'This clip has already been played.'
             : 'Listen once, then start the questions when you are ready'
 
-  const listenBadge = unlimited
-    ? 'Unlimited'
-    : replaysAllowed === 0
-      ? 'No replay'
-      : listenCount === 0
-        ? `${replaysAllowed} ${replaysAllowed === 1 ? 'replay' : 'replays'}`
-        : `${Math.max(0, playsAllowed - listenCount)} left`
+  const listenBadge = formatSeconds(Math.round(clipSeconds))
 
   if (!question) {
     return (
@@ -387,20 +390,13 @@ function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity;
                   </View>
                 </View>
                 <WaveBars playing={isPlaying} color={colors.brand} />
-                <View className="mt-4 flex-row items-center justify-between border-t pt-4" style={{ borderColor: colors.divider }}>
-                  <Text className="flex-1 pr-3 text-xs" style={{ color: colors.muted }}>
-                    {unlimited
-                      ? 'You can replay this clip as many times as you want.'
-                      : replaysAllowed === 0
-                        ? 'This clip plays once for this test.'
-                        : `You can replay this clip ${replaysAllowed} ${replaysAllowed === 1 ? 'time' : 'times'}.`}
-                  </Text>
-                  <Pressable onPress={startFresh} disabled={!canReplay}>
-                    <Text className="text-xs font-bold" style={{ color: canReplay ? colors.brand : colors.label }}>
-                      {canReplay ? 'Replay' : 'No replay'}
-                    </Text>
-                  </Pressable>
-                </View>
+                <Text className="mt-4 border-t pt-4 text-xs" style={{ borderColor: colors.divider, color: colors.muted }} numberOfLines={1}>
+                  {unlimited
+                    ? 'Replay as often as you like.'
+                    : replaysAllowed === 0
+                      ? 'This clip plays once.'
+                      : `${replaysAllowed} ${replaysAllowed === 1 ? 'replay' : 'replays'} left.`}
+                </Text>
               </View>
             </View>
           </View>

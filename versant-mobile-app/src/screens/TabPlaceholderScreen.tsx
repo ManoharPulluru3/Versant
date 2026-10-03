@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { Animated, Pressable, ScrollView, Text, View } from 'react-native'
+import { useCallback, useRef, useState } from 'react'
+import { ActivityIndicator, Animated, Pressable, ScrollView, Text, View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
 import { useTheme } from '../context/ThemeContext'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
@@ -198,11 +198,6 @@ function withSavedScore(test: TestItem, history: ScoreHistory[]) {
   }
 }
 
-function resultLabel(test: TestItem) {
-  if (test.correct == null || test.total == null) return '—'
-  return `${test.correct} / ${test.total}`
-}
-
 function countFor(tab: TestTabId, counts: { assigned: number; inProgress: number; completed: number }) {
   if (tab === 'assigned') return counts.assigned
   if (tab === 'in_progress') return counts.inProgress
@@ -216,8 +211,6 @@ export function TestsScreen() {
   const [items, setItems] = useState<TestItem[]>([])
   const [counts, setCounts] = useState({ assigned: 0, inProgress: 0, completed: 0 })
   const [error, setError] = useState('')
-  const [trackWidth, setTrackWidth] = useState(0)
-  const slide = useRef(new Animated.Value(0)).current
   const listOpacity = useRef(new Animated.Value(1)).current
   const listShift = useRef(new Animated.Value(0)).current
 
@@ -244,15 +237,6 @@ export function TestsScreen() {
   const refreshControl = usePullToRefresh(load)
   const tabIndex = TEST_TABS.findIndex(item => item.id === tab)
 
-  useEffect(() => {
-    Animated.spring(slide, {
-      toValue: tabIndex,
-      useNativeDriver: true,
-      friction: 8,
-      tension: 90,
-    }).start()
-  }, [slide, tabIndex])
-
   function selectTab(next: TestTabId) {
     if (next === tab) return
     const nextIndex = TEST_TABS.findIndex(item => item.id === next)
@@ -272,73 +256,50 @@ export function TestsScreen() {
 
   const visible = items.filter(item => item.status === tab)
   const currentTab = TEST_TABS[tabIndex]
-  const tabWidth = trackWidth > 0 ? trackWidth / TEST_TABS.length : 0
-  const underline = tabWidth * 0.46
 
   return (
     <SafeAreaView className="flex-1" edges={['top']} style={{ backgroundColor: colors.canvas }}>
-      <ScrollView className="flex-1" contentContainerClassName="grow px-5 pb-8 pt-6" alwaysBounceVertical refreshControl={refreshControl}>
-        <Text className="text-xs font-bold uppercase tracking-[1px]" style={{ color: colors.label }}>
+      <View className="px-5 pb-4 pt-3">
+        <Text className="text-[11px] font-bold uppercase tracking-[1px]" style={{ color: colors.muted }}>
           English assessment
         </Text>
-        <Text className="mt-1 text-[28px] font-black tracking-tight" style={{ color: colors.text }}>
+        <Text className="mt-0.5 text-[22px] font-extrabold tracking-tight" style={{ color: colors.text }}>
           Tests
         </Text>
-        <Text className="mt-1 text-sm leading-5" style={{ color: colors.muted }}>
-          Listening tests assigned to you.
-        </Text>
-
-        <View onLayout={event => setTrackWidth(event.nativeEvent.layout.width)} className="mt-6">
-          <View className="flex-row">
-            {TEST_TABS.map(item => {
-              const active = tab === item.id
-              const count = countFor(item.id, counts)
-              return (
-                <Pressable
-                  key={item.id}
-                  accessibilityRole="tab"
-                  accessibilityState={{ selected: active }}
-                  onPress={() => selectTab(item.id)}
-                  className="flex-1 flex-row items-center justify-center gap-2 py-2">
-                  <Text className="text-[15px] font-extrabold" style={{ color: active ? colors.text : colors.muted }}>
-                    {item.label}
+        <View
+          className="mt-4 flex-row rounded-full p-1.5"
+          style={{ backgroundColor: 'transparent', borderWidth: 1, borderColor: colors.cardBorder }}>
+          {TEST_TABS.map(item => {
+            const active = tab === item.id
+            const count = countFor(item.id, counts)
+            return (
+              <Pressable
+                key={item.id}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: active }}
+                onPress={() => selectTab(item.id)}
+                className="min-w-0 flex-1 flex-row items-center justify-center gap-1.5 rounded-full py-3"
+                style={{ backgroundColor: active ? colors.brand : 'transparent' }}>
+                <Text className="text-[13px] font-extrabold" style={{ color: active ? '#FFFFFF' : colors.text }}>
+                  {item.label}
+                </Text>
+                <View
+                  className="h-6 min-w-6 items-center justify-center rounded-full px-1.5"
+                  style={{ backgroundColor: active ? '#FFFFFF' : colors.card }}>
+                  <Text className="text-[11px] font-extrabold" style={{ color: colors.brand }}>
+                    {count}
                   </Text>
-                  <View
-                    className="min-w-[22px] items-center justify-center rounded-full px-1.5"
-                    style={{ height: 22, backgroundColor: active ? colors.brand : colors.iconBg }}>
-                    <Text className="text-[11px] font-extrabold" style={{ color: active ? '#FFFFFF' : colors.muted }}>
-                      {count}
-                    </Text>
-                  </View>
-                </Pressable>
-              )
-            })}
-          </View>
-          <View className="mt-2 h-[2px]" style={{ backgroundColor: colors.divider }}>
-            {tabWidth > 0 ? (
-              <Animated.View
-                pointerEvents="none"
-                style={{
-                  position: 'absolute',
-                  top: -1,
-                  height: 3,
-                  width: underline,
-                  borderRadius: 3,
-                  backgroundColor: colors.brand,
-                  transform: [
-                    {
-                      translateX: Animated.add(Animated.multiply(slide, tabWidth), (tabWidth - underline) / 2),
-                    },
-                  ],
-                }}
-              />
-            ) : null}
-          </View>
+                </View>
+              </Pressable>
+            )
+          })}
         </View>
+      </View>
 
-        {error ? <Text className="mt-4 text-sm font-semibold text-[#B65F39]">{error}</Text> : null}
+      <ScrollView className="flex-1" contentContainerClassName="grow px-5 pb-8" alwaysBounceVertical refreshControl={refreshControl}>
+        {error ? <Text className="mb-3 text-sm font-semibold text-[#B65F39]">{error}</Text> : null}
 
-        <Animated.View style={{ marginTop: 20, gap: 12, opacity: listOpacity, transform: [{ translateX: listShift }] }}>
+        <Animated.View style={{ gap: 12, opacity: listOpacity, transform: [{ translateX: listShift }] }}>
           {visible.length === 0 && !error ? (
             <View className="items-center rounded-[24px] border border-dashed px-6 py-10" style={{ borderColor: colors.cardBorder, backgroundColor: colors.card }}>
               <Text className="text-[16px] font-extrabold" style={{ color: colors.text }}>
@@ -351,51 +312,60 @@ export function TestsScreen() {
           ) : null}
           {visible.map(test => {
             const done = test.status === 'completed'
+            const meta = done
+              ? [test.badge, test.completedLabel || 'Completed'].filter(Boolean).join(' · ')
+              : [test.badge, `${test.durationMinutes} min`, `${test.questionCount} questions`, test.dueLabel].filter(Boolean).join(' · ')
             return (
               <Pressable
                 key={test.testId}
                 accessibilityRole="button"
                 onPress={() => navigation.navigate('AssessmentDetails', { testId: test.testId })}
-                className="rounded-[24px] p-4"
-                style={{ backgroundColor: colors.card }}>
-                <View className="flex-row items-start justify-between gap-3">
-                  <View className="min-w-0 flex-1">
-                    <View className="self-start rounded-full px-2.5 py-1" style={{ backgroundColor: test.status === 'in_progress' ? '#FFF0E2' : colors.brandLight }}>
-                      <Text className="text-[11px] font-extrabold uppercase tracking-[0.6px]" style={{ color: test.status === 'in_progress' ? '#C96D2F' : colors.brand }}>
-                        {test.badge}
-                      </Text>
-                    </View>
-                    <Text className="mt-3 text-[18px] font-extrabold leading-6" style={{ color: colors.text }}>
-                      {test.title}
+                className="flex-row items-center rounded-[20px] px-4 py-3.5"
+                style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E6EAE4' }}>
+                <View className="min-w-0 flex-1 pr-3">
+                  <Text className="text-[16px] font-extrabold" style={{ color: colors.text }} numberOfLines={1}>
+                    {test.title}
+                  </Text>
+                  <Text className="mt-1.5 text-[12px] font-semibold" style={{ color: colors.muted }} numberOfLines={1}>
+                    {meta}
+                  </Text>
+                </View>
+                {done && test.correct != null && test.total != null ? (
+                  <View className="mr-3 items-end justify-center">
+                    <Text className="text-[10px] font-bold uppercase tracking-[0.8px]" style={{ color: '#C45C26' }}>
+                      Marks
                     </Text>
-                    {test.description ? (
-                      <Text className="mt-1 text-sm leading-5" style={{ color: colors.muted }} numberOfLines={2}>
-                        {test.description}
+                    <Text className="mt-0.5 text-[15px] font-black leading-5" style={{ color: '#E25B2A' }}>
+                      {test.correct}
+                      <Text className="text-[12px] font-bold" style={{ color: '#C9A08A' }}>
+                        {' '}
+                        of {test.total}
                       </Text>
-                    ) : null}
-                    <Text className="mt-3 text-[12px] font-bold" style={{ color: colors.muted }}>
-                      {done ? test.completedLabel || 'Completed' : test.dueLabel}
                     </Text>
                   </View>
-                  {done ? (
-                    <View className="items-end rounded-2xl px-3 py-2" style={{ backgroundColor: colors.brandLight }}>
-                      <Text className="text-[22px] font-black" style={{ color: colors.brand }}>
-                        {resultLabel(test)}
-                      </Text>
-                      <Text className="mt-0.5 text-[10px] font-extrabold uppercase tracking-[0.4px]" style={{ color: colors.brand }}>
-                        Correct
-                      </Text>
-                    </View>
-                  ) : (
-                    <View className="items-end">
-                      <Text className="text-[13px] font-extrabold" style={{ color: colors.text }}>
-                        {test.questionCount} questions
-                      </Text>
-                      <Text className="mt-1 text-[12px] font-bold" style={{ color: colors.muted }}>
-                        {test.durationMinutes} min
-                      </Text>
-                    </View>
-                  )}
+                ) : null}
+                <View
+                  className="h-9 w-9 items-center justify-center rounded-full"
+                  style={{ backgroundColor: done ? colors.brand : colors.brandLight }}>
+                  <Svg width={16} height={16} viewBox="0 0 24 24" fill="none">
+                    {done ? (
+                      <Path
+                        d="M5 12.5 9.5 17 19 7"
+                        stroke="#FFFFFF"
+                        strokeWidth={2.6}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    ) : (
+                      <Path
+                        d="M9 6l6 6-6 6"
+                        stroke={colors.brand}
+                        strokeWidth={2.4}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    )}
+                  </Svg>
                 </View>
               </Pressable>
             )
@@ -451,6 +421,7 @@ export function ProgressScreen() {
     history: HistoryItem[]
   } | null>(null)
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
 
   const load = useCallback(async () => {
     try {
@@ -459,6 +430,8 @@ export function ProgressScreen() {
       setError('')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not load progress')
+    } finally {
+      setLoading(false)
     }
   }, [])
 
@@ -473,88 +446,148 @@ export function ProgressScreen() {
 
   return (
     <SafeAreaView className="flex-1" edges={['top']} style={{ backgroundColor: colors.canvas }}>
-      <ScrollView className="flex-1" contentContainerClassName="grow px-5 pb-8 pt-6" alwaysBounceVertical refreshControl={refreshControl}>
-        <Text className="text-xs font-bold uppercase tracking-[1px]" style={{ color: colors.label }}>
-          Your scores over time
+      <View className="px-5 pb-4 pt-3">
+        <Text className="text-[11px] font-bold uppercase tracking-[1px]" style={{ color: colors.muted }}>
+          Your scores
         </Text>
-        <Text className="mt-1 text-[28px] font-black tracking-tight" style={{ color: colors.text }}>
+        <Text className="mt-0.5 text-[22px] font-extrabold tracking-tight" style={{ color: colors.text }}>
           Progress
         </Text>
-        {error ? <Text className="mt-4 text-sm font-semibold text-[#B65F39]">{error}</Text> : null}
+      </View>
 
-        <View className="mt-5 rounded-[25px] p-5" style={{ backgroundColor: colors.brand }}>
-          <Text className="text-[11px] font-bold uppercase tracking-[1px] text-white/70">Listening score</Text>
-          <View className="mt-2 flex-row items-end justify-between">
-            <View>
-              <Text className="text-[44px] font-black leading-none text-white">{data?.score ?? '—'}</Text>
-              <Text className="mt-2 text-sm text-white/70">
-                {data ? `${data.level.code} · ${data.level.label}` : 'Loading'}
-              </Text>
-            </View>
-            <View className="items-end rounded-2xl bg-white/10 px-3 py-3">
-              <Text className="text-[11px] text-white/70">Change</Text>
-              <Text className="mt-1 text-2xl font-black text-white">
-                {data?.delta == null ? '—' : `${data.delta > 0 ? '+' : ''}${data.delta}`}
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <Text className="mt-7 text-xs font-bold uppercase tracking-[1px]" style={{ color: colors.label }}>
-          Your attempts
-        </Text>
-        <View className="mt-3 flex-row gap-3">
-          {[
-            { label: 'Attempts', value: String(review?.attempts ?? 0) },
-            { label: 'Success', value: review ? `${review.successRate}%` : '—' },
-            { label: 'Failure', value: review ? `${review.failureRate}%` : '—' },
-          ].map(item => (
-            <View key={item.label} className="flex-1 rounded-[20px] px-3 py-4" style={{ backgroundColor: colors.card }}>
-              <Text className="text-[11px] font-bold uppercase tracking-[0.4px]" style={{ color: colors.label }}>
-                {item.label}
-              </Text>
-              <Text className="mt-1 text-[22px] font-black" style={{ color: colors.text }}>
-                {item.value}
-              </Text>
-            </View>
-          ))}
-        </View>
-        {review ? (
-          <Text className="mt-2 text-xs leading-5" style={{ color: colors.muted }}>
-            {review.successes} passed and {review.failures} failed. A pass is {review.passMark}% or higher.
+      {loading && !data ? (
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator size="large" color={colors.brand} />
+          <Text className="mt-3 text-sm font-semibold" style={{ color: colors.muted }}>
+            Loading progress
           </Text>
-        ) : null}
+        </View>
+      ) : (
+        <ScrollView className="flex-1" contentContainerClassName="grow px-5 pb-8" alwaysBounceVertical refreshControl={refreshControl}>
+          {error ? <Text className="mb-3 text-sm font-semibold text-[#B65F39]">{error}</Text> : null}
 
-        <Text className="mt-7 text-xs font-bold uppercase tracking-[1px]" style={{ color: colors.label }}>
-          Score history
-        </Text>
-        <View className="mt-3">
-          {(data?.history ?? []).map(item => {
-            const passed = item.passed ?? item.score >= (review?.passMark ?? 60)
-            return (
-            <View key={item.id} className="flex-row items-center justify-between border-b py-4" style={{ borderColor: colors.divider }}>
-              <View className="flex-1 pr-3">
-                <Text className="text-[14px] font-extrabold" style={{ color: colors.text }}>
-                  {item.name}
+          <View className="rounded-[20px] px-4 py-4" style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E6EAE4' }}>
+            <Text className="text-[11px] font-bold uppercase tracking-[1px]" style={{ color: colors.muted }}>
+              Listening score
+            </Text>
+            <View className="mt-2 flex-row items-end justify-between">
+              <Text className="text-[40px] font-black leading-none" style={{ color: colors.brand }}>
+                {data?.score ?? '—'}
+              </Text>
+              <View className="items-end">
+                <Text className="text-[10px] font-bold uppercase tracking-[0.8px]" style={{ color: colors.muted }}>
+                  Change
                 </Text>
-                <Text className="mt-1 text-xs" style={{ color: colors.muted }}>
-                  {item.date}
-                  {item.correct != null && item.total != null ? ` · ${item.correct} / ${item.total}` : ''}
+                <Text
+                  className="mt-0.5 text-[18px] font-black"
+                  style={{ color: data?.delta == null ? colors.muted : data.delta >= 0 ? colors.brand : '#B65F39' }}>
+                  {data?.delta == null ? '—' : `${data.delta > 0 ? '+' : ''}${data.delta}`}
                 </Text>
               </View>
-              <Text className="text-[13px] font-extrabold" style={{ color: passed ? colors.brand : '#B65F39' }}>
-                {passed ? 'Passed' : 'Failed'}
-              </Text>
             </View>
-            )
-          })}
-          {data && data.history.length === 0 ? (
-            <Text className="text-sm" style={{ color: colors.muted }}>
-              Finish a listening activity to see a score here.
+            <Text className="mt-2 text-[13px] font-semibold" style={{ color: colors.muted }}>
+              {data ? `${data.level.code} · ${data.level.label}` : 'Listening level'}
+            </Text>
+          </View>
+
+          <View className="mt-3 flex-row gap-3">
+            {[
+              { label: 'Attempts', value: String(review?.attempts ?? 0), color: colors.text },
+              { label: 'Success', value: review ? `${review.successRate}%` : '—', color: colors.brand },
+              { label: 'Failure', value: review ? `${review.failureRate}%` : '—', color: '#B65F39' },
+            ].map(item => (
+              <View
+                key={item.label}
+                className="flex-1 rounded-[20px] px-3 py-3.5"
+                style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E6EAE4' }}>
+                <Text className="text-[10px] font-bold uppercase tracking-[0.6px]" style={{ color: colors.muted }}>
+                  {item.label}
+                </Text>
+                <Text className="mt-1 text-[20px] font-black" style={{ color: item.color }}>
+                  {item.value}
+                </Text>
+              </View>
+            ))}
+          </View>
+          {review ? (
+            <Text className="mt-2.5 text-xs leading-5" style={{ color: colors.muted }}>
+              {review.successes} passed and {review.failures} failed. A pass is {review.passMark}% or higher.
             </Text>
           ) : null}
-        </View>
-      </ScrollView>
+
+          <Text className="mb-3 mt-6 text-[11px] font-bold uppercase tracking-[1px]" style={{ color: colors.muted }}>
+            Score history
+          </Text>
+          {(data?.history ?? []).length === 0 ? (
+            <View className="items-center rounded-[24px] border border-dashed px-6 py-10" style={{ borderColor: colors.cardBorder, backgroundColor: colors.card }}>
+              <Text className="text-[16px] font-extrabold" style={{ color: colors.text }}>
+                Nothing here
+              </Text>
+              <Text className="mt-1 text-center text-sm leading-5" style={{ color: colors.muted }}>
+                Finish a listening activity to see a score here.
+              </Text>
+            </View>
+          ) : (
+            <View className="gap-3">
+              {(data?.history ?? []).map(item => {
+                const passed = item.passed ?? item.score >= (review?.passMark ?? 60)
+                const meta = [item.date, item.level].filter(Boolean).join(' · ')
+                return (
+                  <View
+                    key={item.id}
+                    className="flex-row items-center rounded-[20px] px-4 py-3.5"
+                    style={{ backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E6EAE4' }}>
+                    <View className="min-w-0 flex-1 pr-3">
+                      <Text className="text-[16px] font-extrabold" style={{ color: colors.text }} numberOfLines={1}>
+                        {item.name}
+                      </Text>
+                      <Text className="mt-1.5 text-[12px] font-semibold" style={{ color: colors.muted }} numberOfLines={1}>
+                        {meta}
+                      </Text>
+                    </View>
+                    {item.correct != null && item.total != null ? (
+                      <View className="mr-3 items-end justify-center">
+                        <Text className="text-[10px] font-bold uppercase tracking-[0.8px]" style={{ color: '#C45C26' }}>
+                          Marks
+                        </Text>
+                        <Text className="mt-0.5 text-[15px] font-black leading-5" style={{ color: '#E25B2A' }}>
+                          {item.correct}
+                          <Text className="text-[12px] font-bold" style={{ color: '#C9A08A' }}>
+                            {' '}
+                            of {item.total}
+                          </Text>
+                        </Text>
+                      </View>
+                    ) : null}
+                    <View
+                      className="h-9 w-9 items-center justify-center rounded-full"
+                      style={{ backgroundColor: passed ? colors.brand : '#F4E4DC' }}>
+                      <Svg width={16} height={16} viewBox="0 0 24 24" fill="none">
+                        {passed ? (
+                          <Path
+                            d="M5 12.5 9.5 17 19 7"
+                            stroke="#FFFFFF"
+                            strokeWidth={2.6}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        ) : (
+                          <Path
+                            d="M7 7l10 10M17 7 7 17"
+                            stroke="#B65F39"
+                            strokeWidth={2.4}
+                            strokeLinecap="round"
+                          />
+                        )}
+                      </Svg>
+                    </View>
+                  </View>
+                )
+              })}
+            </View>
+          )}
+        </ScrollView>
+      )}
     </SafeAreaView>
   )
 }

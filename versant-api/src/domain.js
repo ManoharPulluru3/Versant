@@ -29,6 +29,34 @@ export function publicUser(user) {
   }
 }
 
+export const LISTENING_CATEGORIES = [
+  'Conversation',
+  'Reading',
+  'Telephone',
+  'Product explanation',
+  'Announcement',
+]
+
+const CATEGORY_ALIASES = {
+  conversation: 'Conversation',
+  dialogue: 'Conversation',
+  reading: 'Reading',
+  notice: 'Reading',
+  passage: 'Reading',
+  telephone: 'Telephone',
+  phone: 'Telephone',
+  voicemail: 'Telephone',
+  call: 'Telephone',
+  product: 'Product explanation',
+  'product explanation': 'Product explanation',
+  announcement: 'Announcement',
+}
+
+export function listeningCategory(value) {
+  const key = String(value ?? '').trim().toLowerCase()
+  return CATEGORY_ALIASES[key] ?? null
+}
+
 export function questionsFor(db, activityId) {
   return db.questions
     .filter((question) => question.activityId === activityId)
@@ -45,6 +73,7 @@ export function presentActivity(db, activity, { includeAnswers = false } = {}) {
     iconBg: activity.iconBg,
     iconColor: activity.iconColor,
     audioLabel: activity.audioLabel,
+    category: listeningCategory(activity.category) || listeningCategory(activity.audioLabel) || 'Reading',
     headline: activity.headline,
     subtitle: activity.subtitle,
     audioSeconds: activity.audioSeconds,

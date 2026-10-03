@@ -5,7 +5,6 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Svg, { Circle, Path, Rect } from 'react-native-svg'
-import { useTheme } from '../context/ThemeContext'
 import { usePullToRefresh } from '../hooks/usePullToRefresh'
 import type { MainTabParamList, RootStackParamList } from '../navigation/types'
 import { api } from '../services/client'
@@ -176,7 +175,6 @@ function ArrowIcon({ color = '#1f6b4f' }: { color?: string }) {
 
 export function HomeScreen() {
   const navigation = useNavigation<Nav>()
-  const { colors } = useTheme()
   const [home, setHome] = useState<HomeData | null>(null)
   const [error, setError] = useState('')
 
@@ -206,7 +204,7 @@ export function HomeScreen() {
   }))
 
   return (
-    <SafeAreaView className="flex-1" edges={['top']} style={{ backgroundColor: colors.canvas }}>
+    <SafeAreaView className="flex-1" edges={['top']} style={{ backgroundColor: '#F6F7F2' }}>
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false} alwaysBounceVertical refreshControl={refreshControl}>
         <View className="flex-row items-center justify-between px-5 pt-4">
           <View className="flex-row items-center gap-3">
@@ -218,7 +216,7 @@ export function HomeScreen() {
             </View>
             <View>
               <Text className="text-xs font-semibold text-[#8A918B]">{home?.greeting ?? 'Hello'}</Text>
-              <Text className="mt-0.5 text-[15px] font-extrabold text-dark dark:text-[#EEF3EF]">
+              <Text className="mt-0.5 text-[15px] font-extrabold text-dark">
                 {home?.student.name ?? 'Student'}
               </Text>
             </View>
@@ -227,7 +225,7 @@ export function HomeScreen() {
             accessibilityRole="button"
             accessibilityLabel="Notifications"
             onPress={() => navigation.navigate('Notifications')}
-            className="h-11 w-11 items-center justify-center rounded-full bg-cream dark:bg-[#24382E]">
+            className="h-11 w-11 items-center justify-center rounded-full bg-cream">
             <BellIcon />
             {home && home.unread > 0 ? (
               <View className="absolute right-1.5 top-1.5 h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1">
@@ -238,68 +236,64 @@ export function HomeScreen() {
         </View>
 
         <View className="px-5 pb-8 pt-6">
-          <View className="overflow-hidden rounded-[28px] bg-brand p-5">
-            <View className="absolute -right-12 -top-12 h-36 w-36 rounded-full border-[22px] border-white/10" />
-            <View className="flex-row items-start justify-between">
-              <View className="flex-1 pr-3">
-                <View
-                  className="mb-3 self-start flex-row items-center gap-1.5 rounded-full px-3 py-1.5"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}>
-                  <View className="h-1.5 w-1.5 rounded-full bg-[#F7B267]" />
-                  <Text className="text-xs font-bold uppercase tracking-[1px] text-white">
-                    Upcoming Assessment
-                  </Text>
+          {error ? <Text className="mb-4 text-sm font-semibold text-[#B65F39]">{error}</Text> : null}
+          {home?.upcoming ? (
+            <View className="mb-7 overflow-hidden rounded-[28px] bg-brand p-5">
+              <View className="absolute -right-12 -top-12 h-36 w-36 rounded-full border-[22px] border-white/10" />
+              <View className="flex-row items-start justify-between">
+                <View className="flex-1 pr-3">
+                  <View
+                    className="mb-3 self-start flex-row items-center gap-1.5 rounded-full px-3 py-1.5"
+                    style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}>
+                    <View className="h-1.5 w-1.5 rounded-full bg-[#F7B267]" />
+                    <Text className="text-xs font-bold uppercase tracking-[1px] text-white">
+                      Upcoming Assessment
+                    </Text>
+                  </View>
+                  <Text className="text-[22px] font-extrabold leading-7 text-white">{home.upcoming.title}</Text>
+                  {home.upcoming.description ? (
+                    <Text className="mt-2 text-sm text-white/80">{home.upcoming.description}</Text>
+                  ) : null}
                 </View>
-                <Text className="text-[22px] font-extrabold leading-7 text-white">
-                  {home?.upcoming?.title ?? 'No listening test yet'}
-                </Text>
-                <Text className="mt-2 text-sm text-white/80">
-                  {error || home?.upcoming?.description || 'Assigned listening tests will show up here.'}
-                </Text>
+                <View
+                  className="h-11 w-11 items-center justify-center rounded-2xl"
+                  style={{ backgroundColor: 'rgba(255,255,255,0.12)' }}>
+                  <DocIcon />
+                </View>
               </View>
-              <View
-                className="h-11 w-11 items-center justify-center rounded-2xl"
-                style={{ backgroundColor: 'rgba(255,255,255,0.12)' }}>
-                <DocIcon />
+              <View className="mt-5 flex-row items-center gap-4">
+                <View className="flex-row items-center gap-1.5">
+                  <ClockIcon />
+                  <Text className="text-xs font-semibold text-white/80">{home.upcoming.durationMinutes} min</Text>
+                </View>
+                <View className="h-1 w-1 rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.4)' }} />
+                <View className="flex-row items-center gap-1.5">
+                  <CalendarIcon />
+                  <Text className="text-xs font-semibold text-white/80">{home.upcoming.dueLabel}</Text>
+                </View>
               </View>
+              <Pressable
+                onPress={() => navigation.navigate('AssessmentDetails', { testId: home.upcoming!.id })}
+                className="mt-5 h-[52px] flex-row items-center justify-center gap-2 rounded-2xl bg-white">
+                <Text className="text-sm font-extrabold text-brand">Start Assessment</Text>
+                <ArrowIcon />
+              </Pressable>
             </View>
-            <View className="mt-5 flex-row items-center gap-4">
-              <View className="flex-row items-center gap-1.5">
-                <ClockIcon />
-                <Text className="text-xs font-semibold text-white/80">
-                  {home?.upcoming ? `${home.upcoming.durationMinutes} min` : '—'}
-                </Text>
-              </View>
-              <View className="h-1 w-1 rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.4)' }} />
-              <View className="flex-row items-center gap-1.5">
-                <CalendarIcon />
-                <Text className="text-xs font-semibold text-white/80">{home?.upcoming?.dueLabel ?? 'Not assigned'}</Text>
-              </View>
-            </View>
-            <Pressable
-              disabled={!home?.upcoming}
-              onPress={() =>
-                home?.upcoming && navigation.navigate('AssessmentDetails', { testId: home.upcoming.id })
-              }
-              className="mt-5 h-[52px] flex-row items-center justify-center gap-2 rounded-2xl bg-white">
-              <Text className="text-sm font-extrabold text-brand">Start Assessment</Text>
-              <ArrowIcon />
-            </Pressable>
-          </View>
+          ) : null}
 
-          <View className="mt-7 flex-row items-end justify-between">
+          <View className="flex-row items-end justify-between">
             <View>
               <Text className="text-xs font-bold uppercase tracking-[1px] text-[#9AA19B]">
                 Your English
               </Text>
-              <Text className="mt-1 text-lg font-extrabold text-dark dark:text-[#EEF3EF]">Communication Level</Text>
+              <Text className="mt-1 text-lg font-extrabold text-dark">Communication Level</Text>
             </View>
             <Pressable onPress={() => navigation.navigate('Progress')}>
               <Text className="text-[13px] font-bold text-brand">View report</Text>
             </Pressable>
           </View>
 
-          <View className="mt-4 flex-row items-center gap-5 rounded-[24px] bg-cream dark:bg-[#24382E] p-4">
+          <View className="mt-4 flex-row items-center gap-5 rounded-[24px] bg-cream p-4">
             <View className="h-[82px] w-[82px] items-center justify-center">
               <Svg width={82} height={82} viewBox="0 0 100 100" style={{ transform: [{ rotate: '-90deg' }] }}>
                 <Circle cx={50} cy={50} r={42} stroke="#DDE3D5" strokeWidth={8} fill="none" />
@@ -316,15 +310,15 @@ export function HomeScreen() {
                 />
               </Svg>
               <View className="absolute items-center">
-                <Text className="text-xl font-black text-dark dark:text-[#EEF3EF]">{score}</Text>
-                <Text className="text-[10px] font-bold uppercase tracking-wide text-muted dark:text-[#B4BFB8]">Score</Text>
+                <Text className="text-xl font-black text-dark">{score}</Text>
+                <Text className="text-[10px] font-bold uppercase tracking-wide text-muted">Score</Text>
               </View>
             </View>
             <View className="min-w-0 flex-1">
-              <Text className="text-[15px] font-extrabold text-dark dark:text-[#EEF3EF]">
+              <Text className="text-[15px] font-extrabold text-dark">
                 {home ? `${home.level.code} — ${home.level.label}` : 'Listening level'}
               </Text>
-              <Text className="mt-1 text-xs leading-4 text-muted dark:text-[#B4BFB8]">
+              <Text className="mt-1 text-xs leading-4 text-muted">
                 You communicate confidently in everyday and academic situations.
               </Text>
               <View className="mt-3 flex-row items-center gap-2">
@@ -337,16 +331,16 @@ export function HomeScreen() {
           </View>
 
           <View className="mt-7 flex-row items-center justify-between">
-            <Text className="text-lg font-extrabold text-dark dark:text-[#EEF3EF]">Your Skills</Text>
+            <Text className="text-lg font-extrabold text-dark">Your Skills</Text>
             <Pressable onPress={() => navigation.navigate('Progress')}>
-              <Text className="text-[13px] font-bold text-muted dark:text-[#B4BFB8]">Details</Text>
+              <Text className="text-[13px] font-bold text-muted">Details</Text>
             </Pressable>
           </View>
           <View className="mt-4 flex-row flex-wrap justify-between gap-y-3">
             {skills.map(skill => (
               <View
                 key={skill.name}
-                className="w-[48%] rounded-[22px] border border-[#EEF0E9] dark:border-[#3D4C44] bg-white dark:bg-[#1C2621] p-4">
+                className="w-[48%] rounded-[22px] border border-[#EEF0E9] bg-white p-4">
                 <View className="flex-row items-center justify-between">
                   <View
                     className="h-9 w-9 items-center justify-center rounded-xl"
@@ -365,7 +359,7 @@ export function HomeScreen() {
                     </View>
                   )}
                 </View>
-                <Text className="mt-3 text-[13px] font-extrabold text-dark dark:text-[#EEF3EF]">{skill.name}</Text>
+                <Text className="mt-3 text-[13px] font-extrabold text-dark">{skill.name}</Text>
                 {skill.name === 'Listening' ? (
                   <View className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#E9ECE6]">
                     <View
@@ -387,7 +381,7 @@ export function HomeScreen() {
               <Text className="text-xs font-bold uppercase tracking-[1px] text-[#9AA19B]">
                 Improve your skills
               </Text>
-              <Text className="mt-1 text-lg font-extrabold text-dark dark:text-[#EEF3EF]">Quick Practice</Text>
+              <Text className="mt-1 text-lg font-extrabold text-dark">Quick Practice</Text>
             </View>
             <Pressable onPress={() => navigation.navigate('Practice')}>
               <Text className="text-[13px] font-bold text-brand">See all</Text>
@@ -415,18 +409,18 @@ export function HomeScreen() {
           </ScrollView>
 
           <View className="mt-7 flex-row items-center justify-between">
-            <Text className="text-lg font-extrabold text-dark dark:text-[#EEF3EF]">Recent Activity</Text>
+            <Text className="text-lg font-extrabold text-dark">Recent Activity</Text>
             <Pressable onPress={() => navigation.navigate('Progress')}>
-              <Text className="text-[13px] font-bold text-muted dark:text-[#B4BFB8]">View all</Text>
+              <Text className="text-[13px] font-bold text-muted">View all</Text>
             </Pressable>
           </View>
           {(home?.recent ?? []).map(item => (
-            <View key={item.id} className="flex-row items-center gap-3 border-b border-[#EEF0E9] dark:border-[#3D4C44] py-4">
+            <View key={item.id} className="flex-row items-center gap-3 border-b border-[#EEF0E9] py-4">
               <View className="h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: '#FFF0DF' }}>
                 <SkillGlyph name="Listening" color="#e58a45" size={16} />
               </View>
               <View className="min-w-0 flex-1">
-                <Text className="text-[13px] font-extrabold text-dark dark:text-[#EEF3EF]">{item.title}</Text>
+                <Text className="text-[13px] font-extrabold text-dark">{item.title}</Text>
                 <Text className="mt-0.5 text-xs text-[#8A918B]">{item.meta}</Text>
               </View>
               <Text className="text-[13px] font-black" style={{ color: '#e58a45' }}>
@@ -435,7 +429,7 @@ export function HomeScreen() {
             </View>
           ))}
 
-          <View className="mt-5 rounded-[24px] border border-[#EEF0E9] dark:border-[#3D4C44] bg-white dark:bg-[#1C2621] p-4">
+          <View className="mt-5 rounded-[24px] border border-[#EEF0E9] bg-white p-4">
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center gap-3">
                 <View className="h-10 w-10 items-center justify-center rounded-xl bg-[#FFF0DF]">
@@ -446,7 +440,7 @@ export function HomeScreen() {
                   </Svg>
                 </View>
                 <View>
-                  <Text className="text-[13px] font-extrabold text-dark dark:text-[#EEF3EF]">Daily Practice Goal</Text>
+                  <Text className="text-[13px] font-extrabold text-dark">Daily Practice Goal</Text>
                   <Text className="mt-0.5 text-xs text-[#8A918B]">Keep your English improving</Text>
                 </View>
               </View>
@@ -494,12 +488,12 @@ function PracticeCard({
           style={{ backgroundColor: iconBg }}>
           <SkillGlyph name={icon} color={color} size={20} />
         </View>
-        <View className="rounded-full bg-white dark:bg-[#1C2621] px-2.5 py-1">
-          <Text className="text-xs text-muted dark:text-[#B4BFB8]">{time}</Text>
+        <View className="rounded-full bg-white px-2.5 py-1">
+          <Text className="text-xs text-muted">{time}</Text>
         </View>
       </View>
-      <Text className="mt-4 text-[15px] font-extrabold text-dark dark:text-[#EEF3EF]">{title}</Text>
-      <Text className="mt-1 text-xs text-muted dark:text-[#B4BFB8]">{body}</Text>
+      <Text className="mt-4 text-[15px] font-extrabold text-dark">{title}</Text>
+      <Text className="mt-1 text-xs text-muted">{body}</Text>
       <Pressable onPress={onPress} className="mt-4 flex-row items-center gap-1">
         <Text className="text-[13px] font-bold" style={{ color }}>
           Practice now

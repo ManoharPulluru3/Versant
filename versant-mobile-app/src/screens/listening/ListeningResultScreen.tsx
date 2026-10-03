@@ -16,10 +16,22 @@ export function ListeningResultScreen() {
   const refreshControl = usePullToRefresh(noReload)
 
   function done() {
+    if (mode === 'assessment') {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Main', params: { screen: 'Tests' } }],
+        }),
+      )
+      return
+    }
     navigation.dispatch(
       CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'Main', params: { screen: mode === 'assessment' ? 'Tests' : 'Practice' } }],
+        index: 1,
+        routes: [
+          { name: 'Main', params: { screen: 'Practice' } },
+          { name: 'PracticeSkill', params: { skill: 'listening' } },
+        ],
       }),
     )
   }

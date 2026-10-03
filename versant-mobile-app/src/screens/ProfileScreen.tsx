@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState, type ReactNode } from 'react'
-import { Alert, Pressable, ScrollView, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, Alert, Pressable, ScrollView, Text, TextInput, View } from 'react-native'
 import { useFocusEffect, useNavigation, type CompositeNavigationProp } from '@react-navigation/native'
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -101,6 +101,7 @@ export function ProfileScreen() {
   const navigation = useNavigation<Nav>()
   const { darkMode, background, colors, toggleDarkMode, setBackground } = useTheme()
   const [user, setUser] = useState<ProfileUser | null>(null)
+  const [loading, setLoading] = useState(true)
   const [unread, setUnread] = useState(0)
   const [supportEmail, setSupportEmail] = useState('')
   const [editing, setEditing] = useState(false)
@@ -114,20 +115,24 @@ export function ProfileScreen() {
   editingRef.current = editing
 
   const load = useCallback(async () => {
-    const [me, notes, support] = await Promise.allSettled([
-      api<{ user: ProfileUser }>('/auth/me'),
-      api<{ unread: number }>('/notifications'),
-      api<{ supportEmail: string }>('/support'),
-    ])
-    if (me.status === 'fulfilled') {
-      setUser(me.value.user)
-      if (!editingRef.current) {
-        setDraftName(me.value.user.name)
-        setDraftEmail(me.value.user.email)
+    try {
+      const [me, notes, support] = await Promise.allSettled([
+        api<{ user: ProfileUser }>('/auth/me'),
+        api<{ unread: number }>('/notifications'),
+        api<{ supportEmail: string }>('/support'),
+      ])
+      if (me.status === 'fulfilled') {
+        setUser(me.value.user)
+        if (!editingRef.current) {
+          setDraftName(me.value.user.name)
+          setDraftEmail(me.value.user.email)
+        }
       }
+      if (notes.status === 'fulfilled') setUnread(notes.value.unread)
+      if (support.status === 'fulfilled') setSupportEmail(support.value.supportEmail)
+    } finally {
+      setLoading(false)
     }
-    if (notes.status === 'fulfilled') setUnread(notes.value.unread)
-    if (support.status === 'fulfilled') setSupportEmail(support.value.supportEmail)
   }, [])
 
   useFocusEffect(
@@ -206,6 +211,19 @@ export function ProfileScreen() {
         },
       },
     ])
+  }
+
+  if (loading && !user) {
+    return (
+      <SafeAreaView className="flex-1" edges={['top']} style={{ backgroundColor: colors.canvas }}>
+        <View className="flex-1 items-center justify-center">
+          <ActivityIndicator size="large" color={colors.brand} />
+          <Text className="mt-3 text-sm font-semibold" style={{ color: colors.muted }}>
+            Loading profile
+          </Text>
+        </View>
+      </SafeAreaView>
+    )
   }
 
   return (

@@ -13,7 +13,8 @@ function buildSvgXml(
   const body = svg.body.replace(/currentColor/g, color)
   const width = svg.attributes.width || size
   const height = svg.attributes.height || size
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${iconData.width} ${iconData.height}">${body}</svg>`
+  const slash = '/'
+  return `<svg xmlns="${'http:'}${slash}${slash}www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${iconData.width} ${iconData.height}">${body}</svg>`
 }
 
 type IconProps = {

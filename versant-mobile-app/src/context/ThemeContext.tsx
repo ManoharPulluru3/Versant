@@ -83,16 +83,16 @@ const ThemeContext = createContext<ThemeValue | null>(null)
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const { setColorScheme } = useColorScheme()
   const [darkMode, setDarkMode] = useState(false)
-  const [background, setBackground] = useState<BackgroundId>('soft')
+  const [background, setBackground] = useState<BackgroundId>('plain')
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_KEY)
       .then(raw => {
         if (!raw) return
-        const parsed = JSON.parse(raw) as { darkMode?: boolean; background?: string }
+        const parsed = JSON.parse(raw) as { darkMode?: boolean; background?: string; v?: number }
         setDarkMode(Boolean(parsed.darkMode))
-        if (BG_OPTIONS.some(option => option.id === parsed.background)) {
+        if (parsed.v === 2 && BG_OPTIONS.some(option => option.id === parsed.background)) {
           setBackground(parsed.background as BackgroundId)
         }
       })
@@ -103,7 +103,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setColorScheme(darkMode ? 'dark' : 'light')
     if (!ready) return
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ darkMode, background })).catch(() => undefined)
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ darkMode, background, v: 2 })).catch(() => undefined)
   }, [background, darkMode, ready, setColorScheme])
 
   const value = useMemo<ThemeValue>(

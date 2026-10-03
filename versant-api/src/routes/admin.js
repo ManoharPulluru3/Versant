@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import multer from 'multer'
 import { hashPassword, requireUser } from '../auth.js'
-import { id, now, passMark, presentActivity, questionsFor, requireString, reviewStats } from '../domain.js'
+import { id, listeningCategory, now, passMark, presentActivity, questionsFor, requireString, reviewStats } from '../domain.js'
 import { generateQuestions, generateScript } from '../ai.js'
 import { describeAudio, limitScript, resolveVoice, synthesizeSpeech, transcribeAudio, VOICES } from '../speech.js'
 import { load, putMedia, save } from '../store.js'
@@ -88,6 +88,12 @@ function activityFields(body, current = {}) {
     iconBg: current.iconBg ?? '#DCEBDD',
     iconColor: current.iconColor ?? '#1F6B4F',
     audioLabel: requireString(body.audioLabel ?? current.audioLabel ?? 'Audio', 'Audio label', 40),
+    category:
+      listeningCategory(body.category) ||
+      listeningCategory(current.category) ||
+      listeningCategory(body.audioLabel) ||
+      listeningCategory(current.audioLabel) ||
+      'Reading',
     headline: requireString(body.headline ?? current.headline ?? body.title, 'Headline', 140),
     subtitle: requireString(body.subtitle ?? current.subtitle ?? body.description, 'Subtitle', 280),
     audioSeconds: Math.min(600, Math.max(1, Number(body.audioSeconds ?? current.audioSeconds ?? 15))),

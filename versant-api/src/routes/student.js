@@ -141,10 +141,20 @@ studentRouter.get('/home', async (req, res, next) => {
 
 studentRouter.get('/practice/listening', async (req, res, next) => {
   const db = load()
-  const activities = db.activities.filter((item) => item.published).map((item) => presentActivity(db, item))
-  const practiced = db.attempts.filter((item) => item.studentId === req.user.id && item.kind === 'practice').length
+  const practiceAttempts = db.attempts.filter((item) => item.studentId === req.user.id && item.kind === 'practice')
+  const activities = db.activities.filter((item) => item.published).map((item) => {
+    const mine = practiceAttempts.filter((attempt) => attempt.activityId === item.id)
+    const latest = mine.slice().sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt))).at(-1) ?? null
+    return {
+      ...presentActivity(db, item),
+      completed: mine.length > 0,
+      attemptCount: mine.length,
+      bestCorrect: latest?.correct ?? null,
+      bestTotal: latest?.total ?? null,
+    }
+  })
   res.json({
-    todayMinutes: Math.min(15, practiced * 3),
+    todayMinutes: Math.min(15, practiceAttempts.length * 3),
     goalMinutes: 15,
     activities,
   })
@@ -329,6 +339,7 @@ studentRouter.get('/progress', async (req, res, next) => {
         score: item.score,
         level: levelFor(item.score).code,
         kind: item.kind,
+        activityId: item.activityId ?? null,
         testId: item.testId ?? null,
         correct: item.correct,
         total: item.total,
