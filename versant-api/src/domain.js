@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto'
+import { activityKind, gradeTask, presentTaskQuestion, questionType } from './listening-tasks.js'
 
 export function id(prefix) {
   return `${prefix}_${randomUUID().slice(0, 8)}`
@@ -91,34 +92,67 @@ export function presentActivity(db, activity, { includeAnswers = false } = {}) {
     questionSeconds: activity.questionSeconds,
     tip: activity.tip,
     published: activity.published,
-    questions: questionsFor(db, activity.id).map((question) => ({
-      id: question.id,
-      prompt: question.prompt,
-      options: question.options,
-      ...(includeAnswers ? { answer: question.answer } : {}),
-    })),
+    kind: activityKind(activity.kind),
+    questions: questionsFor(db, activity.id).map((question) => {
+      if (!question.type || question.type === 'mcq') {
+        return {
+          id: question.id,
+          type: 'mcq',
+          prompt: question.prompt,
+          options: question.options,
+          ...(includeAnswers ? { answer: question.answer } : {}),
+        }
+      }
+      return presentTaskQuestion(question, { includeAnswers })
+    }),
   }
 }
 
-export function grade(questions, answers) {
+export function grade(questions, answers, speech = []) {
+  const task = questions.some((question) => question.type && question.type !== 'mcq')
+  if (!task) {
+    const review = questions.map((question) => {
+      const chosen = answers.find((item) => item.questionId === question.id)?.optionId ?? null
+      return {
+        questionId: question.id,
+        prompt: question.prompt,
+        optionId: chosen,
+        answer: question.answer,
+        correct: chosen === question.answer,
+      }
+    })
+    const correct = review.filter((item) => item.correct).length
+    const total = questions.length
+    const score = total === 0 ? 0 : Math.round((correct / total) * 100)
+    return { review, correct, total, score }
+  }
+
   const review = questions.map((question) => {
-    const chosen = answers.find((item) => item.questionId === question.id)?.optionId ?? null
-    return {
-      questionId: question.id,
-      prompt: question.prompt,
-      optionId: chosen,
-      answer: question.answer,
-      correct: chosen === question.answer,
+    if (!question.type || questionType(question.type) === 'mcq') {
+      const chosen = answers.find((item) => item.questionId === question.id)?.optionId ?? null
+      const correct = chosen === question.answer
+      return {
+        questionId: question.id,
+        prompt: question.prompt,
+        type: 'mcq',
+        optionId: chosen,
+        answer: question.answer,
+        correct,
+        points: correct ? 1 : 0,
+        evaluationStatus: 'scored',
+      }
     }
+    return gradeTask(question, answers, speech)
   })
-  const correct = review.filter((item) => item.correct).length
-  const total = questions.length
-  const score = total === 0 ? 0 : Math.round((correct / total) * 100)
-  return { review, correct, total, score }
+  const decided = review.filter((item) => item.points != null)
+  const correct = review.filter((item) => item.correct === true).length
+  const total = review.filter((item) => item.correct != null).length
+  const score = decided.length === 0 ? null : Math.round((decided.reduce((sum, item) => sum + item.points, 0) / decided.length) * 100)
+  return { review, correct, total, score, pending: review.some((item) => item.evaluationStatus === 'pending') }
 }
 
 export function listeningScore(db, studentId) {
-  const attempts = db.attempts.filter((item) => item.studentId === studentId)
+  const attempts = db.attempts.filter((item) => item.studentId === studentId && item.score != null)
   if (attempts.length === 0) return 0
   const sum = attempts.reduce((total, item) => total + item.score, 0)
   return Math.round(sum / attempts.length)
@@ -131,12 +165,14 @@ export function passMark(db) {
 
 export function attemptPassed(attempt, mark) {
   if (typeof attempt.passed === 'boolean') return attempt.passed
+  if (attempt.score == null) return null
   return Number(attempt.score) >= mark
 }
 
 export function reviewStats(attempts, mark) {
-  const total = attempts.length
-  const successes = attempts.filter((item) => attemptPassed(item, mark)).length
+  const decided = attempts.filter((item) => attemptPassed(item, mark) != null)
+  const total = decided.length
+  const successes = decided.filter((item) => attemptPassed(item, mark)).length
   const failures = total - successes
   return {
     attempts: total,

@@ -11,8 +11,8 @@ export function ListeningResultScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const route = useRoute<RouteProp<RootStackParamList, 'ListeningResult'>>()
   const { colors } = useTheme()
-  const { title, correct, total, mode } = route.params
-  const score = total === 0 ? 0 : Math.round((correct / total) * 100)
+  const { title, correct, total, mode, score: givenScore, pending, summary, task } = route.params
+  const score = pending && givenScore == null ? null : givenScore != null ? givenScore : total === 0 ? 0 : Math.round((correct / total) * 100)
   const refreshControl = usePullToRefresh(noReload)
 
   function done() {
@@ -27,11 +27,17 @@ export function ListeningResultScreen() {
     }
     navigation.dispatch(
       CommonActions.reset({
-        index: 1,
-        routes: [
-          { name: 'Main', params: { screen: 'Practice' } },
-          { name: 'PracticeSkill', params: { skill: 'listening' } },
-        ],
+        index: task ? 2 : 1,
+        routes: task
+          ? [
+              { name: 'Main', params: { screen: 'Practice' } },
+              { name: 'PracticeSkill', params: { skill: 'listening' } },
+              { name: 'ListeningPractice', params: { task } },
+            ]
+          : [
+              { name: 'Main', params: { screen: 'Practice' } },
+              { name: 'PracticeSkill', params: { skill: 'listening' } },
+            ],
       }),
     )
   }
@@ -51,11 +57,16 @@ export function ListeningResultScreen() {
           {title}
         </Text>
         <View className="mt-8 items-center rounded-[28px] px-6 py-8" style={{ backgroundColor: colors.brand }}>
-          <Text className="text-xs font-bold uppercase tracking-[1px] text-white/70">Your score</Text>
-          <Text className="mt-2 text-[56px] font-black leading-none text-white">{score}</Text>
-          <Text className="mt-2 text-sm font-semibold text-white/80">
-            {correct} of {total} correct
+          <Text className="text-xs font-bold uppercase tracking-[1px] text-white/70">
+            {pending && score == null ? 'Response saved' : 'Your score'}
           </Text>
+          <Text className="mt-2 text-[56px] font-black leading-none text-white">{score == null ? '—' : score}</Text>
+          <Text className="mt-2 text-center text-sm font-semibold text-white/80">
+            {pending && score == null
+              ? 'Speech evaluation is not available yet. Your recording is saved.'
+              : `${correct} of ${total} correct`}
+          </Text>
+          {summary ? <Text className="mt-3 text-center text-sm leading-5 text-white/80">{summary}</Text> : null}
         </View>
       </View>
       </ScrollView>

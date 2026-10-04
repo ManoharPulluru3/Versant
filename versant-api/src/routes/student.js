@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import multer from 'multer'
 import { checkPassword, hashPassword } from '../auth.js'
 import {
   assessmentScores,
@@ -14,8 +15,26 @@ import {
   questionsFor,
   requireString,
 } from '../domain.js'
-import { load, save } from '../store.js'
+import { load, putMedia, save } from '../store.js'
 import { requireUser } from '../auth.js'
+import { describeAudio, transcribeAudio } from '../speech.js'
+import { activityKind } from '../listening-tasks.js'
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 15 * 1024 * 1024 },
+})
+
+const AUDIO_TYPES = {
+  'audio/mpeg': '.mp3',
+  'audio/mp3': '.mp3',
+  'audio/wav': '.wav',
+  'audio/mp4': '.m4a',
+  'audio/m4a': '.m4a',
+  'audio/x-m4a': '.m4a',
+  'audio/aac': '.aac',
+  'audio/webm': '.webm',
+}
 
 export const studentRouter = Router()
 
@@ -53,25 +72,36 @@ function stampAssignment(assignment, result) {
   assignment.completedAt = result.completedAt
 }
 
-function recordAttempt(db, user, { kind, activity, test, assignment, answers }) {
+function recordAttempt(db, user, { kind, activity, test, assignment, answers, durationSeconds }) {
   const questions = questionsFor(db, activity.id)
-  const graded = grade(questions, Array.isArray(answers) ? answers : [])
+  const speech = (db.speechResponses ?? []).filter((item) => item.studentId === user.id && item.activityId === activity.id)
+  const graded = grade(questions, answers, speech)
   const attempt = {
     id: `att_${Date.now().toString(36)}`,
     studentId: user.id,
     kind,
     activityId: activity.id,
+    activityKind: activityKind(activity.kind),
     testId: test?.id ?? null,
     assignmentId: assignment?.id ?? null,
+    durationSeconds: Math.max(0, Math.round(Number(durationSeconds) || 0)),
     answers: graded.review.map((item) => ({
       questionId: item.questionId,
-      optionId: item.optionId,
+      optionId: item.optionId ?? null,
       correct: item.correct,
+      ...(item.text != null ? { text: item.text } : {}),
+      ...(item.responseAudioId ? { responseAudioId: item.responseAudioId } : {}),
+      ...(item.evaluationStatus ? { evaluationStatus: item.evaluationStatus } : {}),
+      ...(item.accuracy != null ? { accuracy: item.accuracy } : {}),
+      ...(item.words ? { words: item.words, extra: item.extra ?? [] } : {}),
+      ...(item.fields ? { fields: item.fields } : {}),
+      ...(item.pairs ? { pairs: item.pairs } : {}),
     })),
     correct: graded.correct,
     total: graded.total,
     score: graded.score,
-    passed: graded.score >= passMark(db),
+    pending: Boolean(graded.pending),
+    passed: graded.score == null ? null : graded.score >= passMark(db),
     attemptNumber:
       db.attempts.filter((item) => item.studentId === user.id && item.activityId === activity.id && item.kind === kind).length + 1,
     createdAt: now(),
@@ -81,7 +111,9 @@ function recordAttempt(db, user, { kind, activity, test, assignment, answers }) 
     id: `note_${attempt.id}`,
     studentId: user.id,
     title: kind === 'assessment' ? 'Listening section saved' : 'Practice saved',
-    body: `${activity.title}: ${graded.correct} of ${graded.total} correct.`,
+    body: graded.pending
+      ? `${activity.title}: response saved. Speech evaluation is still pending.`
+      : `${activity.title}: ${graded.correct} of ${graded.total} correct.`,
     read: false,
     createdAt: attempt.createdAt,
   })
@@ -167,6 +199,51 @@ studentRouter.get('/practice/listening/:activityId', async (req, res, next) => {
   res.json({ activity: presentActivity(db, activity) })
 })
 
+studentRouter.post('/practice/listening/:activityId/speech', upload.single('audio'), async (req, res, next) => {
+  const db = load()
+  const activity = db.activities.find((item) => item.id === req.params.activityId && item.published)
+  if (!activity) return res.status(404).json({ error: 'Listening activity not found' })
+  const questionId = String(req.body?.questionId ?? '')
+  const question = questionsFor(db, activity.id).find((item) => item.id === questionId)
+  if (!question) return res.status(400).json({ error: 'Choose an item to attach this recording to' })
+  if (!req.file) return res.status(400).json({ error: 'Recording is missing' })
+  const match = String(req.file.originalname ?? '').toLowerCase().match(/\.(mp3|wav|m4a|aac|webm|ogg|mp4)$/)
+  const extension = AUDIO_TYPES[req.file.mimetype] || (match ? (match[1] === 'mp4' ? '.m4a' : `.${match[1]}`) : null)
+  if (!extension) return res.status(400).json({ error: 'Use an m4a, mp3, or wav recording' })
+  try {
+    await describeAudio(req.file.buffer, req.file.mimetype).catch(() => ({ seconds: 0 }))
+    const responseId = `resp_${Date.now().toString(36)}`
+    const filename = `${responseId}${extension}`
+    await putMedia(filename, req.file.buffer, req.file.mimetype || 'audio/mp4')
+    let transcript = null
+    if (question.type === 'repeat') {
+      try {
+        const result = await transcribeAudio(req.file.buffer, `response${extension}`, req.file.mimetype)
+        transcript = result.script
+      } catch {
+        transcript = null
+      }
+    }
+    db.speechResponses = db.speechResponses ?? []
+    db.speechResponses.push({
+      id: responseId,
+      studentId: req.user.id,
+      activityId: activity.id,
+      questionId,
+      audioFile: filename,
+      transcript,
+      createdAt: new Date().toISOString(),
+    })
+    await save()
+    res.status(201).json({
+      responseId,
+      evaluationStatus: question.type === 'respond' || !transcript ? 'pending' : 'transcribed',
+    })
+  } catch (error) {
+    return next(error)
+  }
+})
+
 studentRouter.post('/practice/listening/:activityId/attempts', async (req, res, next) => {
   const db = load()
   const activity = db.activities.find((item) => item.id === req.params.activityId && item.published)
@@ -175,6 +252,7 @@ studentRouter.post('/practice/listening/:activityId/attempts', async (req, res, 
     kind: 'practice',
     activity,
     answers: req.body?.answers,
+    durationSeconds: req.body?.durationSeconds,
   })
   try {
     await save()
@@ -186,6 +264,7 @@ studentRouter.post('/practice/listening/:activityId/attempts', async (req, res, 
     correct: graded.correct,
     total: graded.total,
     score: graded.score,
+    pending: Boolean(graded.pending),
     review: graded.review,
   })
 })
@@ -281,6 +360,7 @@ studentRouter.post('/tests/:testId/attempts', async (req, res, next) => {
     test,
     assignment,
     answers: req.body?.answers,
+    durationSeconds: req.body?.durationSeconds,
   })
 
   const doneIds = new Set(
@@ -311,9 +391,10 @@ studentRouter.post('/tests/:testId/attempts', async (req, res, next) => {
     correct: graded.correct,
     total: graded.total,
     score: graded.score,
+    pending: Boolean(graded.pending),
     review: graded.review,
-    testCorrect: sectionAttempts.reduce((sum, item) => sum + item.correct, 0),
-    testTotal: sectionAttempts.reduce((sum, item) => sum + item.total, 0),
+    testCorrect: sectionAttempts.reduce((sum, item) => sum + (Number(item.correct) || 0), 0),
+    testTotal: sectionAttempts.reduce((sum, item) => sum + (Number(item.total) || 0), 0),
     testCompleted: !nextActivityId,
     nextActivityId,
   })
@@ -337,13 +418,15 @@ studentRouter.get('/progress', async (req, res, next) => {
         name: test?.title ?? activity?.title ?? 'Listening',
         date: new Date(item.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
         score: item.score,
-        level: levelFor(item.score).code,
+        level: item.score == null ? null : levelFor(item.score).code,
         kind: item.kind,
         activityId: item.activityId ?? null,
         testId: item.testId ?? null,
         correct: item.correct,
         total: item.total,
-        passed: item.passed === true || (item.passed == null && item.score >= passMark(db)),
+        passed: item.score == null ? null : item.passed === true || (item.passed == null && item.score >= passMark(db)),
+        activityKind: item.activityKind ?? activityKind(activity?.kind),
+        durationSeconds: item.durationSeconds ?? null,
         attemptNumber: item.attemptNumber ?? null,
       }
     })

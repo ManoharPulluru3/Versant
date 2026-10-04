@@ -5,6 +5,7 @@ import { Notice, inputClass } from './ui'
 
 function blankQuestion() {
   return {
+    type: 'mcq',
     prompt: '',
     answer: 'A',
     options: [
@@ -15,6 +16,40 @@ function blankQuestion() {
     ],
   }
 }
+
+function editorQuestion(question) {
+  return {
+    id: question.id,
+    type: question.type || 'mcq',
+    prompt: question.prompt || '',
+    answer: question.answer || '',
+    spoken: question.spoken || question.expected || '',
+    prepareSeconds: question.prepareSeconds || 0,
+    pairs: question.pairs?.length ? question.pairs : [{ left: '', right: '' }, { left: '', right: '' }],
+    fields: question.fields?.length ? question.fields : [{ label: '', answer: '' }],
+    audioUrl: question.audioUrl || null,
+    options: [...(question.options || []), { text: '' }, { text: '' }, { text: '' }, { text: '' }].slice(0, 4),
+  }
+}
+
+function blankFor(kind) {
+  if (kind === 'repeat' || kind === 'type') {
+    return { type: kind, prompt: kind === 'repeat' ? 'Listen, then repeat the sentence.' : 'Type exactly what you hear.', spoken: '', options: [] }
+  }
+  if (kind === 'respond') return { type: 'respond', prompt: 'Listen, then respond in your own words.', spoken: '', prepareSeconds: 5, options: [] }
+  if (kind === 'recall') return { type: 'recall', prompt: 'Write the details you remember.', fields: [{ label: '', answer: '' }, { label: '', answer: '' }], options: [] }
+  if (kind === 'identify') return { type: 'identify', prompt: 'Choose the word you heard.', spoken: '', answer: 'A', options: [{ text: '' }, { text: '' }, { text: '' }, { text: '' }] }
+  return blankQuestion()
+}
+
+const ACTIVITY_KINDS = [
+  { id: 'answering', label: 'Listening & Answering' },
+  { id: 'repeat', label: 'Listening & Repeat' },
+  { id: 'type', label: 'Listen & Type' },
+  { id: 'respond', label: 'Listen & Respond' },
+  { id: 'recall', label: 'Listen & Recall' },
+  { id: 'identify', label: 'Listen & Identify' },
+]
 
 const LEVELS = ['Beginner', 'Elementary', 'Intermediate', 'Upper Intermediate', 'Advanced']
 const AUDIO_LABELS = ['Conversation', 'Passage', 'Audio']
@@ -37,6 +72,7 @@ const blank = {
   maxListens: 2,
   tip: '',
   published: true,
+  kind: 'answering',
   questions: [],
 }
 
@@ -101,12 +137,8 @@ export default function ActivityEditor() {
           setForm({
             ...activity,
             voice: knownVoice ? activity.voice : 'en-IN-NeerjaNeural',
-            questions: activity.questions.map((question) => ({
-              id: question.id,
-              prompt: question.prompt,
-              answer: question.answer,
-              options: [...question.options, { text: '' }, { text: '' }, { text: '' }, { text: '' }].slice(0, 4),
-            })),
+            questions: activity.questions.map(editorQuestion),
+            kind: activity.kind || 'answering',
           })
         }
       })
@@ -159,7 +191,8 @@ export default function ActivityEditor() {
       questions: form.questions
         .map((question) => ({
           ...question,
-          options: question.options.filter((option) => option.text.trim()),
+          type: question.type || (form.kind && form.kind !== 'answering' ? form.kind : 'mcq'),
+          options: (question.options || []).filter((option) => option.text.trim()),
         }))
         .filter((question) => question.prompt.trim()),
     }
@@ -185,12 +218,8 @@ export default function ActivityEditor() {
       setForm((current) => ({
         ...current,
         ...activity,
-        questions: activity.questions.map((question) => ({
-          id: question.id,
-          prompt: question.prompt,
-          answer: question.answer,
-          options: [...question.options, { text: '' }, { text: '' }, { text: '' }, { text: '' }].slice(0, 4),
-        })),
+        questions: activity.questions.map(editorQuestion),
+        kind: activity.kind || 'answering',
       }))
       setFile(null)
       setNotice(
@@ -378,12 +407,53 @@ export default function ActivityEditor() {
     }
   }
 
+  async function speakItem(index) {
+    const activityId = id
+    const question = form.questions[index]
+    if (!activityId || !question?.id) {
+      setError('Save the activity first, then create the clip for this line.')
+      return
+    }
+    const script = String(question.spoken || '').trim()
+    if (!script) {
+      setError('Write the spoken line first.')
+      return
+    }
+    setBusy(true)
+    setError('')
+    try {
+      const spoken = await adminApi(`/admin/activities/${activityId}/items/${question.id}/speech`, {
+        method: 'POST',
+        body: JSON.stringify({ script, voice: form.voice }),
+      })
+      setForm((current) => ({
+        ...current,
+        ...spoken.activity,
+        kind: spoken.activity.kind || current.kind,
+        questions: spoken.activity.questions.map(editorQuestion),
+      }))
+      setNotice('Clip created for this item.')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
   const writing = form.audioSource !== 'upload'
   const scriptLimit = writing ? 4000 : 12000
   const scriptLength = (form.script || '').length
-  const questionReady = form.questions.some(
-    (question) => question.prompt.trim() && question.options.filter((option) => option.text.trim()).length >= 2,
-  )
+  const questionReady = form.questions.some((question) => {
+    const type = question.type || (form.kind && form.kind !== 'answering' ? form.kind : 'mcq')
+    if (!String(question.prompt || '').trim()) return false
+    if (type === 'mcq' || type === 'identify') return (question.options || []).filter((option) => option.text.trim()).length >= 2 && (type === 'mcq' || String(question.spoken || '').trim())
+    if (type === 'truefalse') return question.answer === 'A' || question.answer === 'B'
+    if (type === 'blank') return String(question.answer || '').trim().length > 0
+    if (type === 'match') return (question.pairs || []).filter((pair) => pair.left?.trim() && pair.right?.trim()).length >= 2
+    if (type === 'recall') return (question.fields || []).filter((field) => field.label?.trim() && field.answer?.trim()).length >= 1
+    if (type === 'respond') return true
+    return String(question.spoken || '').trim().length > 0
+  })
   const checks = [
     { ok: Boolean(form.title.trim()), label: 'Activity name' },
     { ok: writing ? Boolean(form.script.trim()) : Boolean(file || form.audioUrl), label: writing ? 'Step 2 · Script' : 'Step 2 · Recording' },
@@ -445,6 +515,14 @@ export default function ActivityEditor() {
                   placeholder="Library hours"
                   onChange={(event) => set('title', event.target.value)}
                 />
+              </label>
+              <label className="block">
+                <span className="mb-2 block text-[13px] font-extrabold text-[#17221D]">Activity type</span>
+                <select className={`${inputClass} bg-white`} value={form.kind || 'answering'} onChange={(event) => set('kind', event.target.value)}>
+                  {ACTIVITY_KINDS.map((kind) => (
+                    <option key={kind.id} value={kind.id}>{kind.label}</option>
+                  ))}
+                </select>
               </label>
               <label className="block">
                 <span className="mb-2 block text-[13px] font-extrabold text-[#17221D]">Instructions note</span>
@@ -600,7 +678,7 @@ export default function ActivityEditor() {
           <Section
             step="3"
             title="The questions"
-            note="Students answer these after the clip. The green letter is the correct choice."
+            note={form.kind && form.kind !== 'answering' ? 'Each item is one listening task. Students do not see the spoken line.' : 'Students answer these after the clip. Multiple choice keeps the green letter as the correct choice.'}
             action={
               form.questions.length > 0 ? (
                 <button
@@ -637,11 +715,127 @@ export default function ActivityEditor() {
                   <textarea
                     className="h-24 w-full resize-none rounded-xl border border-[#E4E8E2] bg-white p-3 text-[15px] font-semibold leading-6 outline-none focus:border-brand"
                     value={question.prompt}
-                    placeholder="What should the student answer from the clip?"
+                    placeholder="What should the student do after the clip?"
                     onChange={(event) => updateQuestion(index, { prompt: event.target.value })}
                   />
+                  {(form.kind || 'answering') === 'answering' ? (
+                    <select
+                      className={`${inputClass} mt-3 bg-white`}
+                      value={question.type || 'mcq'}
+                      onChange={(event) => updateQuestion(index, { type: event.target.value })}
+                    >
+                      <option value="mcq">Multiple choice</option>
+                      <option value="blank">Fill in the blanks</option>
+                      <option value="match">Match the following</option>
+                      <option value="truefalse">True / false</option>
+                    </select>
+                  ) : null}
+                  {['repeat', 'type', 'respond', 'identify'].includes(question.type || form.kind) ? (
+                    <label className="mt-3 block">
+                      <span className="mb-1.5 block text-[12px] font-extrabold text-[#68726C]">Spoken line</span>
+                      <textarea
+                        className="h-20 w-full resize-none rounded-xl border border-[#E4E8E2] bg-white p-3 text-[14px] font-semibold outline-none focus:border-brand"
+                        value={question.spoken || ''}
+                        placeholder="The words students will hear"
+                        onChange={(event) => updateQuestion(index, { spoken: event.target.value })}
+                      />
+                      <button type="button" onClick={() => speakItem(index)} className="mt-2 text-[13px] font-extrabold text-brand">
+                        Create clip for this line
+                      </button>
+                      {question.audioUrl ? <audio className="mt-2 w-full" controls src={`${API_ORIGIN}${question.audioUrl}`} /> : null}
+                    </label>
+                  ) : null}
+                  {(question.type || 'mcq') === 'blank' ? (
+                    <input
+                      className={`${inputClass} mt-3 bg-white`}
+                      value={question.answer || ''}
+                      placeholder="Correct answer. Separate alternatives with |"
+                      onChange={(event) => updateQuestion(index, { answer: event.target.value })}
+                    />
+                  ) : null}
+                  {(question.type || form.kind) === 'truefalse' ? (
+                    <div className="mt-3 flex gap-2">
+                      {['A', 'B'].map((letter) => (
+                        <button
+                          key={letter}
+                          type="button"
+                          onClick={() => updateQuestion(index, { type: 'truefalse', answer: letter })}
+                          className={`h-10 rounded-xl px-4 text-[13px] font-extrabold ${question.answer === letter ? 'bg-brand text-white' : 'bg-[#F0F3EE] text-[#59635D]'}`}
+                        >
+                          {letter === 'A' ? 'True' : 'False'}
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
+                  {(question.type || form.kind) === 'match' ? (
+                    <div className="mt-3 space-y-2">
+                      {(question.pairs || []).map((pair, pairIndex) => (
+                        <div key={pair.id || pairIndex} className="grid grid-cols-2 gap-2">
+                          <input
+                            className={`${inputClass} bg-white`}
+                            value={pair.left}
+                            placeholder="Left"
+                            onChange={(event) => {
+                              const pairs = question.pairs.map((item, itemIndex) => (itemIndex === pairIndex ? { ...item, left: event.target.value } : item))
+                              updateQuestion(index, { type: 'match', pairs })
+                            }}
+                          />
+                          <input
+                            className={`${inputClass} bg-white`}
+                            value={pair.right}
+                            placeholder="Right"
+                            onChange={(event) => {
+                              const pairs = question.pairs.map((item, itemIndex) => (itemIndex === pairIndex ? { ...item, right: event.target.value } : item))
+                              updateQuestion(index, { type: 'match', pairs })
+                            }}
+                          />
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => updateQuestion(index, { type: 'match', pairs: [...(question.pairs || []), { left: '', right: '' }] })}
+                        className="text-[13px] font-extrabold text-brand"
+                      >
+                        Add match
+                      </button>
+                    </div>
+                  ) : null}
+                  {(question.type || form.kind) === 'recall' ? (
+                    <div className="mt-3 space-y-2">
+                      {(question.fields || []).map((field, fieldIndex) => (
+                        <div key={field.id || fieldIndex} className="grid grid-cols-2 gap-2">
+                          <input
+                            className={`${inputClass} bg-white`}
+                            value={field.label}
+                            placeholder="Label"
+                            onChange={(event) => {
+                              const fields = question.fields.map((item, itemIndex) => (itemIndex === fieldIndex ? { ...item, label: event.target.value } : item))
+                              updateQuestion(index, { type: 'recall', fields })
+                            }}
+                          />
+                          <input
+                            className={`${inputClass} bg-white`}
+                            value={field.answer}
+                            placeholder="Expected detail"
+                            onChange={(event) => {
+                              const fields = question.fields.map((item, itemIndex) => (itemIndex === fieldIndex ? { ...item, answer: event.target.value } : item))
+                              updateQuestion(index, { type: 'recall', fields })
+                            }}
+                          />
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => updateQuestion(index, { type: 'recall', fields: [...(question.fields || []), { label: '', answer: '' }] })}
+                        className="text-[13px] font-extrabold text-brand"
+                      >
+                        Add field
+                      </button>
+                    </div>
+                  ) : null}
+                  {(question.type || 'mcq') === 'mcq' || (question.type || form.kind) === 'identify' ? (
                   <div className="mt-3 space-y-2">
-                    {question.options.map((option, optionIndex) => {
+                    {(question.options || []).map((option, optionIndex) => {
                       const optionId = LETTERS[optionIndex]
                       const selected = question.answer === optionId
                       return (
@@ -674,18 +868,20 @@ export default function ActivityEditor() {
                       )
                     })}
                   </div>
+                  ) : null}
                 </article>
               ))}
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
               <button
                 type="button"
-                onClick={() => set('questions', [...form.questions, blankQuestion()])}
+                onClick={() => set('questions', [...form.questions, blankFor(form.kind || 'answering')])}
                 className="inline-flex h-11 items-center gap-1.5 rounded-xl border border-[#C9D2C8] bg-white px-4 text-[14px] font-extrabold text-brand hover:bg-[#F4F8F5]"
               >
                 <PlusIcon />
                 Question
               </button>
+              {(form.kind || 'answering') === 'answering' ? (
               <button
                 type="button"
                 onClick={openQuestionModal}
@@ -695,6 +891,7 @@ export default function ActivityEditor() {
                 <SparkIcon />
                 Generate with AI
               </button>
+              ) : null}
             </div>
           </Section>
         </div>

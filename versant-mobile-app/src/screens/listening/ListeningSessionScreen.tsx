@@ -37,7 +37,8 @@ type RemoteActivity = {
   maxListens: number
   questionSeconds: number
   tip: string
-  questions: { id: string; prompt: string; options: { id: string; text: string }[] }[]
+  kind?: string
+  questions: { id: string; type?: string; prompt: string; options?: { id: string; text: string }[] }[]
 }
 
 export function ListeningSessionScreen() {
@@ -112,6 +113,7 @@ function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity;
   const playback = useRef<'idle' | 'playing'>('idle')
   const question = activity.questions[0]
   const total = activity.questions.length
+  const classic = (activity.kind || 'answering') === 'answering' && activity.questions.every(item => !item.type || item.type === 'mcq')
   const player = NativeModules.VersantAudio as VersantAudio | undefined
   const hasAudio = Boolean(activity.audioUrl && player)
   const atEnd = audioFinished && audioSeconds >= Math.max(clipSeconds - 0.4, 0)
@@ -235,18 +237,31 @@ function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity;
   }
 
   function startQuestions() {
-    if (!question || !audioFinished) return
+    const ready = classic ? Boolean(question && audioFinished) : activity.questions.length > 0 && (!activity.audioUrl || audioFinished)
+    if (!ready) return
     player?.stop()
     const openQuestions = exam ? navigation.replace : navigation.navigate
+    if (!classic) {
+      openQuestions('ListeningTask', {
+        activityId: activity.id,
+        mode,
+        testId,
+        carryCorrect: route.params.carryCorrect,
+        carryTotal: route.params.carryTotal,
+        task: route.params.task,
+      })
+      return
+    }
     openQuestions('ListeningQuestions', {
       activityId: activity.id,
       title: activity.title,
       headline: activity.headline,
       questionSeconds: activity.questionSeconds,
-      questions: activity.questions,
+      questions: activity.questions as RootStackParamList['ListeningQuestions']['questions'],
       testId,
       carryCorrect: route.params.carryCorrect,
       carryTotal: route.params.carryTotal,
+      task: route.params.task,
     })
   }
 
@@ -267,6 +282,8 @@ function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity;
             : 'Listen once, then start the questions when you are ready'
 
   const listenBadge = formatSeconds(Math.round(clipSeconds))
+
+  const taskReady = classic ? Boolean(question && audioFinished) : activity.questions.length > 0 && (!activity.audioUrl || audioFinished)
 
   if (!question) {
     return (
@@ -406,20 +423,24 @@ function SessionPlayer({ activity, refreshControl }: { activity: RemoteActivity;
         <View className="border-t px-5 py-4" style={{ borderColor: colors.divider, backgroundColor: colors.canvas }}>
           <Pressable
             accessibilityRole="button"
-            disabled={!question || !audioFinished}
+            disabled={!taskReady}
             onPress={startQuestions}
             className="h-12 items-center justify-center rounded-2xl"
-            style={{ backgroundColor: audioFinished ? colors.brand : colors.brandLight }}>
-            <Text className="text-[15px] font-extrabold" style={{ color: audioFinished ? '#FFFFFF' : colors.label }}>
-              Start questions
+            style={{ backgroundColor: taskReady ? colors.brand : colors.brandLight }}>
+            <Text className="text-[15px] font-extrabold" style={{ color: taskReady ? '#FFFFFF' : colors.label }}>
+              {classic ? 'Start questions' : 'Start'}
             </Text>
           </Pressable>
           <Text className="mt-2 text-center text-xs font-semibold leading-5" style={{ color: colors.muted }}>
-            {audioFinished
-              ? exam
-                ? 'The clip is finished. You cannot come back to it after you start.'
-                : 'The clip is finished. You can still go back and listen again from the questions.'
-              : 'Finish the clip, then start the questions.'}
+            {classic
+              ? audioFinished
+                ? exam
+                  ? 'The clip is finished. You cannot come back to it after you start.'
+                  : 'The clip is finished. You can still go back and listen again from the questions.'
+                : 'Finish the clip, then start the questions.'
+              : taskReady
+                ? 'Start when you are ready. Each item is saved when you submit.'
+                : 'Finish the clip, then start.'}
           </Text>
         </View>
       </View>

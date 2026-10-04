@@ -1,11 +1,13 @@
 import { useCallback, useRef, useState, type ComponentRef } from 'react'
 import { ActivityIndicator, Pressable, ScrollView, Text, View } from 'react-native'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import type { RouteProp } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Svg, { Circle, Path } from 'react-native-svg'
 import { BackButton } from '../../components/BackButton'
 import { useTheme } from '../../context/ThemeContext'
+import { LISTENING_TASKS, listeningTaskOf } from '../../listening/tasks'
 import { usePullToRefresh } from '../../hooks/usePullToRefresh'
 import { api } from '../../services/client'
 import type { RootStackParamList } from '../../navigation/types'
@@ -20,6 +22,8 @@ type ActivityCard = {
   audioLabel?: string | null
   iconBg: string
   iconColor: string
+  kind?: string
+  questions?: { type?: string }[]
   completed?: boolean
   bestCorrect?: number | null
   bestTotal?: number | null
@@ -31,6 +35,14 @@ type ProgressRow = {
   activityId?: string | null
   correct?: number
   total?: number
+}
+
+const KIND_LABEL: Record<string, string> = {
+  repeat: 'Listening & Repeat',
+  type: 'Listen & Type',
+  respond: 'Listen & Respond',
+  recall: 'Listen & Recall',
+  identify: 'Listen & Identify',
 }
 
 const CATEGORIES = ['Conversation', 'Reading', 'Telephone', 'Product explanation', 'Announcement'] as const
@@ -109,6 +121,9 @@ function ActivityIcon({ id, color }: { id: string; color: string }) {
 
 export function ListeningPracticeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+  const route = useRoute<RouteProp<RootStackParamList, 'ListeningPractice'>>()
+  const task = route.params.task
+  const taskTitle = LISTENING_TASKS.find(item => item.id === task)?.title ?? 'Listening'
   const { colors } = useTheme()
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null)
   const sectionY = useRef(0)
@@ -168,10 +183,11 @@ export function ListeningPracticeScreen() {
   const refreshControl = usePullToRefresh(load)
 
   function openActivity(activityId: string) {
-    navigation.navigate('ListeningSession', { activityId, mode: 'practice' })
+    navigation.navigate('ListeningSession', { activityId, mode: 'practice', task })
   }
 
-  const visible = activities.filter(item => filter === 'All' || item.category === filter)
+  const inTask = activities.filter(item => listeningTaskOf(item) === task)
+  const visible = inTask.filter(item => filter === 'All' || item.category === filter)
   const nextIndex = visible.findIndex(item => !item.completed)
 
   function revealNext() {
@@ -194,10 +210,10 @@ export function ListeningPracticeScreen() {
         <BackButton />
         <View className="items-center">
           <Text className="text-[11px] font-bold uppercase tracking-[1px]" style={{ color: colors.muted }}>
-            Practice
-          </Text>
-          <Text className="text-lg font-extrabold" style={{ color: colors.text }}>
             Listening
+          </Text>
+          <Text className="max-w-[220px] text-center text-[16px] font-extrabold" style={{ color: colors.text }} numberOfLines={1}>
+            {taskTitle}
           </Text>
         </View>
         <View className="h-10 w-10" />
@@ -214,7 +230,7 @@ export function ListeningPracticeScreen() {
         contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 12, paddingBottom: 12, gap: 8 }}>
         {(['All', ...CATEGORIES] as const).map(name => {
           const selected = filter === name
-          const count = name === 'All' ? activities.length : activities.filter(item => item.category === name).length
+          const count = name === 'All' ? inTask.length : inTask.filter(item => item.category === name).length
           return (
             <Pressable
               key={name}
@@ -293,7 +309,7 @@ export function ListeningPracticeScreen() {
             Activities
           </Text>
           <Text className="mt-1 text-xs" style={{ color: colors.muted }}>
-            Pick one and answer the questions after the clip.
+            Pick one and start when you are ready.
           </Text>
           {error ? <Text className="mt-4 text-sm font-semibold text-[#B65F39]">{error}</Text> : null}
           {loading && activities.length === 0 ? (
@@ -304,20 +320,20 @@ export function ListeningPracticeScreen() {
               </Text>
             </View>
           ) : null}
-          {!loading && activities.length > 0 && visible.length === 0 ? (
-            <View className="mt-4 items-center rounded-[24px] px-6 py-10" style={{ backgroundColor: colors.card }}>
-              <Text className="text-[16px] font-extrabold" style={{ color: colors.text }}>
-                Nothing in {filter} yet
-              </Text>
-            </View>
-          ) : null}
-          {!loading && !error && activities.length === 0 ? (
+          {!loading && !error && inTask.length === 0 ? (
             <View className="mt-4 items-center rounded-[24px] px-6 py-10" style={{ backgroundColor: colors.card }}>
               <Text className="text-[16px] font-extrabold" style={{ color: colors.text }}>
                 Nothing to practice yet
               </Text>
               <Text className="mt-1 text-center text-sm leading-5" style={{ color: colors.muted }}>
-                Listening activities will show up here when they are published.
+                Exercises for {taskTitle} will show up here when they are published.
+              </Text>
+            </View>
+          ) : null}
+          {!loading && inTask.length > 0 && visible.length === 0 ? (
+            <View className="mt-4 items-center rounded-[24px] px-6 py-10" style={{ backgroundColor: colors.card }}>
+              <Text className="text-[16px] font-extrabold" style={{ color: colors.text }}>
+                Nothing in {filter} yet
               </Text>
             </View>
           ) : null}
@@ -355,7 +371,7 @@ export function ListeningPracticeScreen() {
                         {item.title}
                       </Text>
                       <Text className="mt-1.5 text-[12px] font-semibold" style={{ color: colors.muted }} numberOfLines={1}>
-                        {[item.category, item.level, item.duration].filter(Boolean).join(' · ')}
+                        {[KIND_LABEL[item.kind || ''], item.category, item.level, item.duration].filter(Boolean).join(' · ')}
                       </Text>
                     </View>
                     {completed && item.bestCorrect != null && item.bestTotal != null ? (

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const file = process.env.DB_PATH || path.join(root, 'data', 'db.json')
-const COLLECTIONS = ['users', 'activities', 'questions', 'tests', 'assignments', 'attempts', 'notifications']
+const COLLECTIONS = ['users', 'activities', 'questions', 'tests', 'assignments', 'attempts', 'notifications', 'speechResponses']
 
 let memory = null
 let client = null

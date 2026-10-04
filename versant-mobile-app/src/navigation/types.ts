@@ -2,6 +2,7 @@ import type { NavigatorScreenParams } from '@react-navigation/native'
 
 export type PracticeSkill = 'speaking' | 'listening' | 'reading' | 'writing'
 export type ListeningMode = 'practice' | 'assessment'
+export type ListeningTaskId = 'mcq' | 'blank' | 'match' | 'truefalse' | 'repeat' | 'type' | 'respond' | 'recall' | 'identify'
 
 export type MainTabParamList = {
   Home: undefined
@@ -18,12 +19,14 @@ export type RootStackParamList = {
   Main: NavigatorScreenParams<MainTabParamList> | undefined
   Notifications: undefined
   PracticeSkill: { skill: PracticeSkill }
+  ListeningPractice: { task: ListeningTaskId }
   ListeningSession: {
     activityId: string
     mode: ListeningMode
     testId?: string
     carryCorrect?: number
     carryTotal?: number
+    task?: ListeningTaskId
   }
   ListeningQuestions: {
     activityId: string
@@ -34,12 +37,25 @@ export type RootStackParamList = {
     testId?: string
     carryCorrect?: number
     carryTotal?: number
+    task?: ListeningTaskId
+  }
+  ListeningTask: {
+    activityId: string
+    mode: ListeningMode
+    testId?: string
+    carryCorrect?: number
+    carryTotal?: number
+    task?: ListeningTaskId
   }
   ListeningResult: {
     title: string
     correct: number
     total: number
     mode: ListeningMode
+    score?: number | null
+    pending?: boolean
+    summary?: string
+    task?: ListeningTaskId
   }
   AssessmentDetails: { testId: string }
   DeviceCheck: undefined

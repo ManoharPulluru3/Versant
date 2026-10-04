@@ -115,6 +115,7 @@ export function ListeningQuestionsScreen() {
         correct: result.testCorrect ?? result.correct,
         total: result.testTotal ?? result.total,
         mode: practice ? 'practice' : 'assessment',
+        task: route.params.task,
       })
     } catch (err) {
       leaving.current = false

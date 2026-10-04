@@ -2,6 +2,7 @@ import { Router } from 'express'
 import multer from 'multer'
 import { hashPassword, requireUser } from '../auth.js'
 import { id, listeningCategory, now, passMark, presentActivity, questionsFor, requireString, reviewStats } from '../domain.js'
+import { activityKind } from '../listening-tasks.js'
 import { generateQuestions, generateScript } from '../ai.js'
 import { describeAudio, limitScript, resolveVoice, synthesizeSpeech, transcribeAudio, VOICES } from '../speech.js'
 import { load, putMedia, save } from '../store.js'
@@ -45,6 +46,108 @@ export const adminRouter = Router()
 
 adminRouter.use(requireUser('admin'))
 
+function normalizeMcq(item, index, activityId) {
+  const options = Array.isArray(item.options) ? item.options.slice(0, 4) : []
+  if (options.length < 2) {
+    const error = new Error(`Question ${index + 1} needs at least two choices`)
+    error.status = 400
+    throw error
+  }
+  const cleaned = options.map((option, optionIndex) => ({
+    id: ['A', 'B', 'C', 'D'][optionIndex],
+    text: requireString(option.text, `Choice ${optionIndex + 1}`, 400),
+  }))
+  const answer = String(item.answer ?? 'A')
+  if (!cleaned.some((option) => option.id === answer)) {
+    const error = new Error(`Question ${index + 1} needs a correct choice`)
+    error.status = 400
+    throw error
+  }
+  return {
+    id: typeof item.id === 'string' && item.id ? item.id : id('q'),
+    activityId,
+    order: index + 1,
+    type: 'mcq',
+    prompt: requireString(item.prompt, `Question ${index + 1}`, 800),
+    answer,
+    options: cleaned,
+  }
+}
+
+function cleanPairs(item, index) {
+  const pairs = Array.isArray(item.pairs) ? item.pairs : []
+  const cleaned = pairs
+    .map((pair) => ({
+      id: typeof pair.id === 'string' && pair.id ? pair.id : id('pair'),
+      left: String(pair.left ?? '').trim().slice(0, 160),
+      right: String(pair.right ?? '').trim().slice(0, 160),
+    }))
+    .filter((pair) => pair.left && pair.right)
+  if (cleaned.length < 2) {
+    const error = new Error(`Question ${index + 1} needs at least two matches`)
+    error.status = 400
+    throw error
+  }
+  return cleaned
+}
+
+function cleanFields(item, index) {
+  const fields = Array.isArray(item.fields) ? item.fields : []
+  const cleaned = fields
+    .map((field) => ({
+      id: typeof field.id === 'string' && field.id ? field.id : id('field'),
+      label: String(field.label ?? '').trim().slice(0, 80),
+      answer: String(field.answer ?? '').trim().slice(0, 160),
+    }))
+    .filter((field) => field.label && field.answer)
+  if (cleaned.length < 1) {
+    const error = new Error(`Question ${index + 1} needs at least one recall field`)
+    error.status = 400
+    throw error
+  }
+  return cleaned
+}
+
+function normalizeTask(item, index, activityId, type) {
+  const questionId = typeof item.id === 'string' && item.id ? item.id : id('q')
+  const prompt = requireString(item.prompt, `Question ${index + 1}`, 800)
+  const base = {
+    id: questionId,
+    activityId,
+    order: index + 1,
+    type,
+    prompt,
+    prepareSeconds: Math.min(60, Math.max(0, Number(item.prepareSeconds) || 0)),
+    audioFile: typeof item.audioFile === 'string' ? item.audioFile : null,
+    audioUpdatedAt: item.audioUpdatedAt ?? null,
+  }
+  if (type === 'blank') {
+    return { ...base, answer: requireString(item.answer, `Answer ${index + 1}`, 240), options: [] }
+  }
+  if (type === 'truefalse') {
+    const answer = item.answer === 'B' ? 'B' : 'A'
+    return {
+      ...base,
+      answer,
+      options: [
+        { id: 'A', text: 'True' },
+        { id: 'B', text: 'False' },
+      ],
+    }
+  }
+  if (type === 'match') return { ...base, pairs: cleanPairs(item, index), options: [] }
+  if (type === 'recall') return { ...base, fields: cleanFields(item, index), options: [] }
+  if (type === 'identify') {
+    const mcq = normalizeMcq(item, index, activityId)
+    return { ...mcq, type: 'identify', spoken: requireString(item.spoken ?? item.expected, `Spoken word ${index + 1}`, 240) }
+  }
+  if (type === 'respond') {
+    return { ...base, spoken: String(item.spoken ?? '').trim().slice(0, 800), options: [] }
+  }
+  const spoken = requireString(item.spoken ?? item.expected, `Spoken line ${index + 1}`, 800)
+  return { ...base, spoken, expected: spoken, options: [] }
+}
+
 function normalizeQuestions(raw, activityId) {
   if (!Array.isArray(raw) || raw.length === 0) {
     const error = new Error('Add at least one question')
@@ -52,30 +155,14 @@ function normalizeQuestions(raw, activityId) {
     throw error
   }
   return raw.map((item, index) => {
-    const options = Array.isArray(item.options) ? item.options.slice(0, 4) : []
-    if (options.length < 2) {
-      const error = new Error(`Question ${index + 1} needs at least two choices`)
+    const type = item?.type && item.type !== 'mcq' ? item.type : 'mcq'
+    if (type === 'mcq') return normalizeMcq(item, index, activityId)
+    if (!['blank', 'match', 'truefalse', 'repeat', 'type', 'respond', 'recall', 'identify'].includes(type)) {
+      const error = new Error(`Question ${index + 1} has an unknown type`)
       error.status = 400
       throw error
     }
-    const cleaned = options.map((option, optionIndex) => ({
-      id: ['A', 'B', 'C', 'D'][optionIndex],
-      text: requireString(option.text, `Choice ${optionIndex + 1}`, 400),
-    }))
-    const answer = String(item.answer ?? 'A')
-    if (!cleaned.some((option) => option.id === answer)) {
-      const error = new Error(`Question ${index + 1} needs a correct choice`)
-      error.status = 400
-      throw error
-    }
-    return {
-      id: typeof item.id === 'string' && item.id ? item.id : id('q'),
-      activityId,
-      order: index + 1,
-      prompt: requireString(item.prompt, `Question ${index + 1}`, 800),
-      answer,
-      options: cleaned,
-    }
+    return normalizeTask(item, index, activityId, type)
   })
 }
 
@@ -106,6 +193,7 @@ function activityFields(body, current = {}) {
     questionSeconds: Math.min(180, Math.max(10, Number(body.questionSeconds ?? current.questionSeconds ?? 45))),
     tip: String(body.tip ?? current.tip ?? '').trim().slice(0, 280),
     published: body.published == null ? current.published !== false : Boolean(body.published),
+    kind: activityKind(body.kind ?? current.kind),
   }
 }
 
@@ -260,6 +348,28 @@ adminRouter.post('/speech/preview', async (req, res, next) => {
   }
 })
 
+adminRouter.post('/activities/:id/items/:questionId/speech', async (req, res, next) => {
+  const db = load()
+  const activity = db.activities.find((item) => item.id === req.params.id)
+  const question = db.questions.find((item) => item.id === req.params.questionId && item.activityId === req.params.id)
+  if (!activity || !question) return res.status(404).json({ error: 'Activity item not found' })
+  try {
+    const script = requireString(req.body?.script ?? question.spoken ?? question.expected, 'Script', 4000)
+    const voice = resolveVoice(req.body?.voice ?? activity.voice)
+    const speech = await synthesizeSpeech(script, voice.id)
+    const filename = `${question.id}.mp3`
+    await putMedia(filename, speech.data, speech.contentType)
+    question.spoken = question.spoken || script
+    if (question.type === 'repeat' || question.type === 'type') question.expected = question.expected || script
+    question.audioFile = filename
+    question.audioUpdatedAt = now()
+    await save()
+    res.json({ activity: presentActivity(db, activity, { includeAnswers: true }) })
+  } catch (error) {
+    return next(error)
+  }
+})
+
 adminRouter.post('/activities/:id/speech', async (req, res, next) => {
   const db = load()
   const activity = db.activities.find((item) => item.id === req.params.id)
@@ -329,8 +439,17 @@ adminRouter.put('/activities/:id', async (req, res, next) => {
   if (!activity) return res.status(404).json({ error: 'Activity not found' })
   Object.assign(activity, activityFields(req.body, activity))
   if (req.body?.questions) {
+    const previous = new Map(db.questions.filter((item) => item.activityId === activity.id).map((item) => [item.id, item]))
+    const next = normalizeQuestions(req.body.questions, activity.id).map((question) => {
+      const prior = previous.get(question.id)
+      if (!question.audioFile && prior?.audioFile) {
+        question.audioFile = prior.audioFile
+        question.audioUpdatedAt = prior.audioUpdatedAt ?? null
+      }
+      return question
+    })
     db.questions = db.questions.filter((item) => item.activityId !== activity.id)
-    db.questions.push(...normalizeQuestions(req.body.questions, activity.id))
+    db.questions.push(...next)
   }
   try {
     await save()

@@ -6,7 +6,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BackButton } from '../components/BackButton'
 import { useTheme } from '../context/ThemeContext'
-import { ListeningPracticeScreen } from './listening/ListeningPracticeScreen'
+import { ListeningMenuScreen } from './listening/ListeningMenuScreen'
 import { StaticSkillScreen } from './StaticSkillScreen'
 import { noReload, usePullToRefresh } from '../hooks/usePullToRefresh'
 import { api } from '../services/client'
@@ -67,7 +67,7 @@ export function NotificationsScreen() {
 
 export function PracticeSkillScreen() {
   const route = useRoute<RouteProp<RootStackParamList, 'PracticeSkill'>>()
-  if (route.params.skill === 'listening') return <ListeningPracticeScreen />
+  if (route.params.skill === 'listening') return <ListeningMenuScreen />
   return <StaticSkillScreen skill={route.params.skill} />
 }
 
