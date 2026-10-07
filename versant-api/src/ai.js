@@ -206,3 +206,78 @@ export async function generateQuestions({ script, instruction, count, level }) {
   if (questions.length < 1) fail('No questions were returned. Try again.')
   return { questions }
 }
+
+function clampScore(value) {
+  const number = Number(value)
+  if (!Number.isFinite(number)) return null
+  return Math.max(0, Math.min(100, Math.round(number)))
+}
+
+export async function judgeSpokenReply({ prompt, scenario, transcript }) {
+  const spoken = String(transcript ?? '').replace(/\s+/g, ' ').trim()
+  if (!spoken) {
+    return {
+      relevance: 0,
+      appropriateness: 0,
+      grammar: 0,
+      vocabulary: 0,
+      overall: 0,
+      evidence: '',
+      note: 'No speech was detected in the recording.',
+    }
+  }
+
+  const result = await groqJson(
+    [
+      {
+        role: 'system',
+        content: [
+          'You score one spoken reply using only the transcript of what the student actually said.',
+          'Do not assume words that are not in the transcript.',
+          'Reply with JSON only: {"relevance":0,"appropriateness":0,"grammar":0,"vocabulary":0,"overall":0,"evidence":"","note":""}',
+          'Scores are integers from 0 to 100.',
+          'evidence must be a short quote copied from the transcript.',
+          'relevance: does the reply address the situation?',
+          'appropriateness: is it a suitable thing to say?',
+          'grammar and vocabulary: judge only the words in the transcript.',
+          'overall is your combined communication score for this reply, not an average you invent beyond the transcript.',
+          'If the transcript is noise or off-topic, use low scores.',
+        ].join(' '),
+      },
+      {
+        role: 'user',
+        content: `Situation:\n${String(prompt || '').slice(0, 800)}\n\nWhat the student heard:\n${String(scenario || '').slice(0, 800)}\n\nTranscript of the student:\n${spoken.slice(0, 2000)}`,
+      },
+    ],
+    { temperature: 0.1, maxTokens: 500 },
+  )
+
+  const evidence = String(result?.evidence ?? '').replace(/\s+/g, ' ').trim().slice(0, 240)
+  const spokenKey = spoken.toLowerCase()
+  const quoted = evidence.toLowerCase()
+  const sharesWords = spokenKey.split(' ').filter((word) => word.length > 3 && quoted.includes(word))
+  const grounded = !evidence || sharesWords.length > 0 || spokenKey.includes(quoted)
+  const scores = {
+    relevance: clampScore(result?.relevance),
+    appropriateness: clampScore(result?.appropriateness),
+    grammar: clampScore(result?.grammar),
+    vocabulary: clampScore(result?.vocabulary),
+    overall: clampScore(result?.overall),
+  }
+  if (!grounded || scores.overall == null) {
+    return {
+      relevance: 0,
+      appropriateness: 0,
+      grammar: 0,
+      vocabulary: 0,
+      overall: 0,
+      evidence,
+      note: 'The recording was heard, but the score was not accepted because it did not refer to the student\'s words.',
+    }
+  }
+  return {
+    ...scores,
+    evidence,
+    note: String(result?.note ?? '').replace(/\s+/g, ' ').trim().slice(0, 280),
+  }
+}

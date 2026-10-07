@@ -6,6 +6,7 @@ import { activityKind } from '../listening-tasks.js'
 import { generateQuestions, generateScript } from '../ai.js'
 import { describeAudio, limitScript, resolveVoice, synthesizeSpeech, transcribeAudio, VOICES } from '../speech.js'
 import { load, putMedia, save } from '../store.js'
+import { reevaluatePending } from '../reevaluate.js'
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -654,4 +655,15 @@ adminRouter.put('/settings', async (req, res, next) => {
     return next(error)
   }
   res.json({ settings: db.settings })
+})
+
+adminRouter.post('/attempts/reevaluate', async (_req, res, next) => {
+  const db = load()
+  try {
+    const report = await reevaluatePending(db)
+    await save()
+    res.json({ report })
+  } catch (error) {
+    return next(error)
+  }
 })

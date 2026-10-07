@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import multer from 'multer'
-import { checkPassword, hashPassword } from '../auth.js'
+import { checkPassword, hashPassword, revokeUserSessions } from '../auth.js'
 import {
   assessmentScores,
   formatDue,
@@ -18,6 +18,7 @@ import {
 import { load, putMedia, save } from '../store.js'
 import { requireUser } from '../auth.js'
 import { describeAudio, transcribeAudio } from '../speech.js'
+import { judgeSpokenReply } from '../ai.js'
 import { activityKind } from '../listening-tasks.js'
 
 const upload = multer({
@@ -89,6 +90,7 @@ function recordAttempt(db, user, { kind, activity, test, assignment, answers, du
       questionId: item.questionId,
       optionId: item.optionId ?? null,
       correct: item.correct,
+      ...(item.evaluation ? { evaluation: item.evaluation } : {}),
       ...(item.text != null ? { text: item.text } : {}),
       ...(item.responseAudioId ? { responseAudioId: item.responseAudioId } : {}),
       ...(item.evaluationStatus ? { evaluationStatus: item.evaluationStatus } : {}),
@@ -216,12 +218,24 @@ studentRouter.post('/practice/listening/:activityId/speech', upload.single('audi
     const filename = `${responseId}${extension}`
     await putMedia(filename, req.file.buffer, req.file.mimetype || 'audio/mp4')
     let transcript = null
-    if (question.type === 'repeat') {
+    let evaluation = null
+    if (question.type === 'repeat' || question.type === 'respond') {
       try {
         const result = await transcribeAudio(req.file.buffer, `response${extension}`, req.file.mimetype)
         transcript = result.script
-      } catch {
-        transcript = null
+      } catch (error) {
+        transcript = String(error?.message || '').includes('No speech') ? '' : null
+      }
+      if (question.type === 'respond' && transcript != null) {
+        try {
+          evaluation = await judgeSpokenReply({
+            prompt: question.prompt,
+            scenario: question.spoken || activity.script || '',
+            transcript,
+          })
+        } catch {
+          evaluation = null
+        }
       }
     }
     db.speechResponses = db.speechResponses ?? []
@@ -232,12 +246,13 @@ studentRouter.post('/practice/listening/:activityId/speech', upload.single('audi
       questionId,
       audioFile: filename,
       transcript,
+      evaluation,
       createdAt: new Date().toISOString(),
     })
     await save()
     res.status(201).json({
       responseId,
-      evaluationStatus: question.type === 'respond' || !transcript ? 'pending' : 'transcribed',
+      evaluationStatus: evaluation || (question.type === 'repeat' && transcript) ? 'scored' : 'pending',
     })
   } catch (error) {
     return next(error)
@@ -502,6 +517,7 @@ studentRouter.post('/me/password', async (req, res, next) => {
     return res.status(400).json({ error: 'Use at least 8 characters' })
   }
   user.passwordHash = hashPassword(nextPassword)
+  revokeUserSessions(user.id)
   try {
     await save()
   } catch (error) {

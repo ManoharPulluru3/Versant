@@ -78,11 +78,11 @@ export function LoginScreen() {
     setBusy(true)
     setError('')
     try {
-      const data = await api<{ token: string }>('/auth/login', {
+      const data = await api<{ token: string; accessToken?: string; refreshToken?: string }>('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ identifier: studentId.trim(), password }),
       })
-      await setSession(data.token, remember)
+      await setSession(data.accessToken ?? data.token, data.refreshToken ?? null, remember)
       navigation.replace('Main')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Sign in failed')

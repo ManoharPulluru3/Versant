@@ -49,7 +49,7 @@ type AttemptResponse = {
   total: number
   score: number | null
   pending?: boolean
-  review?: { accuracy?: number; words?: { word: string; ok: boolean }[]; extra?: string[] }[]
+  review?: { accuracy?: number; words?: { word: string; ok: boolean }[]; extra?: string[]; evaluation?: { note?: string } }[]
   nextActivityId?: string | null
   testCorrect?: number
   testTotal?: number
@@ -77,6 +77,7 @@ function shuffle<T>(items: T[]) {
 
 function summaryFrom(review: AttemptResponse['review']) {
   const item = review?.[0]
+  if (item?.evaluation?.note) return item.evaluation.note
   if (!item?.words?.length) return undefined
   const missed = item.words.filter(word => !word.ok).map(word => word.word)
   const extra = item.extra ?? []

@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { LogoMark } from '../components/LogoMark'
 import { useTheme } from '../context/ThemeContext'
 import type { RootStackParamList } from '../navigation/RootNavigator'
-import { getToken } from '../services/session'
+import { restoreSession } from '../services/client'
 
 export function SplashScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
@@ -30,8 +30,8 @@ export function SplashScreen() {
     }).start()
 
     const timer = setTimeout(() => {
-      getToken()
-        .then(token => navigation.replace(token ? 'Main' : 'Login'))
+      restoreSession()
+        .then(ready => navigation.replace(ready ? 'Main' : 'Login'))
         .catch(() => navigation.replace('Login'))
     }, 1600)
 

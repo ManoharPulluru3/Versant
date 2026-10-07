@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { checkPassword, hashPassword, requireUser, signToken } from '../auth.js'
+import { checkPassword, endSession, hashPassword, issueSession, requireUser, revokeUserSessions, rotateSession, signToken } from '../auth.js'
 import { publicUser } from '../domain.js'
 import { sendResetCode } from '../mail.js'
 import { codesMatch, hashResetCode, makeResetCode, recentlySent, resetExpiry, resetStillValid } from '../password-reset.js'
@@ -7,7 +7,7 @@ import { load, save } from '../store.js'
 
 export const authRouter = Router()
 
-authRouter.post('/login', (req, res) => {
+authRouter.post('/login', async (req, res, next) => {
   const identifier = String(req.body?.identifier ?? '').trim().toLowerCase()
   const password = String(req.body?.password ?? '')
   if (!identifier || !password) {
@@ -23,7 +23,46 @@ authRouter.post('/login', (req, res) => {
     return res.status(401).json({ error: 'Those sign-in details do not match' })
   }
 
-  res.json({ token: signToken(user), user: publicUser(user) })
+  const session = issueSession(user)
+  try {
+    await save()
+  } catch (error) {
+    return next(error)
+  }
+  res.json({ ...session, user: publicUser(user) })
+})
+
+authRouter.post('/refresh', async (req, res, next) => {
+  const session = rotateSession(req.body?.refreshToken)
+  if (!session || session.revoked) {
+    if (session?.revoked) {
+      try {
+        await save()
+      } catch (error) {
+        return next(error)
+      }
+    }
+    return res.status(401).json({ error: 'Sign in required' })
+  }
+  try {
+    await save()
+  } catch (error) {
+    return next(error)
+  }
+  const { user, ...tokens } = session
+  res.json({ ...tokens, user: publicUser(user) })
+})
+
+authRouter.post('/logout', async (req, res, next) => {
+  const header = req.headers.authorization ?? ''
+  const accessToken = header.startsWith('Bearer ') ? header.slice(7) : ''
+  endSession(accessToken, req.body?.refreshToken)
+  try {
+    await save()
+  } catch (error) {
+    return next(error)
+  }
+  res.json({ ok: true })
 })
 
 authRouter.post('/admin/login', (req, res) => {
@@ -103,6 +142,7 @@ authRouter.post('/reset-password', async (req, res) => {
   delete user.resetCodeHash
   delete user.resetExpiresAt
   delete user.resetSentAt
+  revokeUserSessions(user.id)
   await save()
   res.json({ ok: true })
 })

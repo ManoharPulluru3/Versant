@@ -9,8 +9,7 @@ import { BG_OPTIONS, useTheme, type BackgroundId } from '../context/ThemeContext
 import { resetToLogin } from '../navigation/navigationRef'
 import type { MainTabParamList, RootStackParamList } from '../navigation/types'
 import { usePullToRefresh } from '../hooks/usePullToRefresh'
-import { api } from '../services/client'
-import { clearSession } from '../services/session'
+import { api, signOut } from '../services/client'
 
 type ProfileUser = {
   name: string
@@ -194,7 +193,9 @@ export function ProfileScreen() {
       setCurrentPassword('')
       setNextPassword('')
       setPasswordOpen(false)
-      setNotice('Password updated.')
+      Alert.alert('Password updated', 'Sign in again with your new password.', [
+        { text: 'OK', onPress: () => { signOut().finally(resetToLogin) } },
+      ])
     } catch (err) {
       setNotice(err instanceof Error ? err.message : 'Could not update password')
     }
@@ -207,7 +208,7 @@ export function ProfileScreen() {
         text: 'Sign out',
         style: 'destructive',
         onPress: () => {
-          clearSession().finally(resetToLogin)
+          signOut().finally(resetToLogin)
         },
       },
     ])

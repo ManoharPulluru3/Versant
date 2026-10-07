@@ -337,3 +337,54 @@ test('new listening tasks score without changing multiple choice', async () => {
 
   server.close()
 })
+
+test('student access tokens refresh, and a reused or logged-out token is rejected', async () => {
+  const server = await listen(await createApp())
+  const { port } = server.address()
+  const base = `http://127.0.0.1:${port}/api/v1`
+
+  const login = await call(base, '/auth/login', {
+    method: 'POST',
+    body: { identifier: 'EW20260421', password: 'Student@123' },
+  })
+  assert.equal(login.status, 200)
+  assert.equal(login.data.token, login.data.accessToken)
+  assert.equal(typeof login.data.refreshToken, 'string')
+
+  const me = await call(base, '/auth/me', { token: login.data.accessToken })
+  assert.equal(me.status, 200)
+  assert.equal(me.data.user.name, 'Emma Wilson')
+
+  const refreshed = await call(base, '/auth/refresh', {
+    method: 'POST',
+    body: { refreshToken: login.data.refreshToken },
+  })
+  assert.equal(refreshed.status, 200)
+  assert.notEqual(refreshed.data.refreshToken, login.data.refreshToken)
+  assert.equal((await call(base, '/auth/me', { token: refreshed.data.accessToken })).status, 200)
+
+  const reused = await call(base, '/auth/refresh', {
+    method: 'POST',
+    body: { refreshToken: login.data.refreshToken },
+  })
+  assert.equal(reused.status, 401)
+  assert.equal((await call(base, '/auth/me', { token: refreshed.data.accessToken })).status, 401)
+
+  const again = await call(base, '/auth/login', {
+    method: 'POST',
+    body: { identifier: 'EW20260421', password: 'Student@123' },
+  })
+  const bye = await call(base, '/auth/logout', {
+    method: 'POST',
+    token: again.data.accessToken,
+    body: { refreshToken: again.data.refreshToken },
+  })
+  assert.equal(bye.status, 200)
+  assert.equal((await call(base, '/auth/me', { token: again.data.accessToken })).status, 401)
+  assert.equal((await call(base, '/auth/refresh', {
+    method: 'POST',
+    body: { refreshToken: again.data.refreshToken },
+  })).status, 401)
+
+  server.close()
+})

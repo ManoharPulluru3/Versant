@@ -124,6 +124,32 @@ export function gradeTask(question, answers, speech = []) {
     }
   }
 
+  if (type === 'respond') {
+    const row = speech.find((item) => item.id === given.responseAudioId && item.questionId === question.id)
+    const evaluation = row?.evaluation
+    if (!evaluation || evaluation.overall == null) {
+      return {
+        ...base,
+        responseAudioId: row?.id ?? given.responseAudioId ?? null,
+        text: row?.transcript || '',
+        correct: null,
+        points: null,
+        evaluationStatus: 'pending',
+      }
+    }
+    const overall = Math.max(0, Math.min(100, Math.round(Number(evaluation.overall))))
+    return {
+      ...base,
+      responseAudioId: row?.id ?? given.responseAudioId ?? null,
+      text: row?.transcript || '',
+      evaluation,
+      accuracy: overall,
+      correct: overall >= 60,
+      points: overall / 100,
+      evaluationStatus: 'scored',
+    }
+  }
+
   return {
     ...base,
     responseAudioId: given.responseAudioId ?? null,
